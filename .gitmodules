@@ -1,0 +1,3 @@
+[submodule "appier-sdk"]
+	path = appier-sdk
+	url = git@bitbucket.org:plaxieappier/pmp-android-sdk.git
