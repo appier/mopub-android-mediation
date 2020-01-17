@@ -85,8 +85,8 @@ dependencies {
     implementation 'com.mopub.mediation:flurry:10.1.0.0'
 
     // Appier
-    // implementation 'com.appier.android:ads-sdk:0.1.0@aar'
-    // implementation 'com.appier.android:mopub-mediation:0.1.0@aar'
+    implementation 'com.appier.android:ads-sdk:1.0.0-beta1@aar'
+    implementation 'com.appier.android:mopub-mediation:1.0.0-beta1@aar'
 
     /**
      * The following dependencies are development only.
@@ -102,6 +102,6 @@ dependencies {
     // implementation project(':appier-sdk')
 
     // - from local aar
-    implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-production-release.aar'])
-    implementation fileTree(dir: '../appier-mediation/build/outputs/aar', include: ['appier-mediation-production-release.aar'])
+    // implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-production-release.aar'])
+    // implementation fileTree(dir: '../appier-mediation/build/outputs/aar', include: ['appier-mediation-production-release.aar'])
 }
