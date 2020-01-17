@@ -9,8 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.appier.ads.AppierNativeAd;
-import com.appier.ads.AppierError;
-import com.appier.ads.common.AppierDataKeys;
+import com.appier.ads.NativeResponseCode;
 
 import org.json.JSONException;
 
@@ -36,7 +35,7 @@ public class AppierNative extends CustomEventNative {
             customEventNativeListener.onNativeAdFailed(NativeErrorCode.NATIVE_ADAPTER_CONFIGURATION_ERROR);
             return;
         }
-        String zoneId = getZoneId(localExtras, serverExtras);
+        String zoneId = serverExtras.get("zoneId");
         AppierStaticNativeAd appierStaticNativeAd = new AppierStaticNativeAd(
             context,
             new ImpressionTracker(context),
@@ -45,18 +44,6 @@ public class AppierNative extends CustomEventNative {
         );
         // load native ad from appier sdk here
         appierStaticNativeAd.loadAd(zoneId);
-    }
-
-    private String getZoneId(final Map<String, Object> localExtras, final Map<String, String> serverExtras) {
-        Object zoneIdLocal = localExtras.get(AppierDataKeys.ZONE_ID_LOCAL);
-        String zoneIdServer = serverExtras.get(AppierDataKeys.ZONE_ID_SERVER);
-        if (zoneIdLocal != null) {
-            return zoneIdLocal.toString();
-        }
-        if (zoneIdServer != null) {
-            return zoneIdServer;
-        }
-        return null;
     }
 
     static class AppierStaticNativeAd extends StaticNativeAd implements AppierNativeAd.EventListener {
@@ -168,13 +155,13 @@ public class AppierNative extends CustomEventNative {
         }
 
         @Override
-        public void onAdLoadFail(AppierError appierError, AppierNativeAd appierNativeAd) {
-            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.onAdLoadFail() (Custom Callback) " + appierError.toString());
-            if (appierError == AppierError.NETWORK_ERROR) {
+        public void onAdLoadFail(NativeResponseCode nativeResponseCode, AppierNativeAd appierNativeAd) {
+            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.onAdLoadFail() (Custom Callback) " + nativeResponseCode.toString());
+            if (nativeResponseCode == NativeResponseCode.NETWORK_ERROR) {
                 customEventNativeListener.onNativeAdFailed(NativeErrorCode.NETWORK_INVALID_STATE);
-            } else if (appierError == AppierError.BAD_REQUEST) {
+            } else if (nativeResponseCode == NativeResponseCode.BAD_REQUEST) {
                 customEventNativeListener.onNativeAdFailed(NativeErrorCode.NETWORK_INVALID_REQUEST);
-            } else if (appierError == AppierError.INTERNAL_SERVER_ERROR) {
+            } else if (nativeResponseCode == NativeResponseCode.INTERNAL_SERVER_ERROR) {
                 customEventNativeListener.onNativeAdFailed(NativeErrorCode.NETWORK_INVALID_STATE);
             }
         }
@@ -192,7 +179,7 @@ public class AppierNative extends CustomEventNative {
         }
 
         @Override
-        public void onImpressionRecordFail(AppierError responseCode, AppierNativeAd appierNativeAd) {
+        public void onImpressionRecordFail(NativeResponseCode responseCode, AppierNativeAd appierNativeAd) {
             Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.onImpressionRecordFail() (Custom Callback)");
         }
     }

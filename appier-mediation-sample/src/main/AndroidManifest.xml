@@ -41,9 +41,6 @@
         <activity android:name=".AppierManualIntegrationFloatingWindowActivity"></activity>
         <activity android:name=".AppierMoPubAdAdapterActivity"></activity>
         <activity android:name=".AppierMoPubRecyclerAdapterActivity"></activity>
-        <activity android:name=".MoPubBannerOfficialSampleActivity"></activity>
-        <activity android:name=".MoPubBannerDefaultActivity"></activity>
-        <activity android:name=".AppierBannerDefaultActivity"></activity>
 
         <!-- MoPub's consent dialog -->
         <activity android:name="com.mopub.common.privacy.ConsentDialogActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>

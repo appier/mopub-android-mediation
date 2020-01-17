@@ -98,8 +98,8 @@ dependencies {
     // Import Appier SDK & Mediation
 
     // - from local source
-    // implementation project(':appier-mediation')
-    // implementation project(':appier-sdk')
+    implementation project(':appier-mediation')
+    implementation project(':appier-sdk')
 
     // - from local aar
     // implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-production-release.aar'])
