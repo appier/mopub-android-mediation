@@ -1,0 +1,106 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.appier.sampleapp"
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "network"
+    productFlavors {
+        dev {
+            dimension "network"
+        }
+        staging {
+            dimension "network"
+        }
+        production {
+            dimension "network"
+        }
+    }
+}
+
+repositories {
+    maven {
+        url "https://dl.bintray.com/appier/maven"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    /**
+     * Please update the following dependencies according to your own need.
+     */
+
+    // Google Play Service
+    implementation 'com.google.android.gms:play-services:+'
+
+    // MoPub SDK base
+    implementation('com.mopub:mopub-sdk-base:4.20.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+    }
+
+    // MoPub SDK for native static (images)
+    implementation('com.mopub:mopub-sdk-native-static:4.20.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+    }
+
+    // MoPub SDK for banner
+    implementation('com.mopub:mopub-sdk-banner:4.20.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+    }
+
+    // Yahoo! Flurry
+    // For mopub 4.20.0 compatibility, we use older version of flurry mediation and sdk
+    // https://github.com/mopub/mopub-android-mediation/blob/master/Flurry/CHANGELOG.md
+    implementation 'com.flurry.android:ads:10.1.0@aar'
+    implementation 'com.flurry.android:analytics:10.1.0@aar'
+    implementation 'com.mopub.mediation:flurry:10.1.0.0'
+
+    // Appier
+    // implementation 'com.appier.android:ads-sdk:0.1.0@aar'
+    // implementation 'com.appier.android:mopub-mediation:0.1.0@aar'
+
+    /**
+     * The following dependencies are development only.
+     */
+
+    // memory leak checking
+    // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
+
+    // Import Appier SDK & Mediation
+
+    // - from local source
+    // implementation project(':appier-mediation')
+    // implementation project(':appier-sdk')
+
+    // - from local aar
+    implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-production-release.aar'])
+    implementation fileTree(dir: '../appier-mediation/build/outputs/aar', include: ['appier-mediation-production-release.aar'])
+}

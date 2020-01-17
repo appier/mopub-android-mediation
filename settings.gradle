@@ -1,0 +1,2 @@
+include ':appier-mediation-sample', ':appier-mediation', ':appier-sdk'
+rootProject.name='pmp-mopub-android-mediation'

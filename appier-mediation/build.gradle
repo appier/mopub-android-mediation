@@ -1,0 +1,83 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 1
+        versionName "0.1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+
+        // missingDimensionStrategy 'network', 'dev', 'staging', 'production'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "network"
+    productFlavors {
+        dev {
+            dimension "network"
+        }
+        staging {
+            dimension "network"
+        }
+        production {
+            dimension "network"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // memory leak checking
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.1'
+
+    implementation('com.mopub:mopub-sdk-base:4.20.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+    }
+
+    // For banners
+    implementation('com.mopub:mopub-sdk-banner:4.20.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+    }
+
+    // For native static (images).
+    implementation('com.mopub:mopub-sdk-native-static:4.20.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+    }
+
+    // Import Appier SDK
+    // from source
+    implementation project(':appier-sdk')
+    // from aar
+    // implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-dev-release.aar'])
+    // implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-staging-release.aar'])
+    // implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-production-release.aar'])
+    // from bintray
+    // implementation 'com.appier.android.trial:appier-android-sdk:0.1.0@aar'
+}
+
+apply from: 'publish.gradle'
