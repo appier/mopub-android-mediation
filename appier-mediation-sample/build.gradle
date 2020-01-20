@@ -35,12 +35,6 @@ android {
     }
 }
 
-repositories {
-    maven {
-        url "https://dl.bintray.com/appier/maven"
-    }
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
