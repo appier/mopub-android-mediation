@@ -112,6 +112,9 @@ public class AppierBanner extends CustomEventBanner implements AppierBannerAd.Ev
             mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.NETWORK_NO_FILL);
         } else if (appierError == AppierError.INTERNAL_SERVER_ERROR) {
             mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
+        } else if (appierError == AppierError.WEBVIEW_ERROR) {
+            Log.d(LOG_TAG, "  fail to load the url: " + appierBannerAd.getFailingUrl());
+            mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.NETWORK_NO_FILL);
         }
     }
 }
