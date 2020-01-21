@@ -15,14 +15,14 @@ Please add jcenter to your repositories, and specify both appier's sdk and media
 
 ``` diff
   repositories {
-    // ...
-+   jcenter()
+      // ...
++     jcenter()
   }
 
   dependencies {
       // ...
-+     implementation 'com.appier.android:ads-sdk:1.0.0-alpha@aar'
-+     implementation 'com.appier.android:mopub-mediation:1.0.0-alpha@aar'
++     implementation 'com.appier.android:ads-sdk:1.0.0-rc1@aar'
++     implementation 'com.appier.android:mopub-mediation:1.0.0-rc1@aar'
   }
 ```
 
