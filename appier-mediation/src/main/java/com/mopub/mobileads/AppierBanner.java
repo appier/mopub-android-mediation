@@ -117,4 +117,9 @@ public class AppierBanner extends CustomEventBanner implements AppierBannerAd.Ev
             mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.NETWORK_NO_FILL);
         }
     }
+
+    @Override
+    public void onViewClick(AppierBannerAd appierBannerAd) {
+        Log.d(LOG_TAG, "[Appier Mediation] AppierBanner.onViewClick() (Custom Callback)");
+    }
 }
