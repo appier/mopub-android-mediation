@@ -1,0 +1,23 @@
+---
+kind: pipeline
+name: default
+
+clone:
+  depth: 1
+
+workspace:
+  base: /drone
+  path: pmp_mopub_android_mediation
+
+steps:
+  # commit stage unit tests + code quality check
+  ######################################################################
+  # Run tests
+  ######################################################################
+  - name: android_tests
+    image: budtmo/docker-android-x86-5.0.1
+    environment:
+      DEVICE: Samsung Galaxy S6
+    commands:
+      - ./gradlew connectedProductionDebugAndroidTest
+      # - ./gradlew -Pandroid.testInstrumentationRunnerArguments.class=com.appier.ads.AppierNativeAdTest connectedDebugAndroidTest
