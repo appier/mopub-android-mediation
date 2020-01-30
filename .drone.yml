@@ -10,6 +10,25 @@ workspace:
   path: pmp_mopub_android_mediation
 
 steps:
+  # To fetch submodules in drone pipeline, you will need to make sure:
+  # 1. add private key into drone's repo setting
+  # 2. add public key into bitbucket repo (https://bitbucket.org/plaxieappier/pmp-android-sdk/admin/access-keys/)
+  # 3. add bitbucket.org to ~/.ssh/known_hosts
+  # 4. must call `git submodule init`
+  - name: submodules
+    image: alpine/git
+    environment:
+      SSH_KEY:
+        from_secret: BITBUCKET_PRIVATE_KEY
+    commands:
+      - mkdir ~/.ssh
+      - chmod 700 ~/.ssh
+      - echo "$SSH_KEY" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-keyscan -t rsa bitbucket.org >> ~/.ssh/known_hosts
+      - git submodule init
+      - git submodule update --recursive --remote
+
   # commit stage unit tests + code quality check
   ######################################################################
   # Run tests
