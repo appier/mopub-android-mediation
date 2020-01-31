@@ -52,6 +52,7 @@
         <!-- Demo of Interstitial -->
         <activity android:name=".MoPubInterstitialDefaultActivity"></activity>
         <activity android:name=".MoPubInterstitialOfficialSampleActivity"></activity>
+        <activity android:name=".AppierInterstitialDefaultActivity"></activity>
 
         <!-- MoPub's consent dialog -->
         <activity android:name="com.mopub.common.privacy.ConsentDialogActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>

@@ -10,8 +10,9 @@
 
     <string name="adunit_appier_native_sample_with_mopub">bd2ed1bf516b458b80d6f0b5a32b52f6</string>
     <string name="adunit_appier_banner_sample_with_mopub">8ec11a4f546d40c59ea03817bf7236cf</string>
-    <string name="adunit_appier_interstitial_sample_with_mopub">e3310a327a344e8892eef5a1af6a7c07</string>
+    <string name="adunit_appier_interstitial_sample_with_mopub">75575be91a91411aa2638db4fa1dbb4e</string>
 
     <string name="adunit_appier_native_sample_default">45ac6e2b9f264107b0089b2af8769afd</string>
     <string name="adunit_appier_banner_sample_default">67231ec3ce2f4226a4f7b3ea6eb5ac5a</string>
+    <string name="adunit_appier_interstitial_sample_default">e3310a327a344e8892eef5a1af6a7c07</string>
 </resources>

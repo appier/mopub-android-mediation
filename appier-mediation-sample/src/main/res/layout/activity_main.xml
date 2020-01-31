@@ -282,6 +282,32 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="@color/colorPrimary"
+                android:text="Network: Appier + MoPub"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingLeft="20dp">
+
+                <Button
+                    android:id="@+id/button_appier_interstitial_default"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16dp"
+                    android:textAllCaps="false"
+                    android:gravity="left"
+                    android:text="Default"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
