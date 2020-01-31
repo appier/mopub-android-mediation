@@ -270,6 +270,16 @@
                     android:gravity="left"
                     android:text="Default"/>
 
+                <Button
+                    android:id="@+id/button_mopub_interstitial_official_sample"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16dp"
+                    android:textAllCaps="false"
+                    android:gravity="left"
+                    android:text="Official sample"/>
+
             </LinearLayout>
 
         </LinearLayout>

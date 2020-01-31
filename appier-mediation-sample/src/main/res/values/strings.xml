@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">pmp-mopub-android-sdk</string>
+    <!--
+        Please find official sample here:
+        https://github.com/mopub/mopub-android-sdk/blob/master/mopub-sample/res/main/values/strings.xml
+    -->
     <string name="adunit_mopub_native_official_sample">76a3fefaced247959582d2d2df6f4757</string>
     <string name="adunit_mopub_banner_official_sample">b195f8dd8ded45fe847ad89ed1d016da</string>
+    <string name="adunit_mopub_interstitial_official_sample">24534e1901884e398f1253216226017e</string>
+
     <string name="adunit_appier_native_sample_with_mopub">bd2ed1bf516b458b80d6f0b5a32b52f6</string>
     <string name="adunit_appier_banner_sample_with_mopub">8ec11a4f546d40c59ea03817bf7236cf</string>
     <string name="adunit_appier_interstitial_sample_with_mopub">e3310a327a344e8892eef5a1af6a7c07</string>
+
     <string name="adunit_appier_native_sample_default">45ac6e2b9f264107b0089b2af8769afd</string>
     <string name="adunit_appier_banner_sample_default">67231ec3ce2f4226a4f7b3ea6eb5ac5a</string>
 </resources>

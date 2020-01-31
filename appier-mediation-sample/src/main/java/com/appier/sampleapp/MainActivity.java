@@ -42,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.button_mopub_interstitial_default:
                     cls = MoPubInterstitialDefaultActivity.class;
                     break;
+                case R.id.button_mopub_interstitial_official_sample:
+                    cls = MoPubInterstitialOfficialSampleActivity.class;
+                    break;
             }
             Intent intent = new Intent(MainActivity.this, cls);
             startActivity(intent);
@@ -63,5 +66,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button_mopub_banner_official_sample).setOnClickListener(btnOnClickListener);
         findViewById(R.id.button_appier_banner_default).setOnClickListener(btnOnClickListener);
         findViewById(R.id.button_mopub_interstitial_default).setOnClickListener(btnOnClickListener);
+        findViewById(R.id.button_mopub_interstitial_official_sample).setOnClickListener(btnOnClickListener);
     }
 }
