@@ -71,6 +71,7 @@ dependencies {
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
+    // MoPub SDK for interstitial
     implementation('com.mopub:mopub-sdk-interstitial:4.20.0@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
