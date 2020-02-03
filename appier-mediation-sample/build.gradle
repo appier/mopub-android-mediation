@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.appier.sampleapp"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -71,6 +71,13 @@ dependencies {
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
+    // MoPub SDK for interstitial
+    implementation('com.mopub:mopub-sdk-interstitial:4.20.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+    }
+
     // Yahoo! Flurry
     // For mopub 4.20.0 compatibility, we use older version of flurry mediation and sdk
     // https://github.com/mopub/mopub-android-mediation/blob/master/Flurry/CHANGELOG.md
@@ -79,8 +86,8 @@ dependencies {
     implementation 'com.mopub.mediation:flurry:10.1.0.0'
 
     // Appier
-    implementation 'com.appier.android:ads-sdk:1.0.0-rc1@aar'
-    implementation 'com.appier.android:mopub-mediation:1.0.0-rc1@aar'
+    implementation 'com.appier.android:ads-sdk:1.0.0-rc2@aar'
+    implementation 'com.appier.android:mopub-mediation:1.0.0-rc2@aar'
 
     /**
      * The following dependencies are development only.

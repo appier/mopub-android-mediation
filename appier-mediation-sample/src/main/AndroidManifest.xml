@@ -35,12 +35,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Demo of Native -->
         <activity android:name=".MoPubManualIntegrationDefaultActivity"></activity>
         <activity android:name=".MoPubManualIntegrationOfficialSampleActivity"></activity>
         <activity android:name=".AppierManualIntegrationDefaultActivity"></activity>
         <activity android:name=".AppierManualIntegrationFloatingWindowActivity"></activity>
         <activity android:name=".AppierMoPubAdAdapterActivity"></activity>
         <activity android:name=".AppierMoPubRecyclerAdapterActivity"></activity>
+
+        <!-- Demo of Banner -->
+        <activity android:name=".MoPubBannerOfficialSampleActivity"></activity>
+        <activity android:name=".MoPubBannerDefaultActivity"></activity>
+        <activity android:name=".AppierBannerDefaultActivity"></activity>
+
+        <!-- Demo of Interstitial -->
+        <activity android:name=".MoPubInterstitialDefaultActivity"></activity>
+        <activity android:name=".MoPubInterstitialOfficialSampleActivity"></activity>
+        <activity android:name=".AppierInterstitialDefaultActivity"></activity>
 
         <!-- MoPub's consent dialog -->
         <activity android:name="com.mopub.common.privacy.ConsentDialogActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>

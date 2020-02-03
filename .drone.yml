@@ -1,0 +1,53 @@
+---
+kind: pipeline
+name: default
+
+clone:
+  depth: 1
+
+workspace:
+  base: /drone
+  path: pmp_mopub_android_mediation
+
+steps:
+  # To fetch submodules in drone pipeline, you will need to make sure:
+  # 1. add private key into drone's repo setting
+  # 2. add public key into bitbucket repo (https://bitbucket.org/plaxieappier/pmp-android-sdk/admin/access-keys/)
+  # 3. add bitbucket.org to ~/.ssh/known_hosts
+  # 4. must call `git submodule init`
+  - name: submodules
+    image: alpine/git
+    environment:
+      SSH_KEY:
+        from_secret: BITBUCKET_PRIVATE_KEY
+    commands:
+      - mkdir ~/.ssh
+      - chmod 700 ~/.ssh
+      - echo "$SSH_KEY" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-keyscan -t rsa bitbucket.org >> ~/.ssh/known_hosts
+      - git submodule init
+      - git submodule update --recursive --remote
+
+  # commit stage unit tests + code quality check
+  ######################################################################
+  # Run tests
+  ######################################################################
+  # Skip tests
+  # - name: android_tests
+  #   # image: budtmo/docker-android-x86-5.0.1
+  #   # image: jsonfry/android-sdk:19.09
+  #   # image: circleci/android:api-28
+  #   # image: ronmi/docker-android
+  #   # image: chrisss404/android-emulator
+  #   image: nextcloudci/android:android-50
+  #   privileged: true
+  #   environment:
+  #     DEVICE: Samsung Galaxy S6
+  #     ANDROID_SDK_LICENSE:
+  #       from_secret: ANDROID_SDK_LICENSE
+  #   commands:
+  #     - emulator -list-avds
+  #     - emulator-headless -avd android-27 -no-accel -no-snapshot -no-window -no-audio -skin 500x833 &
+  #     - adb devices
+  #     - ./gradlew :appier-sdk:connectedProductionDebugAndroidTest -PdisablePreDex
