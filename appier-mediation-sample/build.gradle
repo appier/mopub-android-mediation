@@ -71,6 +71,13 @@ dependencies {
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
+    // MoPub SDK for interstitial
+    implementation('com.mopub:mopub-sdk-interstitial:4.20.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+    }
+
     // Yahoo! Flurry
     // For mopub 4.20.0 compatibility, we use older version of flurry mediation and sdk
     // https://github.com/mopub/mopub-android-mediation/blob/master/Flurry/CHANGELOG.md
