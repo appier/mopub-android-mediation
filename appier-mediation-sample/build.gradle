@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.appier.sampleapp"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -86,8 +86,8 @@ dependencies {
     implementation 'com.mopub.mediation:flurry:10.1.0.0'
 
     // Appier
-    // implementation 'com.appier.android:ads-sdk:1.0.0-rc1@aar'
-    // implementation 'com.appier.android:mopub-mediation:1.0.0-rc1@aar'
+    implementation 'com.appier.android:ads-sdk:1.0.0-rc2@aar'
+    implementation 'com.appier.android:mopub-mediation:1.0.0-rc2@aar'
 
     /**
      * The following dependencies are development only.
@@ -99,8 +99,8 @@ dependencies {
     // Import Appier SDK & Mediation
 
     // - from local source
-    implementation project(':appier-mediation')
-    implementation project(':appier-sdk')
+    // implementation project(':appier-mediation')
+    // implementation project(':appier-sdk')
 
     // - from local aar
     // implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-production-release.aar'])

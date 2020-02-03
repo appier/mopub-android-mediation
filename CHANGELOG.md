@@ -9,7 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Support interstitial ads
+
+## `1.0.0-rc2`
+
+### Added
+
 - Support banner ads
+
+### Changed
+
+- Increase min API level to 18
 
 ## `1.0.0-rc1`
 
