@@ -123,4 +123,9 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
     public void onViewShown(AppierInterstitialAd appierInterstitialAd) {
         mCustomEventInterstitialListener.onInterstitialShown();
     }
+
+    @Override
+    public void onDismiss(AppierInterstitialAd appierInterstitialAd) {
+        mCustomEventInterstitialListener.onInterstitialDismissed();
+    }
 }
