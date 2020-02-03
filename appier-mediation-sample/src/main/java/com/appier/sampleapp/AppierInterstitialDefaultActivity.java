@@ -7,11 +7,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.appier.ads.common.AppierDataKeys;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubInterstitial;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AppierInterstitialDefaultActivity extends AppCompatActivity implements MoPubInterstitial.InterstitialAdListener {
     private static final String LOG_TAG = "AppierMediation";
+    private static int AD_WIDTH = 300;
+    private static int AD_HEIGHT = 250;
 
     private MoPubInterstitial mInterstitial;
     private boolean isAdLoading = false;
@@ -28,8 +34,14 @@ public class AppierInterstitialDefaultActivity extends AppCompatActivity impleme
             }
         });
 
+        Map<String, Object> localExtras = new HashMap<>();
+        localExtras.put(AppierDataKeys.AD_WIDTH_LOCAL, AD_WIDTH);
+        localExtras.put(AppierDataKeys.AD_HEIGHT_LOCAL, AD_HEIGHT);
+
         mInterstitial = new MoPubInterstitial(this, getString(R.string.adunit_appier_interstitial_sample_default));
+        mInterstitial.setLocalExtras(localExtras);
         mInterstitial.setInterstitialAdListener(this);
+        Log.d(LOG_TAG, "[Sample App] ====== make request ======");
         loadAd();
     }
 
