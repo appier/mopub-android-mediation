@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.appier.ads.Appier;
+
 public class MainActivity extends AppCompatActivity {
     private View.OnClickListener btnOnClickListener = new View.OnClickListener() {
         @Override
@@ -58,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Appier.setGDPRApplies(true);
 
         findViewById(R.id.button_mopub_manual_integration_default).setOnClickListener(btnOnClickListener);
         findViewById(R.id.button_mopub_manual_integration_official_sample).setOnClickListener(btnOnClickListener);
