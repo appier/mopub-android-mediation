@@ -86,8 +86,8 @@ dependencies {
     implementation 'com.mopub.mediation:flurry:10.1.0.0'
 
     // Appier
-    implementation 'com.appier.android:ads-sdk:1.0.0-rc2@aar'
-    implementation 'com.appier.android:mopub-mediation:1.0.0-rc2@aar'
+    implementation 'com.appier.android:ads-sdk:1.0.0-rc3@aar'
+    implementation 'com.appier.android:mopub-mediation:1.0.0-rc3@aar'
 
     /**
      * The following dependencies are development only.
