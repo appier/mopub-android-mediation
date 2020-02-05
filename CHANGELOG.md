@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support interstitial ads
 
+## `1.0.0-rc3`
+
+### Added
+
+- Allow to configure GDPR programmatically
+
+### Fixed
+
+- Banner no longer crashes on devices without browser when user clicks the ads
+
 ## `1.0.0-rc2`
 
 ### Added

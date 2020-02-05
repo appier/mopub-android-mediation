@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.appier.ads.Appier;
+
 public class MainActivity extends AppCompatActivity {
     private View.OnClickListener btnOnClickListener = new View.OnClickListener() {
         @Override
@@ -39,15 +41,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.button_appier_banner_default:
                     cls = AppierBannerDefaultActivity.class;
                     break;
-                case R.id.button_mopub_interstitial_default:
-                    cls = MoPubInterstitialDefaultActivity.class;
-                    break;
-                case R.id.button_mopub_interstitial_official_sample:
-                    cls = MoPubInterstitialOfficialSampleActivity.class;
-                    break;
-                case R.id.button_appier_interstitial_default:
-                    cls = AppierInterstitialDefaultActivity.class;
-                    break;
             }
             Intent intent = new Intent(MainActivity.this, cls);
             startActivity(intent);
@@ -59,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Appier.setGDPRApplies(true);
+
         findViewById(R.id.button_mopub_manual_integration_default).setOnClickListener(btnOnClickListener);
         findViewById(R.id.button_mopub_manual_integration_official_sample).setOnClickListener(btnOnClickListener);
         findViewById(R.id.button_appier_manual_integration_default).setOnClickListener(btnOnClickListener);
@@ -68,8 +63,5 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button_mopub_banner_default).setOnClickListener(btnOnClickListener);
         findViewById(R.id.button_mopub_banner_official_sample).setOnClickListener(btnOnClickListener);
         findViewById(R.id.button_appier_banner_default).setOnClickListener(btnOnClickListener);
-        findViewById(R.id.button_mopub_interstitial_default).setOnClickListener(btnOnClickListener);
-        findViewById(R.id.button_mopub_interstitial_official_sample).setOnClickListener(btnOnClickListener);
-        findViewById(R.id.button_appier_interstitial_default).setOnClickListener(btnOnClickListener);
     }
 }
