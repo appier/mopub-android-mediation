@@ -24,9 +24,26 @@ Please add jcenter to your repositories, and specify both appier's sdk and media
 
   dependencies {
       // ...
-+     implementation 'com.appier.android:ads-sdk:1.0.0-rc2@aar'
-+     implementation 'com.appier.android:mopub-mediation:1.0.0-rc2@aar'
++     implementation 'com.appier.android:ads-sdk:1.0.0-rc3@aar'
++     implementation 'com.appier.android:mopub-mediation:1.0.0-rc3@aar'
   }
+```
+
+## SDK Initialization
+
+You can pass GDPR consent status to Appier SDK via `Appier.setGDPRApplies()`.
+Without this configuration, Appier will not apply GDPR by default.
+
+``` java
+import com.appier.ads.Appier;
+
+public class MainActivity extends AppCompatActivity {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    // ...
+    Appier.setGDPRApplies(true);
+  }
+}
 ```
 
 ## Native Ads Integration
