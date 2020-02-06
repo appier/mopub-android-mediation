@@ -14,8 +14,41 @@ This is Appier's official android mediation repository for MoPub SDK.
 
 ## Gradle Configuration
 
-Please add jcenter to your repositories, and specify both appier's sdk and mediation to mopub as dependencies:
+Please add jcenter to your repositories, and specify both MoPub’s dependencies and Appier's dependencies.
 
+*MoPub Dependencies:*
+``` diff
+
+  repositories {
+      // ...
++     jcenter()
+  }
+
+  dependencies {
+      // MoPub SDK base
++     implementation('com.mopub:mopub-sdk-base:4.20.0@aar') {
++         transitive = true
++         exclude module: 'libAvid-mopub' // To exclude AVID
++         exclude module: 'moat-mobile-app-kit' // To exclude Moat
++     }
+
+      // MoPub SDK for native static (images)
++     implementation('com.mopub:mopub-sdk-native-static:4.20.0@aar') {
++         transitive = true
++         exclude module: 'libAvid-mopub' // To exclude AVID
++         exclude module: 'moat-mobile-app-kit' // To exclude Moat
++     }
+
+      // MoPub SDK for banner
++     implementation('com.mopub:mopub-sdk-banner:4.20.0@aar') {
++         transitive = true
++         exclude module: 'libAvid-mopub' // To exclude AVID
++         exclude module: 'moat-mobile-app-kit' // To exclude Moat
++     }
+  }
+```
+
+*Appier Dependencies:*
 ``` diff
   repositories {
       // ...
@@ -24,15 +57,18 @@ Please add jcenter to your repositories, and specify both appier's sdk and media
 
   dependencies {
       // ...
-+     implementation 'com.appier.android:ads-sdk:1.0.0-rc3@aar'
-+     implementation 'com.appier.android:mopub-mediation:1.0.0-rc3@aar'
++     implementation 'com.appier.android:ads-sdk:1.0.0-rc3'
++     implementation('com.appier.android:mopub-mediation:1.0.0-rc3') {
++         transitive = true
++         exclude module: 'libAvid-mopub' // To exclude AVID
++         exclude module: 'moat-mobile-app-kit' // To exclude Moat
+      }
   }
 ```
 
-## SDK Initialization
+## GDPR Consent (Recommended)
 
-You can pass GDPR consent status to Appier SDK via `Appier.setGDPRApplies()`.
-Without this configuration, Appier will not apply GDPR by default.
+In consent to GDPR, we strongly suggest sending the consent status to our SDK via `Appier.setGDPRApplies()` so that we will not track users personal information. Without this configuration, Appier will not apply GDPR by default. Note that this will impact Advertising performance thus impacting Revenue.
 
 ``` java
 import com.appier.ads.Appier;
@@ -48,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
 ## Native Ads Integration
 
-To render appier's native ads via MoPub mediaiton, you need to register `AppierNativeAdRenderer` to your own `MoPubNative`, `MoPubAdAdapter`, or `MoPubRecyclerAdapter` instance:
+To render appier's native ads via MoPub mediation, you need to register `AppierNativeAdRenderer` to your own `MoPubNative`, `MoPubAdAdapter`, or `MoPubRecyclerAdapter` instance:
 
 ``` java
 import com.mopub.nativeads.AppierNativeAdRenderer;
@@ -61,7 +97,7 @@ MoPubNative moPubNative = new MoPubNative(...);
 moPubNative.registerAdRenderer(appierNativeAdRenderer);
 
 // Option 2: MoPubAdAdapter
-MoPubAdAdapter moPubAdAdapter = new MoPubAdAdapter(...)
+MoPubAdAdapter moPubAdAdapter = new MoPubAdAdapter(...);
 moPubAdAdapter.registerAdRenderer(appierNativeAdRenderer);
 
 // Option 3: MoPubRecyclerAdapter
@@ -71,7 +107,7 @@ moPubRecyclerAdapter.registerAdRenderer(appierNativeAdRenderer);
 
 ## Banner Ads Integration
 
-To render appier's banner ads via MoPub mediaiton, you need to specify the width and height of ad unit to load ads with suitable sizes. You can either pass through `localExtras` or `serverExtras`.
+To render appier's banner ads via MoPub mediation, you need to specify the width and height of ad unit to load ads with suitable sizes. You can either pass through `localExtras` or `serverExtras`.
 
 ``` java
 import com.appier.ads.common.AppierDataKeys;
