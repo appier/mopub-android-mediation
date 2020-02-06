@@ -66,9 +66,28 @@ public class AppierManualIntegrationFloatingWindowFloatViewManager {
         mFloatViewLayoutParams.format = PixelFormat.TRANSLUCENT;
         mFloatViewLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
 
-        mFloatViewLayoutParams.type = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-            ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-            : WindowManager.LayoutParams.TYPE_TOAST;
+        /**
+         * Floating window requires different permissions in different API levels.
+         * Be careful about setting correct permission.
+         * Otherwise, the app will crash with WindowManager$BadTokenException: Unable to add window -- token null is not valid; is your activity running?
+         *
+         * refs:
+         *   - https://blog.csdn.net/ltym2014/article/details/78860620
+         *   - https://blog.csdn.net/ajgjagdasnbd/article/details/77982472
+         */
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            // <= Android 4.3 (API 18)
+            mFloatViewLayoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+        } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+            // Android 4.4 (API 19) to 7.0 (API 24)
+            mFloatViewLayoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
+        } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
+            // Android 7.1 (API 25)
+            mFloatViewLayoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+        } else {
+            // >= Android 8.0 (API 26)
+            mFloatViewLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        }
 
         mFloatViewLayoutParams.gravity = Gravity.CENTER;
         mFloatViewLayoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
