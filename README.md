@@ -66,6 +66,54 @@ Please add jcenter to your repositories, and specify both MoPub’s dependencies
   }
 ```
 
+## Manifest Configuration
+
+To prevent your app from crashing, following are the recommended manifest configurations.
+
+``` xml
+<manifest ...>
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+  <!--  Required for displaying floating window  -->
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+  <application
+    ...
+    android:networkSecurityConfig="@xml/network_security_config">
+
+    <uses-library android:name="org.apache.http.legacy" android:required="false" />
+
+    <!-- MoPub's consent dialog -->
+    <activity android:name="com.mopub.common.privacy.ConsentDialogActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>
+
+    <!-- All ad formats -->
+    <activity android:name="com.mopub.common.MoPubBrowser" android:configChanges="keyboardHidden|orientation|screenSize"/>
+
+    <!-- Google Play Services-->
+    <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+  </application>
+</manifest>
+```
+
+You also need to add `xml/network_security_config.xml` into resources.
+
+``` xml
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <base-config cleartextTrafficPermitted="true">
+    <trust-anchors>
+      <certificates src="system"/>
+    </trust-anchors>
+  </base-config>
+  <debug-overrides>
+    <trust-anchors>
+      <certificates src="user" />
+    </trust-anchors>
+  </debug-overrides>
+</network-security-config>
+```
+
 ## GDPR Consent (Recommended)
 
 In consent to GDPR, we strongly suggest sending the consent status to our SDK via `Appier.setGDPRApplies()` so that we will not track users personal information. Without this configuration, Appier will not apply GDPR by default. Note that this will impact Advertising performance thus impacting Revenue.
