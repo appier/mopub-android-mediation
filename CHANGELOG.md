@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Support interstitial ads
+- Add native sample for swipe views with tabs
 
 ## `1.0.0-rc3`
 
