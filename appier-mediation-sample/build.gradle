@@ -50,6 +50,10 @@ dependencies {
     // Google Play Service
     implementation 'com.google.android.gms:play-services:+'
 
+    // For TabLayout and ViewPager
+    implementation 'com.google.android.material:material:+'
+    implementation 'androidx.viewpager:viewpager:1.+'
+
     // MoPub SDK base
     implementation('com.mopub:mopub-sdk-base:4.20.0@aar') {
         transitive = true
