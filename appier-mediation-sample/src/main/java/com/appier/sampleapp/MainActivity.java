@@ -26,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.button_appier_manual_integration_floating_window:
                     cls = AppierManualIntegrationFloatingWindowActivity.class;
                     break;
+                case R.id.button_appier_native_manual_integration_tab:
+                    cls = AppierNativeManualIntegrationTabActivity.class;
+                    break;
                 case R.id.button_appier_mopubadadapter:
                     cls = AppierMoPubAdAdapterActivity.class;
                     break;
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button_mopub_manual_integration_official_sample).setOnClickListener(btnOnClickListener);
         findViewById(R.id.button_appier_manual_integration_default).setOnClickListener(btnOnClickListener);
         findViewById(R.id.button_appier_manual_integration_floating_window).setOnClickListener(btnOnClickListener);
+        findViewById(R.id.button_appier_native_manual_integration_tab).setOnClickListener(btnOnClickListener);
         findViewById(R.id.button_appier_mopubadadapter).setOnClickListener(btnOnClickListener);
         findViewById(R.id.button_appier_mopubrecycleradapter).setOnClickListener(btnOnClickListener);
         findViewById(R.id.button_mopub_banner_default).setOnClickListener(btnOnClickListener);

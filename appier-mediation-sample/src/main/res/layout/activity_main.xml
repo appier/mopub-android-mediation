@@ -129,6 +129,16 @@
                         android:text="Manual integration - floating window"/>
 
                     <Button
+                        android:id="@+id/button_appier_native_manual_integration_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16dp"
+                        android:textAllCaps="false"
+                        android:gravity="left"
+                        android:text="Manual integration - tab" />
+
+                    <Button
                         android:id="@+id/button_appier_mopubadadapter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
