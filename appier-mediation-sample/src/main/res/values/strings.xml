@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">pmp-mopub-android-sdk</string>
+    <string name="app_name">Appier Mediation Sample</string>
     <!--
         Please find official sample here:
         https://github.com/mopub/mopub-android-sdk/blob/master/mopub-sample/res/main/values/strings.xml
