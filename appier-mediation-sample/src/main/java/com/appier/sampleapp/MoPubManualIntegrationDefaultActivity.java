@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
+import com.appier.ads.Appier;
 import com.mopub.nativeads.AdapterHelper;
 import com.mopub.nativeads.MoPubNative;
 import com.mopub.nativeads.MoPubStaticNativeAdRenderer;
@@ -15,8 +15,6 @@ import com.mopub.nativeads.NativeErrorCode;
 import com.mopub.nativeads.ViewBinder;
 
 public class MoPubManualIntegrationDefaultActivity extends AppCompatActivity {
-    private static final String LOG_TAG = "AppierMediation";
-
     private ConstraintLayout mAdContainer;
     private MoPubNative moPubNative;
     private NativeAd.MoPubNativeEventListener moPubNativeEventListener;
@@ -30,20 +28,20 @@ public class MoPubManualIntegrationDefaultActivity extends AppCompatActivity {
         moPubNativeEventListener = new NativeAd.MoPubNativeEventListener() {
             @Override
             public void onImpression(View view) {
-                Log.d(LOG_TAG, "[Sample App] Native ad recorded an impression.");
+                Appier.log("[Sample App]", "Native ad recorded an impression.");
                 // Impress is recorded - do what is needed AFTER the ad is visibly shown here.
             }
 
             @Override
             public void onClick(View view) {
-                Log.d(LOG_TAG, "[Sample App] Native ad recorded a click.");
+                Appier.log("[Sample App]", "Native ad recorded a click.");
                 // Click tracking.
             }
         };
         moPubNativeNetworkListener = new MoPubNative.MoPubNativeNetworkListener() {
             @Override
             public void onNativeLoad(final NativeAd nativeAd) {
-                Log.d(LOG_TAG, "[Sample App] Native ad has loaded.");
+                Appier.log("[Sample App]", "Native ad has loaded.");
 
                 final AdapterHelper adapterHelper = new AdapterHelper(MoPubManualIntegrationDefaultActivity.this, 0, 3); // When standalone, any range will be fine.
 
@@ -60,7 +58,7 @@ public class MoPubManualIntegrationDefaultActivity extends AppCompatActivity {
 
             @Override
             public void onNativeFail(NativeErrorCode errorCode) {
-                Log.d(LOG_TAG, "[Sample App] Native ad failed to load with error: " + errorCode.toString());
+                Appier.log("[Sample App]", "Native ad failed to load with error:", errorCode.toString());
             }
         };
         ViewBinder viewBinder = new ViewBinder.Builder(R.layout.native_ad)
@@ -75,7 +73,7 @@ public class MoPubManualIntegrationDefaultActivity extends AppCompatActivity {
 
         moPubNative = new MoPubNative(this, getString(R.string.adunit_appier_native_sample_with_mopub), moPubNativeNetworkListener);
         moPubNative.registerAdRenderer(moPubStaticNativeAdRenderer);
-        Log.d(LOG_TAG, "[Sample App] ====== make request ======");
+        Appier.log("[Sample App]", "====== make request ======");
         moPubNative.makeRequest();
     }
 

@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
+import com.appier.ads.Appier;
 import com.mopub.nativeads.AdapterHelper;
 import com.mopub.nativeads.AppierNativeAdRenderer;
 import com.mopub.nativeads.FlurryNativeAdRenderer;
@@ -18,8 +18,6 @@ import com.mopub.nativeads.NativeErrorCode;
 import com.mopub.nativeads.ViewBinder;
 
 public class AppierManualIntegrationDefaultActivity extends AppCompatActivity {
-    private static final String LOG_TAG = "AppierMediation";
-
     private ConstraintLayout mAdContainer;
     private MoPubNative moPubNative;
     private NativeAd.MoPubNativeEventListener moPubNativeEventListener;
@@ -33,20 +31,20 @@ public class AppierManualIntegrationDefaultActivity extends AppCompatActivity {
         moPubNativeEventListener = new NativeAd.MoPubNativeEventListener() {
             @Override
             public void onImpression(View view) {
-                Log.d(LOG_TAG, "[Sample App] Native ad recorded an impression.");
+                Appier.log("[Sample App]", "Native ad recorded an impression.");
                 // Impress is recorded - do what is needed AFTER the ad is visibly shown here.
             }
 
             @Override
             public void onClick(View view) {
-                Log.d(LOG_TAG, "[Sample App] Native ad recorded a click.");
+                Appier.log("[Sample App]", "Native ad recorded a click.");
                 // Click tracking.
             }
         };
         moPubNativeNetworkListener = new MoPubNative.MoPubNativeNetworkListener() {
             @Override
             public void onNativeLoad(final NativeAd nativeAd) {
-                Log.d(LOG_TAG, "[Sample App] Native ad has loaded.");
+                Appier.log("[Sample App]", "Native ad has loaded.");
 
                 final AdapterHelper adapterHelper = new AdapterHelper(AppierManualIntegrationDefaultActivity.this, 0, 3); // When standalone, any range will be fine.
 
@@ -63,17 +61,17 @@ public class AppierManualIntegrationDefaultActivity extends AppCompatActivity {
 
             @Override
             public void onNativeFail(NativeErrorCode errorCode) {
-                Log.d(LOG_TAG, "[Sample App] Native ad failed to load with error: " + errorCode.toString());
+                Appier.log("[Sample App]", "Native ad failed to load with error:", errorCode.toString());
             }
         };
         ViewBinder viewBinder = new ViewBinder.Builder(R.layout.native_ad)
-                .mainImageId(R.id.native_main_image)
-                .iconImageId(R.id.native_icon_image)
-                .titleId(R.id.native_title)
-                .textId(R.id.native_text)
-                .callToActionId(R.id.native_cta)
-                .privacyInformationIconImageId(R.id.native_privacy_information_icon_image)
-                .build();
+            .mainImageId(R.id.native_main_image)
+            .iconImageId(R.id.native_icon_image)
+            .titleId(R.id.native_title)
+            .textId(R.id.native_text)
+            .callToActionId(R.id.native_cta)
+            .privacyInformationIconImageId(R.id.native_privacy_information_icon_image)
+            .build();
         FlurryViewBinder flurryViewBinder = new FlurryViewBinder(new FlurryViewBinder.Builder(viewBinder));
         FlurryNativeAdRenderer flurryNativeAdRenderer = new FlurryNativeAdRenderer(flurryViewBinder);
         AppierNativeAdRenderer appierNativeAdRenderer = new AppierNativeAdRenderer(viewBinder);
@@ -84,7 +82,7 @@ public class AppierManualIntegrationDefaultActivity extends AppCompatActivity {
         moPubNative.registerAdRenderer(flurryNativeAdRenderer);
         moPubNative.registerAdRenderer(appierNativeAdRenderer);
         moPubNative.registerAdRenderer(moPubStaticNativeAdRenderer);
-        Log.d(LOG_TAG, "[Sample App] ====== make request ======");
+        Appier.log("[Sample App]", "====== make request ======");
         moPubNative.makeRequest();
     }
 

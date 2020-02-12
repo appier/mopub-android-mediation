@@ -3,19 +3,18 @@ package com.appier.sampleapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.appier.ads.Appier;
 import com.mopub.nativeads.AppierNativeAdRenderer;
 import com.mopub.nativeads.MoPubAdAdapter;
 import com.mopub.nativeads.MoPubStaticNativeAdRenderer;
 import com.mopub.nativeads.ViewBinder;
 
 public class AppierMoPubAdAdapterActivity extends AppCompatActivity {
-    private static final String LOG_TAG = "AppierMediation";
     private ListView listView;
     private String[] items = new String[]{
         "Ipsum", "is", "simply", "dummy",
@@ -44,7 +43,7 @@ public class AppierMoPubAdAdapterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appier_mopubadadapter);
 
-        listView = (ListView)findViewById(R.id.list_view_with_ads);
+        listView = findViewById(R.id.list_view_with_ads);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
 
@@ -68,7 +67,7 @@ public class AppierMoPubAdAdapterActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(LOG_TAG, "[Sample App] List item " + items[(int)id]);
+                Appier.log("[Sample App]", "List item", items[(int)id]);
             }
         });
 

@@ -6,12 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.appier.ads.Appier;
 import com.mopub.nativeads.AdapterHelper;
 import com.mopub.nativeads.AppierNativeAdRenderer;
 import com.mopub.nativeads.MoPubNative;
@@ -21,8 +21,6 @@ import com.mopub.nativeads.NativeErrorCode;
 import com.mopub.nativeads.ViewBinder;
 
 public class AppierNativeManualIntegrationTabFragment2 extends Fragment {
-    private static final String LOG_TAG = "AppierMediation";
-
     private LinearLayout mAdContainer;
     private MoPubNative moPubNative;
     private NativeAd.MoPubNativeEventListener moPubNativeEventListener;
@@ -41,20 +39,20 @@ public class AppierNativeManualIntegrationTabFragment2 extends Fragment {
         moPubNativeEventListener = new NativeAd.MoPubNativeEventListener() {
             @Override
             public void onImpression(View view) {
-                Log.d(LOG_TAG, "[Sample App] Native ad recorded an impression.");
+                Appier.log("[Sample App]", "Native ad recorded an impression.");
                 // Impress is recorded - do what is needed AFTER the ad is visibly shown here.
             }
 
             @Override
             public void onClick(View view) {
-                Log.d(LOG_TAG, "[Sample App] Native ad recorded a click.");
+                Appier.log("[Sample App]", "Native ad recorded a click.");
                 // Click tracking.
             }
         };
         moPubNativeNetworkListener = new MoPubNative.MoPubNativeNetworkListener() {
             @Override
             public void onNativeLoad(final NativeAd nativeAd) {
-                Log.d(LOG_TAG, "[Sample App] Native ad has loaded.");
+                Appier.log("[Sample App]", "Native ad has loaded.");
 
                 final AdapterHelper adapterHelper = new AdapterHelper(getActivity(), 0, 3); // When standalone, any range will be fine.
 
@@ -71,17 +69,17 @@ public class AppierNativeManualIntegrationTabFragment2 extends Fragment {
 
             @Override
             public void onNativeFail(NativeErrorCode errorCode) {
-                Log.d(LOG_TAG, "[Sample App] Native ad failed to load with error: " + errorCode.toString());
+                Appier.log("[Sample App]", "Native ad failed to load with error:", errorCode.toString());
             }
         };
         ViewBinder viewBinder = new ViewBinder.Builder(R.layout.native_ad)
-                .mainImageId(R.id.native_main_image)
-                .iconImageId(R.id.native_icon_image)
-                .titleId(R.id.native_title)
-                .textId(R.id.native_text)
-                .callToActionId(R.id.native_cta)
-                .privacyInformationIconImageId(R.id.native_privacy_information_icon_image)
-                .build();
+            .mainImageId(R.id.native_main_image)
+            .iconImageId(R.id.native_icon_image)
+            .titleId(R.id.native_title)
+            .textId(R.id.native_text)
+            .callToActionId(R.id.native_cta)
+            .privacyInformationIconImageId(R.id.native_privacy_information_icon_image)
+            .build();
         AppierNativeAdRenderer appierNativeAdRenderer = new AppierNativeAdRenderer(viewBinder);
         MoPubStaticNativeAdRenderer moPubStaticNativeAdRenderer = new MoPubStaticNativeAdRenderer(viewBinder);
 
@@ -89,7 +87,7 @@ public class AppierNativeManualIntegrationTabFragment2 extends Fragment {
 
         moPubNative.registerAdRenderer(appierNativeAdRenderer);
         moPubNative.registerAdRenderer(moPubStaticNativeAdRenderer);
-        Log.d(LOG_TAG, "[Sample App] ====== make request ======");
+        Appier.log("[Sample App]", "====== make request ======");
         moPubNative.makeRequest();
     }
 

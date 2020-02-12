@@ -3,10 +3,10 @@ package com.appier.sampleapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.appier.ads.Appier;
 import com.appier.ads.common.AppierDataKeys;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubInterstitial;
@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AppierInterstitialDefaultActivity extends AppCompatActivity implements MoPubInterstitial.InterstitialAdListener {
-    private static final String LOG_TAG = "AppierMediation";
     private static int AD_WIDTH = 300;
     private static int AD_HEIGHT = 250;
 
@@ -41,7 +40,7 @@ public class AppierInterstitialDefaultActivity extends AppCompatActivity impleme
         mInterstitial = new MoPubInterstitial(this, getString(R.string.adunit_appier_interstitial_sample_default));
         mInterstitial.setLocalExtras(localExtras);
         mInterstitial.setInterstitialAdListener(this);
-        Log.d(LOG_TAG, "[Sample App] ====== make request ======");
+        Appier.log("[Sample App]", "====== make request ======");
         loadAd();
     }
 
@@ -62,7 +61,7 @@ public class AppierInterstitialDefaultActivity extends AppCompatActivity impleme
 
     // Defined by your application, indicating that you're ready to show an interstitial ad.
     void showAd() {
-        Log.d(LOG_TAG, "[Sample App] showAd(), mInterstitial.isReady() = " + mInterstitial.isReady());
+        Appier.log("[Sample App]", "showAd(), mInterstitial.isReady() =", mInterstitial.isReady());
         if (mInterstitial.isReady()) {
             mInterstitial.show();
         } else {
@@ -77,32 +76,32 @@ public class AppierInterstitialDefaultActivity extends AppCompatActivity impleme
     @Override
     public void onInterstitialLoaded(MoPubInterstitial interstitial) {
         // The interstitial has been cached and is ready to be shown.
-        Log.d(LOG_TAG, "[Sample App] onInterstitialLoaded()");
+        Appier.log("[Sample App]", "onInterstitialLoaded()");
         isAdLoading = false;
     }
 
     @Override
     public void onInterstitialFailed(MoPubInterstitial interstitial, MoPubErrorCode errorCode) {
         // The interstitial has failed to load. Inspect errorCode for additional information.
-        Log.d(LOG_TAG, "[Sample App] onInterstitialFailed()");
+        Appier.log("[Sample App]", "onInterstitialFailed()");
         isAdLoading = false;
     }
 
     @Override
     public void onInterstitialShown(MoPubInterstitial interstitial) {
         // The interstitial has been shown. Pause / save state accordingly.
-        Log.d(LOG_TAG, "[Sample App] onInterstitialShown()");
+        Appier.log("[Sample App]", "onInterstitialShown()");
     }
 
     @Override
     public void onInterstitialClicked(MoPubInterstitial interstitial) {
-        Log.d(LOG_TAG, "[Sample App] onInterstitialClicked()");
+        Appier.log("[Sample App]", "onInterstitialClicked()");
     }
 
     @Override
     public void onInterstitialDismissed(MoPubInterstitial interstitial) {
         // The interstitial has being dismissed. Resume / load state accordingly.
-        Log.d(LOG_TAG, "[Sample App] onInterstitialDismissed()");
+        Appier.log("[Sample App]", "onInterstitialDismissed()");
         loadAd();
     }
 }

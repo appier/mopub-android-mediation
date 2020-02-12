@@ -8,13 +8,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
-import android.util.Log;
 
+import com.appier.ads.Appier;
 import com.google.android.material.tabs.TabLayout;
 
 public class AppierNativeManualIntegrationTabActivity extends AppCompatActivity {
-    private static final String LOG_TAG = "AppierMediation";
-
     private TabLayout mTablayout;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
@@ -37,17 +35,17 @@ public class AppierNativeManualIntegrationTabActivity extends AppCompatActivity 
         mTablayout.addOnTabSelectedListener((new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.d(LOG_TAG, "[Sample App] onTabSelected(), position: " + tab.getPosition());
+                Appier.log("[Sample App]", "onTabSelected()", "position:", tab.getPosition());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                Log.d(LOG_TAG, "[Sample App] onTabUnselected(), position: " + tab.getPosition());
+                Appier.log("[Sample App]", "onTabUnselected()", "position:", tab.getPosition());
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Log.d(LOG_TAG, "[Sample App] onTabReselected(), position: " + tab.getPosition());
+                Appier.log("[Sample App]", "onTabReselected()", "position:", tab.getPosition());
             }
         }));
     }
