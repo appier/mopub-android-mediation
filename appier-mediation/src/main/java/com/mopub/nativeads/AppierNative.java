@@ -1,8 +1,9 @@
 package com.mopub.nativeads;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -134,7 +135,7 @@ public class AppierNative extends CustomEventNative {
         public void onAdLoaded(final AppierNativeAd appierNativeAd) {
             Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.onAdLoaded() (Custom Callback)");
             this.mAppierNativeAd = appierNativeAd;
-            ((Activity)mContext).runOnUiThread(new Runnable() {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
                     try {
