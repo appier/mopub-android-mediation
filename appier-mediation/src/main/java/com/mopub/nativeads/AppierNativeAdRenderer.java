@@ -1,7 +1,6 @@
 package com.mopub.nativeads;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +11,20 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class AppierNativeAdRenderer implements MoPubAdRenderer<AppierNative.AppierStaticNativeAd> {
-    private static final String LOG_TAG = "AppierMediation";
+import com.appier.ads.Appier;
 
+public class AppierNativeAdRenderer implements MoPubAdRenderer<AppierNative.AppierStaticNativeAd> {
     @NonNull
     private final ViewBinder viewBinder;
 
     public AppierNativeAdRenderer(@NonNull final ViewBinder viewBinder) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierNativeAdRenderer.constructor()");
         this.viewBinder = viewBinder;
     }
 
     @NonNull
     @Override
     public View createAdView(@NonNull final Context context, @Nullable final ViewGroup parent) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierNativeAdRenderer.createAdView()");
+        Appier.log("[Appier Mediation]", "AppierNativeAdRenderer.createAdView()");
         return LayoutInflater
             .from(context)
             .inflate(viewBinder.layoutId, parent, false);
@@ -35,7 +33,7 @@ public class AppierNativeAdRenderer implements MoPubAdRenderer<AppierNative.Appi
     @Override
     public void renderAdView(@NonNull final View view,
                              @NonNull AppierNative.AppierStaticNativeAd appierStaticNativeAd) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierNativeAdRenderer.renderAdView()");
+        Appier.log("[Appier Mediation]", "AppierNativeAdRenderer.renderAdView()");
         TextView tvTitle = view.findViewById(viewBinder.titleId);
         TextView tvText = view.findViewById(viewBinder.textId);
         TextView tvCallToAction = (Button)view.findViewById(viewBinder.callToActionId);
@@ -64,7 +62,7 @@ public class AppierNativeAdRenderer implements MoPubAdRenderer<AppierNative.Appi
     @Override
     public boolean supports(@NonNull final BaseNativeAd nativeAd) {
         boolean isSupport = nativeAd instanceof AppierNative.AppierStaticNativeAd;
-        Log.d(LOG_TAG, "[Appier Mediation] AppierNativeAdRenderer.supports(), return " + isSupport);
+        Appier.log("[Appier Mediation]", "AppierNativeAdRenderer.supports(), isSupport =", isSupport);
         return isSupport;
     }
 }

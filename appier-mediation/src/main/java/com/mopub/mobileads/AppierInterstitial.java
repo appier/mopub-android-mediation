@@ -1,8 +1,8 @@
 package com.mopub.mobileads;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.appier.ads.Appier;
 import com.appier.ads.AppierError;
 import com.appier.ads.AppierInterstitialAd;
 import com.appier.ads.common.AppierDataKeys;
@@ -10,8 +10,6 @@ import com.appier.ads.common.AppierDataKeys;
 import java.util.Map;
 
 public class AppierInterstitial extends CustomEventInterstitial implements AppierInterstitialAd.EventListener {
-    private static final String LOG_TAG = "AppierMediation";
-
     private CustomEventInterstitial.CustomEventInterstitialListener mCustomEventInterstitialListener;
     private AppierInterstitialAd mAppierInterstitialAd;
 
@@ -20,7 +18,7 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
                                     CustomEventInterstitialListener customEventInterstitialListener,
                                     Map<String, Object> localExtras,
                                     Map<String, String> serverExtras) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierInterstitial.loadInterstitial()");
+        Appier.log("[Appier Mediation]", "AppierInterstitial.loadInterstitial()");
         this.mCustomEventInterstitialListener = customEventInterstitialListener;
         if (serverExtras.isEmpty()) {
             mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
@@ -78,7 +76,7 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
 
     @Override
     protected void showInterstitial() {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierInterstitial.showInterstitial()");
+        Appier.log("[Appier Mediation]", "AppierInterstitial.showInterstitial()");
         mAppierInterstitialAd.showAd();
     }
 
@@ -94,19 +92,19 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
      */
     @Override
     public void onAdLoaded(AppierInterstitialAd appierInterstitialAd) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierInterstitial.onAdLoaded() (Custom Callback)");
+        Appier.log("[Appier Mediation]", "AppierInterstitial.onAdLoaded() (Custom Callback)");
         mCustomEventInterstitialListener.onInterstitialLoaded();
     }
 
     @Override
     public void onAdNoBid(AppierInterstitialAd appierInterstitialAd) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierInterstitial.onAdNoBid() (Custom Callback)");
+        Appier.log("[Appier Mediation]", "AppierInterstitial.onAdNoBid() (Custom Callback)");
         mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_NO_FILL);
     }
 
     @Override
     public void onAdLoadFail(AppierError appierError, AppierInterstitialAd appierInterstitialAd) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierInterstitial.onAdLoadFail() (Custom Callback) " + appierError.toString());
+        Appier.log("[Appier Mediation]", "AppierInterstitial.onAdLoadFail() (Custom Callback)", appierError.toString());
         if (appierError == AppierError.NETWORK_ERROR) {
             mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
         } else if (appierError == AppierError.BAD_REQUEST) {
@@ -114,7 +112,7 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
         } else if (appierError == AppierError.INTERNAL_SERVER_ERROR) {
             mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
         } else if (appierError == AppierError.WEBVIEW_ERROR) {
-            Log.d(LOG_TAG, "  fail to load the url: " + appierInterstitialAd.getFailingUrl());
+            Appier.log("  fail to load the url:", appierInterstitialAd.getFailingUrl());
             mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_NO_FILL);
         }
     }
