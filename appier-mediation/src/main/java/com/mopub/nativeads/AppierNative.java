@@ -48,10 +48,7 @@ public class AppierNative extends CustomEventNative {
         if (zoneIdLocal != null) {
             return zoneIdLocal.toString();
         }
-        if (zoneIdServer != null) {
-            return zoneIdServer;
-        }
-        return null;
+        return zoneIdServer;
     }
 
     static class AppierStaticNativeAd extends StaticNativeAd implements AppierNativeAd.EventListener {
@@ -65,6 +62,7 @@ public class AppierNative extends CustomEventNative {
         private final CustomEventNativeListener customEventNativeListener;
         @NonNull
         private AppierNativeAd mAppierNativeAd;
+        private Handler mHandler;
 
         public AppierStaticNativeAd(
             @NonNull final Context context,
@@ -76,7 +74,9 @@ public class AppierNative extends CustomEventNative {
             this.impressionTracker = impressionTracker;
             this.nativeClickHandler = nativeClickHandler;
             this.customEventNativeListener = customEventNativeListener;
+
             this.mAppierNativeAd = new AppierNativeAd(mContext,AppierStaticNativeAd.this);
+            this.mHandler = new Handler(Looper.getMainLooper());
         }
 
         // Lifecycle Handlers
@@ -128,7 +128,7 @@ public class AppierNative extends CustomEventNative {
         public void onAdLoaded(final AppierNativeAd appierNativeAd) {
             Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onAdLoaded() (Custom Callback)");
             this.mAppierNativeAd = appierNativeAd;
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
+            this.mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     try {

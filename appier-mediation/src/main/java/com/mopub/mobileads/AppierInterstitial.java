@@ -38,13 +38,10 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
         if (zoneIdLocal != null) {
             return zoneIdLocal.toString();
         }
-        if (zoneIdServer != null) {
-            return zoneIdServer;
-        }
-        return null;
+        return zoneIdServer;
     }
 
-    /**
+    /*
      * `DataKeys.AD_WIDTH` and `DataKeys.AD_HEIGHT` comes from mopub web UI.
      * You can configure them through: `Edit ad unit` -> `Advanced options` -> `Safe area fallback`.
      * However, for now, they only supports 320x50 and 728x90.
@@ -87,7 +84,7 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
         }
     }
 
-    /**
+    /*
      * Appier SDK Event
      */
     @Override
