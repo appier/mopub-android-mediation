@@ -5,7 +5,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.PixelFormat;
 import android.os.Build;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.appier.ads.Appier;
 import com.mopub.nativeads.AdapterHelper;
 import com.mopub.nativeads.AppierNativeAdRenderer;
 import com.mopub.nativeads.MoPubNative;
@@ -29,7 +29,7 @@ import static android.content.Context.WINDOW_SERVICE;
 /**
  * Created by aminography on 11/1/2018.
  */
-public class AppierManualIntegrationFloatingWindowFloatViewManager {
+public class AppierNativeManualIntegrationFloatingWindowFloatViewManager {
 
     private static boolean mIsFloatViewShowing;
 
@@ -47,10 +47,10 @@ public class AppierManualIntegrationFloatingWindowFloatViewManager {
     private MoPubNative moPubNative;
 
     @SuppressLint("InflateParams")
-    public AppierManualIntegrationFloatingWindowFloatViewManager(Activity activity) {
+    public AppierNativeManualIntegrationFloatingWindowFloatViewManager(Activity activity) {
         mActivity = activity;
         LayoutInflater inflater = LayoutInflater.from(activity);
-        mFloatView = inflater.inflate(R.layout.appier_manual_integration_floating_window, null);
+        mFloatView = inflater.inflate(R.layout.appier_native_manual_integration_floating_window, null);
         Button buttonDismiss = mFloatView.findViewById(R.id.button_dismiss);
         buttonDismiss.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,21 +136,19 @@ public class AppierManualIntegrationFloatingWindowFloatViewManager {
     }
 
     public void showAd() {
-        final String LOG_TAG = "AppierMediation";
-
         final NativeAd.MoPubNativeEventListener moPubNativeEventListener;
         MoPubNative.MoPubNativeNetworkListener moPubNativeNetworkListener;
 
         moPubNativeEventListener = new NativeAd.MoPubNativeEventListener() {
             @Override
             public void onImpression(View view) {
-                Log.d(LOG_TAG, "[Sample App] Native ad recorded an impression.");
+                Appier.log("[Sample App]", "Native ad recorded an impression.");
                 // Impress is recorded - do what is needed AFTER the ad is visibly shown here.
             }
 
             @Override
             public void onClick(View view) {
-                Log.d(LOG_TAG, "[Sample App] Native ad recorded a click.");
+                Appier.log("[Sample App]", "Native ad recorded a click.");
                 // Click tracking.
                 dismissFloatView();
             }
@@ -158,7 +156,7 @@ public class AppierManualIntegrationFloatingWindowFloatViewManager {
         moPubNativeNetworkListener = new MoPubNative.MoPubNativeNetworkListener() {
             @Override
             public void onNativeLoad(final NativeAd nativeAd) {
-                Log.d(LOG_TAG, "[Sample App] Native ad has loaded.");
+                Appier.log("[Sample App]", "Native ad has loaded.");
 
                 final AdapterHelper adapterHelper = new AdapterHelper(mActivity, 0, 3); // When standalone, any range will be fine.
 
@@ -175,7 +173,7 @@ public class AppierManualIntegrationFloatingWindowFloatViewManager {
 
             @Override
             public void onNativeFail(NativeErrorCode errorCode) {
-                Log.d(LOG_TAG, "[Sample App] Native ad failed to load with error: " + errorCode.toString());
+                Appier.log("[Sample App]", "Native ad failed to load with error:", errorCode.toString());
             }
         };
         ViewBinder viewBinder = new ViewBinder.Builder(R.layout.native_ad)
@@ -192,7 +190,7 @@ public class AppierManualIntegrationFloatingWindowFloatViewManager {
         moPubNative = new MoPubNative(mActivity, mActivity.getString(R.string.adunit_appier_native_sample_default), moPubNativeNetworkListener);
         moPubNative.registerAdRenderer(appierNativeAdRenderer);
         moPubNative.registerAdRenderer(moPubStaticNativeAdRenderer);
-        Log.d(LOG_TAG, "[Sample App] ====== make request ======");
+        Appier.log("[Sample App]", "====== make request ======");
         moPubNative.makeRequest();
     }
 

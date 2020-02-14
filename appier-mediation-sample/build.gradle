@@ -50,6 +50,10 @@ dependencies {
     // Google Play Service
     implementation 'com.google.android.gms:play-services:+'
 
+    // For TabLayout and ViewPager
+    implementation 'com.google.android.material:material:+'
+    implementation 'androidx.viewpager:viewpager:1.+'
+
     // MoPub SDK base
     implementation('com.mopub:mopub-sdk-base:4.20.0@aar') {
         transitive = true
@@ -86,8 +90,8 @@ dependencies {
     implementation 'com.mopub.mediation:flurry:10.1.0.0'
 
     // Appier
-    implementation 'com.appier.android:ads-sdk:1.0.0-rc3'
-    implementation('com.appier.android:mopub-mediation:1.0.0-rc3') {
+    implementation 'com.appier.android:ads-sdk:1.0.0-rc4'
+    implementation('com.appier.android:mopub-mediation:1.0.0-rc4') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat

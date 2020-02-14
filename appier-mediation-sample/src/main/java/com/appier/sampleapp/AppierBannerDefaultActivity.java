@@ -3,8 +3,8 @@ package com.appier.sampleapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 
+import com.appier.ads.Appier;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
 
@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AppierBannerDefaultActivity extends AppCompatActivity implements MoPubView.BannerAdListener {
-    private static final String LOG_TAG = "AppierMediation";
     private static int AD_WIDTH = 300;
     private static int AD_HEIGHT = 250;
 
@@ -33,7 +32,7 @@ public class AppierBannerDefaultActivity extends AppCompatActivity implements Mo
         moPubView.setLocalExtras(localExtras);
         moPubView.setBannerAdListener(this);
         moPubView.setAdUnitId(getString(R.string.adunit_appier_banner_sample_default)); // Enter your Ad Unit ID from www.mopub.com
-        Log.d(LOG_TAG, "[Sample App] ====== make request ======");
+        Appier.log("[Sample App]", "====== make request ======");
         moPubView.loadAd();
     }
 
@@ -49,30 +48,30 @@ public class AppierBannerDefaultActivity extends AppCompatActivity implements Mo
     // Sent when the banner has successfully retrieved an ad.
     @Override
     public void onBannerLoaded(MoPubView banner) {
-        Log.d(LOG_TAG, "[Sample App] onBannerLoaded()");
+        Appier.log("[Sample App]", "onBannerLoaded()");
     }
 
     // Sent when the banner has failed to retrieve an ad. You can use the MoPubErrorCode value to diagnose the cause of failure.
     @Override
     public void onBannerFailed(MoPubView banner, MoPubErrorCode errorCode) {
-        Log.d(LOG_TAG, "[Sample App] onBannerFailed(): " + errorCode.toString());
+        Appier.log("[Sample App]", "onBannerFailed():", errorCode.toString());
     }
 
     // Sent when the user has tapped on the banner.
     @Override
     public void onBannerClicked(MoPubView banner) {
-        Log.d(LOG_TAG, "[Sample App] onBannerClicked()");
+        Appier.log("[Sample App]", "onBannerClicked()");
     }
 
     // Sent when the banner has just taken over the screen.
     @Override
     public void onBannerExpanded(MoPubView banner) {
-        Log.d(LOG_TAG, "[Sample App] onBannerExpanded()");
+        Appier.log("[Sample App]", "onBannerExpanded()");
     }
 
     // Sent when an expanded banner has collapsed back to its original size.
     @Override
     public void onBannerCollapsed(MoPubView banner) {
-        Log.d(LOG_TAG, "[Sample App] onBannerCollapsed()");
+        Appier.log("[Sample App]", "onBannerCollapsed()");
     }
 }

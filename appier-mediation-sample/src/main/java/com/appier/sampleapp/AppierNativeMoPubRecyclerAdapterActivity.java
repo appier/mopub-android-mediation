@@ -1,4 +1,6 @@
-// ref: https://stackoverflow.com/questions/40584424/simple-android-recyclerview-example
+/**
+ * Reference: https://stackoverflow.com/questions/40584424/simple-android-recyclerview-example
+ */
 
 package com.appier.sampleapp;
 
@@ -7,9 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
+import com.appier.ads.Appier;
 import com.mopub.nativeads.AppierNativeAdRenderer;
 import com.mopub.nativeads.MoPubRecyclerAdapter;
 import com.mopub.nativeads.MoPubStaticNativeAdRenderer;
@@ -19,8 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AppierMoPubRecyclerAdapterActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
-    private static final String LOG_TAG = "AppierMediation";
+public class AppierNativeMoPubRecyclerAdapterActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
     private RecyclerView recyclerView;
     private String[] items = new String[]{
         "Ipsum", "is", "simply", "dummy",
@@ -47,7 +48,7 @@ public class AppierMoPubRecyclerAdapterActivity extends AppCompatActivity implem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appier_mopubrecycleradapter);
+        setContentView(R.layout.activity_appier_native_mopubrecycleradapter);
 
         ArrayList<String> itemArrayList = new ArrayList<String>();
         List<String> itemList = Arrays.asList(items);
@@ -80,7 +81,7 @@ public class AppierMoPubRecyclerAdapterActivity extends AppCompatActivity implem
 
     @Override
     public void onItemClick(View view, int position, long id) {
-        Log.d(LOG_TAG, "[Sample App] List item " + items[(int)id]);
+        Appier.log("[Sample App]", "List item", items[(int)id]);
     }
 
     @Override

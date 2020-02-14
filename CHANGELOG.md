@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support interstitial ads
 
+## `1.0.0-rc4`
+
+### Added
+
+- Add cache buster
+- Add `Appier.log()` to have better logging
+- Add swipe view sample for native to load ad from activity/application/service context
+
 ## `1.0.0-rc3`
 
 ### Added

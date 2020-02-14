@@ -1,13 +1,14 @@
 package com.mopub.nativeads;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.appier.ads.Appier;
 import com.appier.ads.AppierNativeAd;
 import com.appier.ads.AppierError;
 import com.appier.ads.common.AppierDataKeys;
@@ -19,18 +20,12 @@ import java.util.Map;
 import static com.mopub.nativeads.NativeImageHelper.preCacheImages;
 
 public class AppierNative extends CustomEventNative {
-    private static final String LOG_TAG = "AppierMediation";
-
-    public AppierNative() {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierNative.constructor()");
-    }
-
     @Override
     protected void loadNativeAd(@NonNull final Context context,
                                 @NonNull final CustomEventNativeListener customEventNativeListener,
                                 @NonNull final Map<String, Object> localExtras,
                                 @NonNull final Map<String, String> serverExtras) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierNative.loadNativeAd()");
+        Appier.log("[Appier Mediation]", "AppierNative.loadNativeAd()");
 
         if (serverExtras.isEmpty()) {
             customEventNativeListener.onNativeAdFailed(NativeErrorCode.NATIVE_ADAPTER_CONFIGURATION_ERROR);
@@ -53,10 +48,7 @@ public class AppierNative extends CustomEventNative {
         if (zoneIdLocal != null) {
             return zoneIdLocal.toString();
         }
-        if (zoneIdServer != null) {
-            return zoneIdServer;
-        }
-        return null;
+        return zoneIdServer;
     }
 
     static class AppierStaticNativeAd extends StaticNativeAd implements AppierNativeAd.EventListener {
@@ -70,6 +62,7 @@ public class AppierNative extends CustomEventNative {
         private final CustomEventNativeListener customEventNativeListener;
         @NonNull
         private AppierNativeAd mAppierNativeAd;
+        private Handler mHandler;
 
         public AppierStaticNativeAd(
             @NonNull final Context context,
@@ -77,32 +70,33 @@ public class AppierNative extends CustomEventNative {
             @NonNull final NativeClickHandler nativeClickHandler,
             @NonNull final CustomEventNativeListener customEventNativeListener
         ) {
-            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.constructor()");
             this.mContext = context;
             this.impressionTracker = impressionTracker;
             this.nativeClickHandler = nativeClickHandler;
             this.customEventNativeListener = customEventNativeListener;
+
             this.mAppierNativeAd = new AppierNativeAd(mContext,AppierStaticNativeAd.this);
+            this.mHandler = new Handler(Looper.getMainLooper());
         }
 
         // Lifecycle Handlers
         @Override
         public void prepare(@NonNull final View view) {
-            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.prepare()");
+            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.prepare()");
             impressionTracker.addView(view, this);
             nativeClickHandler.setOnClickListener(view, this);
         }
 
         @Override
         public void clear(@NonNull final View view) {
-            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.clear()");
+            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.clear()");
             impressionTracker.removeView(view);
             nativeClickHandler.clearOnClickListener(view);
         }
 
         @Override
         public void destroy() {
-            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.destroy()");
+            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.destroy()");
             impressionTracker.destroy();
             super.destroy();
         }
@@ -110,7 +104,7 @@ public class AppierNative extends CustomEventNative {
         // Event Handlers
         @Override
         public void recordImpression(@NonNull final View view) {
-            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.recordImpression()");
+            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.recordImpression()");
             try {
                 mAppierNativeAd.makeImpressionTrackingRequest();
             } catch (JSONException e) {
@@ -120,7 +114,7 @@ public class AppierNative extends CustomEventNative {
 
         @Override
         public void handleClick(@Nullable final View view) {
-            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.handleClick()");
+            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.handleClick()");
             notifyAdClicked();
             nativeClickHandler.openClickDestinationUrl(getClickDestinationUrl(), view);
         }
@@ -132,9 +126,9 @@ public class AppierNative extends CustomEventNative {
         // Appier SDK Event
         @Override
         public void onAdLoaded(final AppierNativeAd appierNativeAd) {
-            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.onAdLoaded() (Custom Callback)");
+            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onAdLoaded() (Custom Callback)");
             this.mAppierNativeAd = appierNativeAd;
-            ((Activity)mContext).runOnUiThread(new Runnable() {
+            this.mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -169,7 +163,7 @@ public class AppierNative extends CustomEventNative {
 
         @Override
         public void onAdLoadFail(AppierError appierError, AppierNativeAd appierNativeAd) {
-            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.onAdLoadFail() (Custom Callback) " + appierError.toString());
+            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onAdLoadFail() (Custom Callback)", appierError.toString());
             if (appierError == AppierError.NETWORK_ERROR) {
                 customEventNativeListener.onNativeAdFailed(NativeErrorCode.NETWORK_INVALID_STATE);
             } else if (appierError == AppierError.BAD_REQUEST) {
@@ -181,19 +175,19 @@ public class AppierNative extends CustomEventNative {
 
         @Override
         public void onAdNoBid(AppierNativeAd appierNativeAd) {
-            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.onAdNoBid() (Custom Callback)");
+            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onAdNoBid() (Custom Callback)");
             customEventNativeListener.onNativeAdFailed(NativeErrorCode.NETWORK_NO_FILL);
         }
 
         @Override
         public void onImpressionRecorded(AppierNativeAd appierNativeAd) {
-            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.onImpressionRecorded() (Custom Callback)");
+            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onImpressionRecorded() (Custom Callback)");
             notifyAdImpressed();
         }
 
         @Override
         public void onImpressionRecordFail(AppierError responseCode, AppierNativeAd appierNativeAd) {
-            Log.d(LOG_TAG, "[Appier Mediation] AppierNative.AppierStaticNativeAd.onImpressionRecordFail() (Custom Callback)");
+            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onImpressionRecordFail() (Custom Callback)");
         }
     }
 }

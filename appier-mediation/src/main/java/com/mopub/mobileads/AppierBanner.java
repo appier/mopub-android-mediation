@@ -1,8 +1,8 @@
 package com.mopub.mobileads;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.appier.ads.Appier;
 import com.appier.ads.AppierBannerAd;
 import com.appier.ads.AppierError;
 import com.appier.ads.common.AppierDataKeys;
@@ -12,8 +12,6 @@ import com.mopub.common.DataKeys;
 import java.util.Map;
 
 public class AppierBanner extends CustomEventBanner implements AppierBannerAd.EventListener {
-    private static final String LOG_TAG = "AppierMediation";
-
     private CustomEventBannerListener mCustomEventBannerListener;
     private AppierBannerAd mAppierBannerAd;
 
@@ -22,7 +20,7 @@ public class AppierBanner extends CustomEventBanner implements AppierBannerAd.Ev
                               final CustomEventBannerListener customEventBannerListener,
                               final Map<String, Object> localExtras,
                               final Map<String, String> serverExtras) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierBanner.loadBanner()");
+        Appier.log("[Appier Mediation]", "AppierBanner.loadBanner()");
         this.mCustomEventBannerListener = customEventBannerListener;
         if (serverExtras.isEmpty()) {
             mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
@@ -50,13 +48,10 @@ public class AppierBanner extends CustomEventBanner implements AppierBannerAd.Ev
         if (zoneIdLocal != null) {
             return zoneIdLocal.toString();
         }
-        if (zoneIdServer != null) {
-            return zoneIdServer;
-        }
-        return null;
+        return zoneIdServer;
     }
 
-    /**
+    /*
      * `DataKeys.AD_WIDTH` and `DataKeys.AD_HEIGHT` comes from mopub web UI.
      * You can configure them through: `Edit ad unit` -> `Advanced options` -> `Safe area fallback`.
      * However, for now, they only supports 320x50 and 728x90.
@@ -88,24 +83,24 @@ public class AppierBanner extends CustomEventBanner implements AppierBannerAd.Ev
         return adHeightMopub;
     }
 
-    /**
+    /*
      * Appier SDK Event
      */
     @Override
     public void onAdLoaded(AppierBannerAd appierBannerAd) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierBanner.onAdLoaded() (Custom Callback)");
+        Appier.log("[Appier Mediation]", "AppierBanner.onAdLoaded() (Custom Callback)");
         mCustomEventBannerListener.onBannerLoaded(appierBannerAd.getView());
     }
 
     @Override
     public void onAdNoBid(AppierBannerAd appierBannerAd) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierBanner.onAdNoBid() (Custom Callback)");
+        Appier.log("[Appier Mediation]", "AppierBanner.onAdNoBid() (Custom Callback)");
         mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.NETWORK_NO_FILL);
     }
 
     @Override
     public void onAdLoadFail(AppierError appierError, AppierBannerAd appierBannerAd) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierBanner.onAdLoadFail() (Custom Callback) " + appierError.toString());
+        Appier.log("[Appier Mediation]", "AppierBanner.onAdLoadFail() (Custom Callback)", appierError.toString());
         if (appierError == AppierError.NETWORK_ERROR) {
             mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
         } else if (appierError == AppierError.BAD_REQUEST) {
@@ -113,13 +108,13 @@ public class AppierBanner extends CustomEventBanner implements AppierBannerAd.Ev
         } else if (appierError == AppierError.INTERNAL_SERVER_ERROR) {
             mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
         } else if (appierError == AppierError.WEBVIEW_ERROR) {
-            Log.d(LOG_TAG, "  fail to load the url: " + appierBannerAd.getFailingUrl());
+            Appier.log("  fail to load the url:", appierBannerAd.getFailingUrl());
             mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.NETWORK_NO_FILL);
         }
     }
 
     @Override
     public void onViewClick(AppierBannerAd appierBannerAd) {
-        Log.d(LOG_TAG, "[Appier Mediation] AppierBanner.onViewClick() (Custom Callback)");
+        Appier.log("[Appier Mediation]", "AppierBanner.onViewClick() (Custom Callback)");
     }
 }
