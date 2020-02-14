@@ -29,7 +29,7 @@ import static android.content.Context.WINDOW_SERVICE;
 /**
  * Created by aminography on 11/1/2018.
  */
-public class AppierManualIntegrationFloatingWindowFloatViewManager {
+public class AppierNativeManualIntegrationFloatingWindowFloatViewManager {
 
     private static boolean mIsFloatViewShowing;
 
@@ -47,10 +47,10 @@ public class AppierManualIntegrationFloatingWindowFloatViewManager {
     private MoPubNative moPubNative;
 
     @SuppressLint("InflateParams")
-    public AppierManualIntegrationFloatingWindowFloatViewManager(Activity activity) {
+    public AppierNativeManualIntegrationFloatingWindowFloatViewManager(Activity activity) {
         mActivity = activity;
         LayoutInflater inflater = LayoutInflater.from(activity);
-        mFloatView = inflater.inflate(R.layout.appier_manual_integration_floating_window, null);
+        mFloatView = inflater.inflate(R.layout.appier_native_manual_integration_floating_window, null);
         Button buttonDismiss = mFloatView.findViewById(R.id.button_dismiss);
         buttonDismiss.setOnClickListener(new View.OnClickListener() {
             @Override

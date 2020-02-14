@@ -21,19 +21,19 @@ public class MainActivity extends AppCompatActivity {
                     cls = MoPubManualIntegrationOfficialSampleActivity.class;
                     break;
                 case R.id.button_appier_manual_integration_default:
-                    cls = AppierManualIntegrationDefaultActivity.class;
+                    cls = AppierNativeManualIntegrationDefaultActivity.class;
                     break;
                 case R.id.button_appier_manual_integration_floating_window:
-                    cls = AppierManualIntegrationFloatingWindowActivity.class;
+                    cls = AppierNativeManualIntegrationFloatingWindowActivity.class;
                     break;
                 case R.id.button_appier_native_manual_integration_tab:
                     cls = AppierNativeManualIntegrationTabActivity.class;
                     break;
                 case R.id.button_appier_mopubadadapter:
-                    cls = AppierMoPubAdAdapterActivity.class;
+                    cls = AppierNativeMoPubAdAdapterActivity.class;
                     break;
                 case R.id.button_appier_mopubrecycleradapter:
-                    cls = AppierMoPubRecyclerAdapterActivity.class;
+                    cls = AppierNativeMoPubRecyclerAdapterActivity.class;
                     break;
                 case R.id.button_mopub_banner_default:
                     cls = MoPubBannerDefaultActivity.class;

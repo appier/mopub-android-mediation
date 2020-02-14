@@ -17,7 +17,7 @@ import com.mopub.nativeads.NativeAd;
 import com.mopub.nativeads.NativeErrorCode;
 import com.mopub.nativeads.ViewBinder;
 
-public class AppierManualIntegrationDefaultActivity extends AppCompatActivity {
+public class AppierNativeManualIntegrationDefaultActivity extends AppCompatActivity {
     private ConstraintLayout mAdContainer;
     private MoPubNative moPubNative;
     private NativeAd.MoPubNativeEventListener moPubNativeEventListener;
@@ -26,7 +26,7 @@ public class AppierManualIntegrationDefaultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appier_manual_integration_default);
+        setContentView(R.layout.activity_appier_native_manual_integration_default);
 
         moPubNativeEventListener = new NativeAd.MoPubNativeEventListener() {
             @Override
@@ -46,7 +46,7 @@ public class AppierManualIntegrationDefaultActivity extends AppCompatActivity {
             public void onNativeLoad(final NativeAd nativeAd) {
                 Appier.log("[Sample App]", "Native ad has loaded.");
 
-                final AdapterHelper adapterHelper = new AdapterHelper(AppierManualIntegrationDefaultActivity.this, 0, 3); // When standalone, any range will be fine.
+                final AdapterHelper adapterHelper = new AdapterHelper(AppierNativeManualIntegrationDefaultActivity.this, 0, 3); // When standalone, any range will be fine.
 
                 // Retrieve the pre-built ad view that AdapterHelper prepared for us.
                 View adView = adapterHelper.getAdView(null, null, nativeAd, new ViewBinder.Builder(0).build());

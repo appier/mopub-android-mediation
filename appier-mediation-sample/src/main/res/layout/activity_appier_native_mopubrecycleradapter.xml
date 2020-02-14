@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AppierMoPubAdAdapterActivity">
+    tools:context=".AppierNativeMoPubRecyclerAdapterActivity">
 
-    <ListView
-        android:id="@+id/list_view_with_ads"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_with_ads"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="match_parent">
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

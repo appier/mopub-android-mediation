@@ -42,11 +42,11 @@
         <!-- Demo of Native -->
         <activity android:name=".MoPubManualIntegrationDefaultActivity"></activity>
         <activity android:name=".MoPubManualIntegrationOfficialSampleActivity"></activity>
-        <activity android:name=".AppierManualIntegrationDefaultActivity"></activity>
-        <activity android:name=".AppierManualIntegrationFloatingWindowActivity"></activity>
+        <activity android:name=".AppierNativeManualIntegrationDefaultActivity"></activity>
+        <activity android:name=".AppierNativeManualIntegrationFloatingWindowActivity"></activity>
         <activity android:name=".AppierNativeManualIntegrationTabActivity"></activity>
-        <activity android:name=".AppierMoPubAdAdapterActivity"></activity>
-        <activity android:name=".AppierMoPubRecyclerAdapterActivity"></activity>
+        <activity android:name=".AppierNativeMoPubAdAdapterActivity"></activity>
+        <activity android:name=".AppierNativeMoPubRecyclerAdapterActivity"></activity>
 
         <!-- Demo of Banner -->
         <activity android:name=".MoPubBannerOfficialSampleActivity"></activity>
