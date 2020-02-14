@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `Appier.log()` to have better logging
 - Add swipe view sample for native to load ad from activity/application/service context
 
+### Fixed
+
+- Context passed to native mediation no longer casts to Activity only. Now all of activity context, application context and service context are acceptable.
+
 ## `1.0.0-rc3`
 
 ### Added
