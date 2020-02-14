@@ -36,6 +36,9 @@
             </intent-filter>
         </activity>
 
+        <!-- Demo of Native Tab Fragment Service Context -->
+        <service android:name=".MyService" android:enabled="true"></service>
+
         <!-- Demo of Native -->
         <activity android:name=".MoPubManualIntegrationDefaultActivity"></activity>
         <activity android:name=".MoPubManualIntegrationOfficialSampleActivity"></activity>
