@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Support interstitial ads
+- Use in-app browser when clicking ads
 
 ## `1.0.0-rc4`
 
