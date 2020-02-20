@@ -196,7 +196,7 @@ public class AppierNative extends CustomEventNative {
         }
 
         @Override
-        public void onImpressionRecordFail(AppierError responseCode, AppierNativeAd appierNativeAd) {
+        public void onImpressionRecordFail(AppierError appierError, AppierNativeAd appierNativeAd) {
             Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onImpressionRecordFail() (Custom Callback)");
         }
     }
