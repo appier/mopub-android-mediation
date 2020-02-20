@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support interstitial ads
 - Use in-app browser when clicking ads
 
+### Changed
+
+- Replace legacy `HttpURLConnection` with `Volley` to have better network control
+
 ## `1.0.0-rc4`
 
 ### Added
