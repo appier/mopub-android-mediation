@@ -130,7 +130,8 @@ public class AppierNative extends CustomEventNative {
         }
 
         public void loadAd(String zoneId) {
-            mAppierNativeAd.loadAd(zoneId);
+            mAppierNativeAd.setZoneId(zoneId);
+            mAppierNativeAd.loadAd(false);
         }
 
         // Appier SDK Event
@@ -199,5 +200,16 @@ public class AppierNative extends CustomEventNative {
         public void onImpressionRecordFail(AppierError appierError, AppierNativeAd appierNativeAd) {
             Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onImpressionRecordFail() (Custom Callback)");
         }
+
+        /*
+         * MoPub mediation uses MoPubAdRenderer instead of AppierNativeAd's render functions.
+         * So following events will never be invoked.
+         */
+        @Override
+        public void onAdShown(AppierNativeAd appierNativeAd) {}
+        @Override
+        public void onAdClick(AppierNativeAd appierNativeAd) {}
+        @Override
+        public void onAdClickFail(AppierError appierError, AppierNativeAd appierNativeAd) {}
     }
 }
