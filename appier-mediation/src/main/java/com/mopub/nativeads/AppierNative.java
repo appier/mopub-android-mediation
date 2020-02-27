@@ -108,11 +108,7 @@ public class AppierNative extends CustomEventNative {
         @Override
         public void recordImpression(@NonNull final View view) {
             Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.recordImpression()");
-            try {
-                mAppierNativeAd.makeImpressionTrackingRequest();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            mAppierNativeAd.makeImpressionTrackingRequest();
         }
 
         @Override
@@ -131,7 +127,7 @@ public class AppierNative extends CustomEventNative {
 
         public void loadAd(String zoneId) {
             mAppierNativeAd.setZoneId(zoneId);
-            mAppierNativeAd.loadAd(false);
+            mAppierNativeAd.loadAdWithExternalCache();
         }
 
         // Appier SDK Event
