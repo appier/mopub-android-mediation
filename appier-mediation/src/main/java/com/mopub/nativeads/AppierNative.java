@@ -101,6 +101,7 @@ public class AppierNative extends CustomEventNative {
         public void destroy() {
             Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.destroy()");
             impressionTracker.destroy();
+            mAppierNativeAd.destroy();
             super.destroy();
         }
 
