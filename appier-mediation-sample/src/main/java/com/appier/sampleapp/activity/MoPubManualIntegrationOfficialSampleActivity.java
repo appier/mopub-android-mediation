@@ -1,4 +1,4 @@
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.appier.ads.Appier;
+import com.appier.sampleapp.R;
 import com.mopub.nativeads.AdapterHelper;
 import com.mopub.nativeads.MoPubNative;
 import com.mopub.nativeads.MoPubStaticNativeAdRenderer;

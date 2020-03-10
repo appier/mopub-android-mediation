@@ -1,7 +1,7 @@
 /*
  * Reference: https://developer.android.com/guide/navigation/navigation-swipe-view
  */
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -11,6 +11,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 
 import com.appier.ads.Appier;
+import com.appier.sampleapp.fragment.BaseFragment;
+import com.appier.sampleapp.R;
 import com.appier.sampleapp.common.MyServiceController;
 import com.appier.sampleapp.common.MyPagerAdapter;
 import com.google.android.material.tabs.TabLayout;

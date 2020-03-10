@@ -2,7 +2,7 @@
  * Reference: https://stackoverflow.com/questions/40584424/simple-android-recyclerview-example
  */
 
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.appier.ads.Appier;
+import com.appier.sampleapp.R;
 import com.appier.sampleapp.common.MyRecyclerViewAdapter;
 import com.mopub.nativeads.AppierNativeAdRenderer;
 import com.mopub.nativeads.MoPubRecyclerAdapter;

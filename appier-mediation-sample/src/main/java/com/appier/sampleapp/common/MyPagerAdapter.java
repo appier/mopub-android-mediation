@@ -5,10 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.appier.sampleapp.AppierNativeManualIntegrationTabFragment1;
-import com.appier.sampleapp.AppierNativeManualIntegrationTabFragment2;
-import com.appier.sampleapp.AppierNativeManualIntegrationTabFragment3;
-import com.appier.sampleapp.common.MyService;
+import com.appier.sampleapp.fragment.AppierNativeManualIntegrationTabFragment1;
+import com.appier.sampleapp.fragment.AppierNativeManualIntegrationTabFragment2;
+import com.appier.sampleapp.fragment.AppierNativeManualIntegrationTabFragment3;
 
 public class MyPagerAdapter extends FragmentStatePagerAdapter {
     private String[] mTabTitles = new String[]{ "Activity Context", "Application Context", "Service Context" };

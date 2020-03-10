@@ -1,4 +1,4 @@
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.appier.sampleapp.R;
 import com.appier.sampleapp.common.FloatViewManager;
 import com.appier.ads.Appier;
 import com.mopub.nativeads.AdapterHelper;

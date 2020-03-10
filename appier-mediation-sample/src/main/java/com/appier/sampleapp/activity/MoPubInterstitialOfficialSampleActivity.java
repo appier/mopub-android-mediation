@@ -1,4 +1,4 @@
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,24 +7,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.appier.ads.Appier;
-import com.appier.ads.common.AppierDataKeys;
+import com.appier.sampleapp.R;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubInterstitial;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class AppierInterstitialDefaultActivity extends AppCompatActivity implements MoPubInterstitial.InterstitialAdListener {
-    private static int AD_WIDTH = 300;
-    private static int AD_HEIGHT = 250;
-
+public class MoPubInterstitialOfficialSampleActivity extends AppCompatActivity implements MoPubInterstitial.InterstitialAdListener {
     private MoPubInterstitial mInterstitial;
     private boolean isAdLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appier_interstitial_default);
+        setContentView(R.layout.activity_mopub_interstitial_official_sample);
 
         findViewById(R.id.button_show_ad_if_ready).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,14 +27,8 @@ public class AppierInterstitialDefaultActivity extends AppCompatActivity impleme
             }
         });
 
-        Map<String, Object> localExtras = new HashMap<>();
-        localExtras.put(AppierDataKeys.AD_WIDTH_LOCAL, AD_WIDTH);
-        localExtras.put(AppierDataKeys.AD_HEIGHT_LOCAL, AD_HEIGHT);
-
-        mInterstitial = new MoPubInterstitial(this, getString(R.string.adunit_appier_interstitial_sample_default));
-        mInterstitial.setLocalExtras(localExtras);
+        mInterstitial = new MoPubInterstitial(this, getString(R.string.adunit_mopub_interstitial_official_sample));
         mInterstitial.setInterstitialAdListener(this);
-        Appier.log("[Sample App]", "====== make request ======");
         loadAd();
     }
 
@@ -61,7 +49,7 @@ public class AppierInterstitialDefaultActivity extends AppCompatActivity impleme
 
     // Defined by your application, indicating that you're ready to show an interstitial ad.
     void showAd() {
-        Appier.log("[Sample App]", "showAd(), mInterstitial.isReady() =", mInterstitial.isReady());
+        Appier.log("[Sample App] showAd()", "mInterstitial.isReady() =", mInterstitial.isReady());
         if (mInterstitial.isReady()) {
             mInterstitial.show();
         } else {

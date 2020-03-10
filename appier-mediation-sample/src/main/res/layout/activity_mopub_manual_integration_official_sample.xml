@@ -5,6 +5,6 @@
     android:id="@+id/ad_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MoPubManualIntegrationOfficialSampleActivity">
+    tools:context=".activity.MoPubManualIntegrationOfficialSampleActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

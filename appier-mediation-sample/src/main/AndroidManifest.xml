@@ -40,23 +40,23 @@
         <service android:name=".common.MyService" android:enabled="true"></service>
 
         <!-- Demo of Native -->
-        <activity android:name=".MoPubManualIntegrationDefaultActivity"></activity>
-        <activity android:name=".MoPubManualIntegrationOfficialSampleActivity"></activity>
-        <activity android:name=".AppierNativeManualIntegrationDefaultActivity"></activity>
-        <activity android:name=".AppierNativeManualIntegrationFloatingWindowActivity"></activity>
-        <activity android:name=".AppierNativeManualIntegrationTabActivity"></activity>
-        <activity android:name=".AppierNativeMoPubAdAdapterActivity"></activity>
-        <activity android:name=".AppierNativeMoPubRecyclerAdapterActivity"></activity>
+        <activity android:name=".activity.MoPubManualIntegrationDefaultActivity"></activity>
+        <activity android:name=".activity.MoPubManualIntegrationOfficialSampleActivity"></activity>
+        <activity android:name=".activity.AppierNativeManualIntegrationDefaultActivity"></activity>
+        <activity android:name=".activity.AppierNativeManualIntegrationFloatingWindowActivity"></activity>
+        <activity android:name=".activity.AppierNativeManualIntegrationTabActivity"></activity>
+        <activity android:name=".activity.AppierNativeMoPubAdAdapterActivity"></activity>
+        <activity android:name=".activity.AppierNativeMoPubRecyclerAdapterActivity"></activity>
 
         <!-- Demo of Banner -->
-        <activity android:name=".MoPubBannerOfficialSampleActivity"></activity>
-        <activity android:name=".MoPubBannerDefaultActivity"></activity>
-        <activity android:name=".AppierBannerDefaultActivity"></activity>
+        <activity android:name=".activity.MoPubBannerOfficialSampleActivity"></activity>
+        <activity android:name=".activity.MoPubBannerDefaultActivity"></activity>
+        <activity android:name=".activity.AppierBannerDefaultActivity"></activity>
 
         <!-- Demo of Interstitial -->
-        <activity android:name=".MoPubInterstitialDefaultActivity"></activity>
-        <activity android:name=".MoPubInterstitialOfficialSampleActivity"></activity>
-        <activity android:name=".AppierInterstitialDefaultActivity"></activity>
+        <activity android:name=".activity.MoPubInterstitialDefaultActivity"></activity>
+        <activity android:name=".activity.MoPubInterstitialOfficialSampleActivity"></activity>
+        <activity android:name=".activity.AppierInterstitialDefaultActivity"></activity>
 
         <!-- MoPub's consent dialog -->
         <activity android:name="com.mopub.common.privacy.ConsentDialogActivity" android:configChanges="keyboardHidden|orientation|screenSize"/>

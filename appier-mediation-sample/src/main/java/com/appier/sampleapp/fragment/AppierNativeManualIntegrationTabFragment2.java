@@ -1,4 +1,4 @@
-package com.appier.sampleapp;
+package com.appier.sampleapp.fragment;
 
 import android.os.Bundle;
 
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.appier.sampleapp.R;
 
 public class AppierNativeManualIntegrationTabFragment2 extends BaseFragment {
     public AppierNativeManualIntegrationTabFragment2(@Nullable EventListener eventListener) {

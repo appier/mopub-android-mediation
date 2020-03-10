@@ -1,4 +1,4 @@
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.appier.ads.Appier;
+import com.appier.sampleapp.R;
 import com.mopub.nativeads.AppierNativeAdRenderer;
 import com.mopub.nativeads.MoPubAdAdapter;
 import com.mopub.nativeads.MoPubStaticNativeAdRenderer;

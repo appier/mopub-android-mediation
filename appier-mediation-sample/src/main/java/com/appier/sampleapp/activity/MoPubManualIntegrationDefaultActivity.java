@@ -1,46 +1,31 @@
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
-import android.content.Context;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.appier.ads.Appier;
+import com.appier.sampleapp.R;
 import com.mopub.nativeads.AdapterHelper;
-import com.mopub.nativeads.AppierNativeAdRenderer;
 import com.mopub.nativeads.MoPubNative;
 import com.mopub.nativeads.MoPubStaticNativeAdRenderer;
 import com.mopub.nativeads.NativeAd;
 import com.mopub.nativeads.NativeErrorCode;
 import com.mopub.nativeads.ViewBinder;
 
-public class BaseFragment extends Fragment {
-    private LinearLayout mAdContainer;
+public class MoPubManualIntegrationDefaultActivity extends AppCompatActivity {
+    private ConstraintLayout mAdContainer;
     private MoPubNative moPubNative;
     private NativeAd.MoPubNativeEventListener moPubNativeEventListener;
     private MoPubNative.MoPubNativeNetworkListener moPubNativeNetworkListener;
-    private EventListener mEventListener;
-    private View adView;
-
-    public BaseFragment(@Nullable EventListener eventListener) {
-        super();
-        this.mEventListener = eventListener;
-    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_appier_native_manual_integration_tab_fragment_1, container, false);
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_mopub_manual_integration_default);
 
-    public void init(final Context context) {
-        final View view = getView();
         moPubNativeEventListener = new NativeAd.MoPubNativeEventListener() {
             @Override
             public void onImpression(View view) {
@@ -59,17 +44,16 @@ public class BaseFragment extends Fragment {
             public void onNativeLoad(final NativeAd nativeAd) {
                 Appier.log("[Sample App]", "Native ad has loaded.");
 
-                final AdapterHelper adapterHelper = new AdapterHelper(context, 0, 3); // When standalone, any range will be fine.
+                final AdapterHelper adapterHelper = new AdapterHelper(MoPubManualIntegrationDefaultActivity.this, 0, 3); // When standalone, any range will be fine.
 
                 // Retrieve the pre-built ad view that AdapterHelper prepared for us.
-                adView = adapterHelper.getAdView(null, null, nativeAd, new ViewBinder.Builder(0).build());
+                View adView = adapterHelper.getAdView(null, null, nativeAd, new ViewBinder.Builder(0).build());
 
                 // Set the native event listeners (onImpression, and onClick).
                 nativeAd.setMoPubNativeEventListener(moPubNativeEventListener);
 
                 // Add the ad view to our view hierarchy
-                clearAd();
-                mAdContainer = view.findViewById(R.id.ad_container);
+                mAdContainer = findViewById(R.id.ad_container);
                 mAdContainer.addView(adView);
             }
 
@@ -86,45 +70,20 @@ public class BaseFragment extends Fragment {
             .callToActionId(R.id.native_cta)
             .privacyInformationIconImageId(R.id.native_privacy_information_icon_image)
             .build();
-        AppierNativeAdRenderer appierNativeAdRenderer = new AppierNativeAdRenderer(viewBinder);
         MoPubStaticNativeAdRenderer moPubStaticNativeAdRenderer = new MoPubStaticNativeAdRenderer(viewBinder);
 
-        moPubNative = new MoPubNative(context, getString(R.string.adunit_appier_native_sample_default), moPubNativeNetworkListener);
-
-        moPubNative.registerAdRenderer(appierNativeAdRenderer);
+        moPubNative = new MoPubNative(this, getString(R.string.adunit_appier_native_sample_with_mopub), moPubNativeNetworkListener);
         moPubNative.registerAdRenderer(moPubStaticNativeAdRenderer);
-    }
-
-    public void loadAd() {
-        if (moPubNative != null) {
-            Appier.log("[Sample App]", "====== make request ======");
-            moPubNative.makeRequest();
-        }
-    }
-
-    public void clearAd() {
-        if (mAdContainer != null && adView != null) {
-            mAdContainer.removeView(adView);
-        }
+        Appier.log("[Sample App]", "====== make request ======");
+        moPubNative.makeRequest();
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        if (mEventListener != null) {
-            mEventListener.onReady(this);
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
+    protected void onDestroy() {
         if (moPubNative != null) {
             moPubNative.destroy();
+            moPubNative = null;
         }
-        super.onDestroyView();
-    }
-
-    public interface EventListener {
-        void onReady(BaseFragment fragment);
+        super.onDestroy();
     }
 }

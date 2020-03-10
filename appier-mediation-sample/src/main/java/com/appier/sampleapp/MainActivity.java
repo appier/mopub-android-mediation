@@ -7,6 +7,19 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.appier.ads.Appier;
+import com.appier.sampleapp.activity.AppierBannerDefaultActivity;
+import com.appier.sampleapp.activity.AppierInterstitialDefaultActivity;
+import com.appier.sampleapp.activity.AppierNativeManualIntegrationDefaultActivity;
+import com.appier.sampleapp.activity.AppierNativeManualIntegrationFloatingWindowActivity;
+import com.appier.sampleapp.activity.AppierNativeManualIntegrationTabActivity;
+import com.appier.sampleapp.activity.AppierNativeMoPubAdAdapterActivity;
+import com.appier.sampleapp.activity.AppierNativeMoPubRecyclerAdapterActivity;
+import com.appier.sampleapp.activity.MoPubBannerDefaultActivity;
+import com.appier.sampleapp.activity.MoPubBannerOfficialSampleActivity;
+import com.appier.sampleapp.activity.MoPubInterstitialDefaultActivity;
+import com.appier.sampleapp.activity.MoPubInterstitialOfficialSampleActivity;
+import com.appier.sampleapp.activity.MoPubManualIntegrationDefaultActivity;
+import com.appier.sampleapp.activity.MoPubManualIntegrationOfficialSampleActivity;
 
 public class MainActivity extends AppCompatActivity {
     private View.OnClickListener btnOnClickListener = new View.OnClickListener() {

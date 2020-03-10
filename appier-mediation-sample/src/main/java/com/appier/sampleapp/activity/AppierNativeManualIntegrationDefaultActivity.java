@@ -1,4 +1,4 @@
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -7,14 +7,18 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.appier.ads.Appier;
+import com.appier.sampleapp.R;
 import com.mopub.nativeads.AdapterHelper;
+import com.mopub.nativeads.AppierNativeAdRenderer;
+import com.mopub.nativeads.FlurryNativeAdRenderer;
+import com.mopub.nativeads.FlurryViewBinder;
 import com.mopub.nativeads.MoPubNative;
 import com.mopub.nativeads.MoPubStaticNativeAdRenderer;
 import com.mopub.nativeads.NativeAd;
 import com.mopub.nativeads.NativeErrorCode;
 import com.mopub.nativeads.ViewBinder;
 
-public class MoPubManualIntegrationDefaultActivity extends AppCompatActivity {
+public class AppierNativeManualIntegrationDefaultActivity extends AppCompatActivity {
     private ConstraintLayout mAdContainer;
     private MoPubNative moPubNative;
     private NativeAd.MoPubNativeEventListener moPubNativeEventListener;
@@ -23,7 +27,7 @@ public class MoPubManualIntegrationDefaultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mopub_manual_integration_default);
+        setContentView(R.layout.activity_appier_native_manual_integration_default);
 
         moPubNativeEventListener = new NativeAd.MoPubNativeEventListener() {
             @Override
@@ -43,7 +47,7 @@ public class MoPubManualIntegrationDefaultActivity extends AppCompatActivity {
             public void onNativeLoad(final NativeAd nativeAd) {
                 Appier.log("[Sample App]", "Native ad has loaded.");
 
-                final AdapterHelper adapterHelper = new AdapterHelper(MoPubManualIntegrationDefaultActivity.this, 0, 3); // When standalone, any range will be fine.
+                final AdapterHelper adapterHelper = new AdapterHelper(AppierNativeManualIntegrationDefaultActivity.this, 0, 3); // When standalone, any range will be fine.
 
                 // Retrieve the pre-built ad view that AdapterHelper prepared for us.
                 View adView = adapterHelper.getAdView(null, null, nativeAd, new ViewBinder.Builder(0).build());
@@ -69,9 +73,15 @@ public class MoPubManualIntegrationDefaultActivity extends AppCompatActivity {
             .callToActionId(R.id.native_cta)
             .privacyInformationIconImageId(R.id.native_privacy_information_icon_image)
             .build();
+        FlurryViewBinder flurryViewBinder = new FlurryViewBinder(new FlurryViewBinder.Builder(viewBinder));
+        FlurryNativeAdRenderer flurryNativeAdRenderer = new FlurryNativeAdRenderer(flurryViewBinder);
+        AppierNativeAdRenderer appierNativeAdRenderer = new AppierNativeAdRenderer(viewBinder);
         MoPubStaticNativeAdRenderer moPubStaticNativeAdRenderer = new MoPubStaticNativeAdRenderer(viewBinder);
 
-        moPubNative = new MoPubNative(this, getString(R.string.adunit_appier_native_sample_with_mopub), moPubNativeNetworkListener);
+        moPubNative = new MoPubNative(this, getString(R.string.adunit_appier_native_sample_default), moPubNativeNetworkListener);
+
+        moPubNative.registerAdRenderer(flurryNativeAdRenderer);
+        moPubNative.registerAdRenderer(appierNativeAdRenderer);
         moPubNative.registerAdRenderer(moPubStaticNativeAdRenderer);
         Appier.log("[Sample App]", "====== make request ======");
         moPubNative.makeRequest();
