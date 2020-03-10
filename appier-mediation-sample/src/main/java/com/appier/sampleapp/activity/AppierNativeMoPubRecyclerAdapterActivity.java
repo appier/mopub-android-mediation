@@ -61,7 +61,7 @@ public class AppierNativeMoPubRecyclerAdapterActivity extends AppCompatActivity 
         MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(this, itemArrayList);
         adapter.setClickListener(this);
 
-        ViewBinder viewBinder = new ViewBinder.Builder(R.layout.native_ad)
+        ViewBinder viewBinder = new ViewBinder.Builder(R.layout.template_native_ad)
             .mainImageId(R.id.native_main_image)
             .iconImageId(R.id.native_icon_image)
             .titleId(R.id.native_title)

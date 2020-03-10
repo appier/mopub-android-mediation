@@ -112,7 +112,7 @@ public class AppierNativeManualIntegrationFloatingWindowActivity extends AppComp
                 Appier.log("[Sample App]", "Native ad failed to load with error:", errorCode.toString());
             }
         };
-        ViewBinder viewBinder = new ViewBinder.Builder(R.layout.native_ad)
+        ViewBinder viewBinder = new ViewBinder.Builder(R.layout.template_native_ad)
             .mainImageId(R.id.native_main_image)
             .iconImageId(R.id.native_icon_image)
             .titleId(R.id.native_title)

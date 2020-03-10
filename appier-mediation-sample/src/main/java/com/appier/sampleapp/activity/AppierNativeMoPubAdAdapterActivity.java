@@ -48,7 +48,7 @@ public class AppierNativeMoPubAdAdapterActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
 
-        ViewBinder viewBinder = new ViewBinder.Builder(R.layout.native_ad)
+        ViewBinder viewBinder = new ViewBinder.Builder(R.layout.template_native_ad)
             .mainImageId(R.id.native_main_image)
             .iconImageId(R.id.native_icon_image)
             .titleId(R.id.native_title)
