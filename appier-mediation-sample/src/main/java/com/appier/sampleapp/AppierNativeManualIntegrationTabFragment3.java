@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.appier.sampleapp.common.MyService;
+
 public class AppierNativeManualIntegrationTabFragment3 extends BaseFragment {
     private MyService mMyService;
 
