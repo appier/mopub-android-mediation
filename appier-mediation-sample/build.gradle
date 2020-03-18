@@ -90,12 +90,12 @@ dependencies {
     implementation 'com.mopub.mediation:flurry:10.1.0.0'
 
     // Appier
-    implementation 'com.appier.android:ads-sdk:1.0.0-rc4'
-    implementation('com.appier.android:mopub-mediation:1.0.0-rc4') {
-        transitive = true
-        exclude module: 'libAvid-mopub' // To exclude AVID
-        exclude module: 'moat-mobile-app-kit' // To exclude Moat
-    }
+//    implementation 'com.appier.android:ads-sdk:1.0.0-rc4'
+//    implementation('com.appier.android:mopub-mediation:1.0.0-rc4') {
+//        transitive = true
+//        exclude module: 'libAvid-mopub' // To exclude AVID
+//        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+//    }
 
     /**
      * The following dependencies are development only.
@@ -107,8 +107,8 @@ dependencies {
     // Import Appier SDK & Mediation
 
     // - from local source
-    // implementation project(':appier-mediation')
-    // implementation project(':appier-sdk')
+     implementation project(':appier-mediation')
+     implementation project(':appier-sdk')
 
     // - from local aar
     // implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-production-release.aar'])

@@ -9,6 +9,9 @@ workspace:
   base: /drone
   path: pmp_mopub_android_mediation
 
+image_pull_secrets:
+  - .dockerconfigjson
+
 steps:
   # To fetch submodules in drone pipeline, you will need to make sure:
   # 1. add private key into drone's repo setting
@@ -28,6 +31,53 @@ steps:
       - ssh-keyscan -t rsa bitbucket.org >> ~/.ssh/known_hosts
       - git submodule init
       - git submodule update --recursive --remote
+
+  - name: build_and_publish_android_image
+    image: plugins/gcr
+    settings:
+      context: .
+      dockerfile: android.Dockerfile
+      registry: asia.gcr.io
+      repo: loyal-manifest-816/pmp-mopub-android-mediation
+      tags:
+        - "release-${DRONE_BUILD_NUMBER}"
+      json_key:
+        from_secret: google_credentials
+
+  - name: static analyze mediation
+    image: asia.gcr.io/loyal-manifest-816/pmp-mopub-android-mediation:release-${DRONE_BUILD_NUMBER}
+    commands:
+      # install `infer`
+      # (ref: https://fbinfer.com/docs/getting-started)
+      - |
+        VERSION=0.17.0; \
+        curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
+        | tar -C /opt -xJ && \
+        ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
+      # verify infer is installed successfully
+      - infer --version
+      # start static analysis
+      - ./gradlew clean
+      - infer run -- ./gradlew :appier-mediation:build
+
+  - name: build mediation
+    image: asia.gcr.io/loyal-manifest-816/pmp-mopub-android-mediation:release-154
+    commands:
+      - ./gradlew :appier-mediation:clean :appier-mediation:build
+
+  - name: publish package to bintray and jcenter
+    image: asia.gcr.io/loyal-manifest-816/pmp-mopub-android-mediation:release-154
+    environment:
+      BINTRAY_USER:
+        from_secret: BINTRAY_USER
+      BINTRAY_API_KEY:
+        from_secret: BINTRAY_API_KEY
+    commands:
+      - ./gradlew :appier-mediation:bintrayUpload
+    when:
+      ref:
+        include:
+        - refs/tags/release-*
 
   # commit stage unit tests + code quality check
   ######################################################################
