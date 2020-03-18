@@ -71,7 +71,7 @@ dependencies {
     }
 
     // Appier SDK
-    implementation 'com.appier.android:ads-sdk:1.0.0-rc4'
+//    implementation 'com.appier.android:ads-sdk:1.0.0-rc4'
 
     /**
      * The following dependencies are development only.
@@ -83,7 +83,7 @@ dependencies {
     // Import Appier SDK
 
     // - from source
-    // implementation project(':appier-sdk')
+    implementation project(':appier-sdk')
 
     // - from aar
     // implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-production-release.aar'])
