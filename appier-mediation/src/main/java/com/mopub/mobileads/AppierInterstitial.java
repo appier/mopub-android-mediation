@@ -88,19 +88,19 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
      * Appier SDK Event
      */
     @Override
-    public void onAdLoaded() {
+    public void onAdLoaded(AppierInterstitialAd appierInterstitialAd) {
         Appier.log("[Appier Mediation]", "AppierInterstitial.onAdLoaded() (Custom Callback)");
         mCustomEventInterstitialListener.onInterstitialLoaded();
     }
 
     @Override
-    public void onAdNoBid() {
+    public void onAdNoBid(AppierInterstitialAd appierInterstitialAd) {
         Appier.log("[Appier Mediation]", "AppierInterstitial.onAdNoBid() (Custom Callback)");
         mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_NO_FILL);
     }
 
     @Override
-    public void onAdLoadFail(AppierError appierError) {
+    public void onAdLoadFail(AppierError appierError, AppierInterstitialAd appierInterstitialAd) {
         Appier.log("[Appier Mediation]", "AppierInterstitial.onAdLoadFail() (Custom Callback)", appierError.toString());
         if (appierError == AppierError.NETWORK_ERROR) {
             mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
@@ -112,12 +112,12 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
     }
 
     @Override
-    public void onShown() {
+    public void onShown(AppierInterstitialAd appierInterstitialAd) {
         mCustomEventInterstitialListener.onInterstitialShown();
     }
 
     @Override
-    public void onShowFail(AppierError appierError) {
+    public void onShowFail(AppierError appierError, AppierInterstitialAd appierInterstitialAd) {
         if (appierError == AppierError.WEBVIEW_ERROR) {
             Appier.log("  fail to load the url:", mAppierInterstitialAd.getFailingUrl());
         }
@@ -125,7 +125,7 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
     }
 
     @Override
-    public void onDismiss() {
+    public void onDismiss(AppierInterstitialAd appierInterstitialAd) {
         mCustomEventInterstitialListener.onInterstitialDismissed();
     }
 }
