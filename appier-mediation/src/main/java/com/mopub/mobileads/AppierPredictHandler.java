@@ -1,11 +1,11 @@
 package com.mopub.mobileads;
 
-import com.appier.ads.AppierAdPredictor;
+import com.appier.ads.AppierPredictCache;
 import com.mopub.nativeads.RequestParameters;
 
 public class AppierPredictHandler {
     private static String getKeywordTargeting(String zoneId) {
-        if (AppierAdPredictor.getInstance(null).getPredictResult(zoneId)) {
+        if (AppierPredictCache.getInstance().getPredictResult(zoneId)) {
             return "appier_predict:1";
         }
         return "appier_predict:0";
