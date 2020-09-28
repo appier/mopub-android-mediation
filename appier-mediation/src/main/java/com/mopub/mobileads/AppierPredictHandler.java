@@ -25,7 +25,7 @@ public class AppierPredictHandler implements AppierPredictor.EventListener {
         List<String> result = AppierPredictCache.getInstance().getPredictResult(adUnitId);
         if (result != null)
             for (String key: result)
-                keyword.append("appier_deal_").append(key).append(":1,");
+                keyword.append("appier_zone_").append(key).append(":1,");
         else
             keyword.append("appier_predict_ver:1");
         return keyword.toString();

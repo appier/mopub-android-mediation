@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
 
     defaultConfig {
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0.0"
@@ -43,28 +43,28 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // MoPub SDK base
-    implementation('com.mopub:mopub-sdk-base:4.20.0@aar') {
+    implementation('com.mopub:mopub-sdk-base:5.11.1@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
     // MoPub SDK for native static (images)
-    implementation('com.mopub:mopub-sdk-native-static:4.20.0@aar') {
+    implementation('com.mopub:mopub-sdk-native-static:5.11.1@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
     // MoPub SDK for banner
-    implementation('com.mopub:mopub-sdk-banner:4.20.0@aar') {
+    implementation('com.mopub:mopub-sdk-banner:5.11.1@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
     // MoPub SDK for interstitial
-    implementation('com.mopub:mopub-sdk-interstitial:4.20.0@aar') {
+    implementation('com.mopub:mopub-sdk-interstitial:5.11.1@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
