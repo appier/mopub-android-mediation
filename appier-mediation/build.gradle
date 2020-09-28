@@ -2,13 +2,13 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.1.0-alpha1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -71,7 +71,7 @@ dependencies {
     }
 
     // Appier SDK
-    implementation 'com.appier.android:ads-sdk:1.0.1'
+    implementation 'com.appier.android:ads-sdk:1.1.0'
 
     /**
      * The following dependencies are development only.

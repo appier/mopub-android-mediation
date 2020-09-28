@@ -8,7 +8,6 @@ import com.appier.ads.AppierError;
 import com.appier.ads.AppierPredictCache;
 import com.mopub.nativeads.NativeErrorCode;
 import com.mopub.nativeads.NativeImageHelper;
-import com.mopub.nativeads.RequestParameters;
 import static com.mopub.nativeads.NativeImageHelper.preCacheImages;
 
 import java.util.List;
@@ -20,25 +19,19 @@ public class AppierPredictHandler implements AppierPredictor.EventListener {
         mContext = context;
     }
 
-    public static String getKeywordTargeting(AppierAdUnitIdentifier adUnitId) {
+    public static String getKeywordTargeting(String adUnitId) {
         StringBuilder keyword = new StringBuilder();
-        List<String> result = AppierPredictCache.getInstance().getPredictResult(adUnitId);
+        List<String> result = AppierPredictCache
+                .getInstance()
+                .getPredictResult(
+                        new AppierAdUnitIdentifier(adUnitId)
+                );
         if (result != null)
             for (String key: result)
                 keyword.append("appier_zone_").append(key).append(":1,");
         else
-            keyword.append("appier_predict_ver:1");
+            keyword.append("appier_predict_ver:1,");
         return keyword.toString();
-    }
-
-    public static RequestParameters.Builder setKeywordTargeting(AppierAdUnitIdentifier adUnitId) {
-        RequestParameters.Builder builder = new RequestParameters.Builder();
-        return setKeywordTargeting(adUnitId, builder);
-    }
-
-    public static RequestParameters.Builder setKeywordTargeting(AppierAdUnitIdentifier adUnitId, RequestParameters.Builder builder) {
-        builder.keywords(AppierPredictHandler.getKeywordTargeting(adUnitId));
-        return builder;
     }
 
     @Override
