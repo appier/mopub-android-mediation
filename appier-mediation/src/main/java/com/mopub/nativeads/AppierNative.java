@@ -77,7 +77,7 @@ public class AppierNative extends CustomEventNative {
             this.nativeClickHandler = nativeClickHandler;
             this.customEventNativeListener = customEventNativeListener;
 
-            this.mAppierNativeAd = new AppierNativeAd(mContext,AppierStaticNativeAd.this);
+            this.mAppierNativeAd = new AppierNativeAd(mContext, AppierStaticNativeAd.this);
             this.mHandler = new Handler(Looper.getMainLooper());
             this.mBrowserUtil = new BrowserUtil(mContext);
         }
