@@ -20,54 +20,45 @@ public class AppierPredictHandler implements AppierPredictor.EventListener {
         mContext = context;
     }
 
-    private static String getKeywordTargeting(String zoneId) {
-        if (AppierPredictCache.getInstance().getPredictResult(zoneId)) {
-            return "appier_predict:1";
-        }
-        return "appier_predict:0";
+    public static String getKeywordTargeting(AppierAdUnitIdentifier adUnitId) {
+        StringBuilder keyword = new StringBuilder();
+        List<String> result = AppierPredictCache.getInstance().getPredictResult(adUnitId);
+        if (result != null)
+            for (String key: result)
+                keyword.append("appier_deal_").append(key).append(":1,");
+        else
+            keyword.append("appier_predict_ver:1");
+        return keyword.toString();
     }
 
-    public static RequestParameters.Builder setKeywordTargeting(String zoneId) {
+    public static RequestParameters.Builder setKeywordTargeting(AppierAdUnitIdentifier adUnitId) {
         RequestParameters.Builder builder = new RequestParameters.Builder();
-        return setKeywordTargeting(zoneId, builder);
+        return setKeywordTargeting(adUnitId, builder);
     }
 
-    public static RequestParameters.Builder setKeywordTargeting(String zoneId, RequestParameters.Builder builder) {
-        builder.keywords(AppierPredictHandler.getKeywordTargeting(zoneId));
+    public static RequestParameters.Builder setKeywordTargeting(AppierAdUnitIdentifier adUnitId, RequestParameters.Builder builder) {
+        builder.keywords(AppierPredictHandler.getKeywordTargeting(adUnitId));
         return builder;
     }
 
-    public static void setKeywordTargeting(String zoneId, MoPubView moPubView) {
-        moPubView.setKeywords(AppierPredictHandler.getKeywordTargeting(zoneId));
-    }
-
-    public static void setKeywordTargeting(String zoneId, MoPubInterstitial moPubInterstitial) {
-        moPubInterstitial.setKeywords(AppierPredictHandler.getKeywordTargeting(zoneId));
-    }
-
     @Override
-    public void onPredictBidAndGetPrefetchList(final String adUnitId, List<String> prefetchList) {
-        Appier.log("[Appier Mediation]", "[Predict Mode]", "successfully predict ad ", adUnitId, ": Bid");
+    public void onPredictSuccess(final String adUnitId, List<String> prefetchList) {
+        Appier.log("[Appier Mediation]", "[Predict Mode]", "successfully predict ad:", adUnitId);
         preCacheImages(mContext, prefetchList, new NativeImageHelper.ImageListener() {
             @Override
             public void onImagesCached() {
-                Appier.log("[Appier Mediation]", "[Predict Mode]", "successfully cache images for ad: ", adUnitId);
+                Appier.log("[Appier Mediation]", "[Predict Mode]", "successfully cache images for ad:", adUnitId);
             }
 
             @Override
             public void onImagesFailedToCache(NativeErrorCode errorCode) {
-                Appier.log("[Appier Mediation]", "[Predict Mode]", "failed to cache images for ad: ", adUnitId);
+                Appier.log("[Appier Mediation]", "[Predict Mode]", "failed to cache images for ad:", adUnitId);
             }
         });
     }
 
     @Override
-    public void onPredictNoBid(String adUnitId) {
-        Appier.log("[Appier Mediation]", "[Predict Mode]", "successfully predict ad ", adUnitId, ": NoBid");
-    }
-
-    @Override
     public void onPredictFailed(String adUnitId, AppierError error) {
-        Appier.log("[Appier Mediation]", "[Predict Mode]", "predict ad ", adUnitId, " failed: ", error);
+        Appier.log("[Appier Mediation]", "[Predict Mode]", "predict ad", adUnitId, " failed:", error);
     }
 }

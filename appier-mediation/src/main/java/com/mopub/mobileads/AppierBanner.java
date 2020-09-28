@@ -26,10 +26,11 @@ public class AppierBanner extends CustomEventBanner implements AppierBannerAd.Ev
             mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
             return;
         }
+        String adUnitId = getAdUnitId(localExtras, serverExtras);
         String zoneId = getZoneId(localExtras, serverExtras);
         int adWidth = getAdWidth(localExtras, serverExtras);
         int adHeight = getAdHeight(localExtras, serverExtras);
-        mAppierBannerAd = new AppierBannerAd(context, this);
+        mAppierBannerAd = new AppierBannerAd(context, new AppierAdUnitIdentifier(adUnitId), this);
         mAppierBannerAd.setAdDimension(adWidth, adHeight);
         mAppierBannerAd.loadAd(zoneId);
     }
@@ -40,6 +41,15 @@ public class AppierBanner extends CustomEventBanner implements AppierBannerAd.Ev
             mAppierBannerAd.destroy();
             mAppierBannerAd = null;
         }
+    }
+
+    private String getAdUnitId(final Map<String, Object> localExtras, final Map<String, String> serverExtras) {
+        Object adUnitIdLocal = localExtras.get(AppierDataKeys.AD_UNIT_ID_LOCAL);
+        String adUnitIdServer = serverExtras.get(AppierDataKeys.AD_UNIT_ID_SERVER);
+        if (adUnitIdLocal != null) {
+            return adUnitIdLocal.toString();
+        }
+        return adUnitIdServer;
     }
 
     private String getZoneId(final Map<String, Object> localExtras, final Map<String, String> serverExtras) {

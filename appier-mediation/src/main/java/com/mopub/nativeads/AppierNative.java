@@ -13,6 +13,7 @@ import com.appier.ads.AppierNativeAd;
 import com.appier.ads.AppierError;
 import com.appier.ads.common.AppierDataKeys;
 import com.appier.ads.common.BrowserUtil;
+import com.mopub.mobileads.AppierAdUnitIdentifier;
 
 import org.json.JSONException;
 
@@ -32,15 +33,26 @@ public class AppierNative extends CustomEventNative {
             customEventNativeListener.onNativeAdFailed(NativeErrorCode.NATIVE_ADAPTER_CONFIGURATION_ERROR);
             return;
         }
+        String adUnitId = getAdUnitId(localExtras, serverExtras);
         String zoneId = getZoneId(localExtras, serverExtras);
         AppierStaticNativeAd appierStaticNativeAd = new AppierStaticNativeAd(
             context,
+            new AppierAdUnitIdentifier(adUnitId),
             new ImpressionTracker(context),
             new NativeClickHandler(context),
             customEventNativeListener
         );
         // load native ad from appier sdk here
         appierStaticNativeAd.loadAd(zoneId);
+    }
+
+    private String getAdUnitId(final Map<String, Object> localExtras, final Map<String, String> serverExtras) {
+        Object adUnitIdLocal = localExtras.get(AppierDataKeys.AD_UNIT_ID_LOCAL);
+        String adUnitIdServer = serverExtras.get(AppierDataKeys.AD_UNIT_ID_SERVER);
+        if (adUnitIdLocal != null) {
+            return adUnitIdLocal.toString();
+        }
+        return adUnitIdServer;
     }
 
     private String getZoneId(final Map<String, Object> localExtras, final Map<String, String> serverExtras) {
@@ -68,6 +80,7 @@ public class AppierNative extends CustomEventNative {
 
         public AppierStaticNativeAd(
             @NonNull final Context context,
+            @NonNull final AppierAdUnitIdentifier adUnitId,
             @NonNull final ImpressionTracker impressionTracker,
             @NonNull final NativeClickHandler nativeClickHandler,
             @NonNull final CustomEventNativeListener customEventNativeListener
@@ -77,7 +90,7 @@ public class AppierNative extends CustomEventNative {
             this.nativeClickHandler = nativeClickHandler;
             this.customEventNativeListener = customEventNativeListener;
 
-            this.mAppierNativeAd = new AppierNativeAd(mContext, AppierStaticNativeAd.this);
+            this.mAppierNativeAd = new AppierNativeAd(mContext, adUnitId, AppierStaticNativeAd.this);
             this.mHandler = new Handler(Looper.getMainLooper());
             this.mBrowserUtil = new BrowserUtil(mContext);
         }
