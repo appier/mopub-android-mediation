@@ -7,9 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## `Unreleased`
 
+- All features are released
+
+## `1.0.0`
+
 ### Added
 
-- Support interstitial ads
+- Support interstitial format
+- Allow getting adapter version and network sdk version via `AppierAdapterConfiguration`
+
+### Changed
+
+- Replace legacy `HttpURLConnection` with `Volley` to have better network control
+- Replace third-party browser with in-app browser
+- Improve internal resource destruction
+- Improve resource file naming to prevent conflicts
 
 ## `1.0.0-rc4`
 

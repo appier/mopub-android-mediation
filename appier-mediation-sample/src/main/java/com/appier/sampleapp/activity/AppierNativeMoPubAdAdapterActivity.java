@@ -1,28 +1,22 @@
-/**
- * Reference: https://stackoverflow.com/questions/40584424/simple-android-recyclerview-example
- */
-
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.appier.ads.Appier;
+import com.appier.sampleapp.R;
 import com.mopub.nativeads.AppierNativeAdRenderer;
-import com.mopub.nativeads.MoPubRecyclerAdapter;
+import com.mopub.nativeads.MoPubAdAdapter;
 import com.mopub.nativeads.MoPubStaticNativeAdRenderer;
 import com.mopub.nativeads.ViewBinder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-public class AppierNativeMoPubRecyclerAdapterActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
-    private RecyclerView recyclerView;
+public class AppierNativeMoPubAdAdapterActivity extends AppCompatActivity {
+    private ListView listView;
     private String[] items = new String[]{
         "Ipsum", "is", "simply", "dummy",
         "text", "of", "the", "printing",
@@ -43,23 +37,18 @@ public class AppierNativeMoPubRecyclerAdapterActivity extends AppCompatActivity 
         "1960s", "with", "the", "release",
         "of", "Letraset", "sheets",
     };
-    private MoPubRecyclerAdapter moPubAdAdapter;
+    private MoPubAdAdapter moPubAdAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appier_native_mopubrecycleradapter);
+        setContentView(R.layout.activity_appier_native_mopubadadapter);
 
-        ArrayList<String> itemArrayList = new ArrayList<String>();
-        List<String> itemList = Arrays.asList(items);
-        itemArrayList.addAll(itemList);
+        listView = findViewById(R.id.list_view_with_ads);
 
-        recyclerView = (RecyclerView)findViewById(R.id.recycler_view_with_ads);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(this, itemArrayList);
-        adapter.setClickListener(this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
 
-        ViewBinder viewBinder = new ViewBinder.Builder(R.layout.native_ad)
+        ViewBinder viewBinder = new ViewBinder.Builder(R.layout.template_native_ad)
             .mainImageId(R.id.native_main_image)
             .iconImageId(R.id.native_icon_image)
             .titleId(R.id.native_title)
@@ -70,18 +59,20 @@ public class AppierNativeMoPubRecyclerAdapterActivity extends AppCompatActivity 
         AppierNativeAdRenderer appierNativeAdRenderer = new AppierNativeAdRenderer(viewBinder);
         MoPubStaticNativeAdRenderer moPubStaticNativeAdRenderer = new MoPubStaticNativeAdRenderer(viewBinder);
 
-        moPubAdAdapter = new MoPubRecyclerAdapter(this, adapter);
+        moPubAdAdapter = new MoPubAdAdapter(this, adapter);
         moPubAdAdapter.registerAdRenderer(appierNativeAdRenderer);
         moPubAdAdapter.registerAdRenderer(moPubStaticNativeAdRenderer);
 
-        recyclerView.setAdapter(moPubAdAdapter);
+        listView.setAdapter(moPubAdAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Appier.log("[Sample App]", "List item", items[(int)id]);
+            }
+        });
 
         moPubAdAdapter.loadAds(getString(R.string.adunit_appier_native_sample_default));
-    }
-
-    @Override
-    public void onItemClick(View view, int position, long id) {
-        Appier.log("[Sample App]", "List item", items[(int)id]);
     }
 
     @Override

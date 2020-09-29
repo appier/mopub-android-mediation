@@ -24,12 +24,22 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
             mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
             return;
         }
+        String adUnitId = getAdUnitId(localExtras, serverExtras);
         String zoneId = getZoneId(localExtras, serverExtras);
         int adWidth = getAdWidth(localExtras, serverExtras);
         int adHeight = getAdHeight(localExtras, serverExtras);
-        mAppierInterstitialAd = new AppierInterstitialAd(context, this);
+        mAppierInterstitialAd = new AppierInterstitialAd(context, new AppierAdUnitIdentifier(adUnitId), this);
         mAppierInterstitialAd.setAdDimension(adWidth, adHeight);
         mAppierInterstitialAd.loadAd(zoneId);
+    }
+
+    private String getAdUnitId(final Map<String, Object> localExtras, final Map<String, String> serverExtras) {
+        Object adUnitIdLocal = localExtras.get(AppierDataKeys.AD_UNIT_ID_LOCAL);
+        String adUnitIdServer = serverExtras.get(AppierDataKeys.AD_UNIT_ID_SERVER);
+        if (adUnitIdLocal != null) {
+            return adUnitIdLocal.toString();
+        }
+        return adUnitIdServer;
     }
 
     private String getZoneId(final Map<String, Object> localExtras, final Map<String, String> serverExtras) {
@@ -108,15 +118,20 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
             mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_NO_FILL);
         } else if (appierError == AppierError.INTERNAL_SERVER_ERROR) {
             mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
-        } else if (appierError == AppierError.WEBVIEW_ERROR) {
-            Appier.log("  fail to load the url:", appierInterstitialAd.getFailingUrl());
-            mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_NO_FILL);
         }
     }
 
     @Override
-    public void onViewShown(AppierInterstitialAd appierInterstitialAd) {
+    public void onShown(AppierInterstitialAd appierInterstitialAd) {
         mCustomEventInterstitialListener.onInterstitialShown();
+    }
+
+    @Override
+    public void onShowFail(AppierError appierError, AppierInterstitialAd appierInterstitialAd) {
+        if (appierError == AppierError.WEBVIEW_ERROR) {
+            Appier.log("  fail to load the url:", mAppierInterstitialAd.getFailingUrl());
+        }
+        mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_NO_FILL);
     }
 
     @Override

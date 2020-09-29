@@ -1,4 +1,4 @@
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.appier.ads.Appier;
+import com.appier.sampleapp.R;
 import com.mopub.nativeads.AdapterHelper;
 import com.mopub.nativeads.AppierNativeAdRenderer;
 import com.mopub.nativeads.FlurryNativeAdRenderer;
@@ -64,7 +65,7 @@ public class AppierNativeManualIntegrationDefaultActivity extends AppCompatActiv
                 Appier.log("[Sample App]", "Native ad failed to load with error:", errorCode.toString());
             }
         };
-        ViewBinder viewBinder = new ViewBinder.Builder(R.layout.native_ad)
+        ViewBinder viewBinder = new ViewBinder.Builder(R.layout.template_native_ad)
             .mainImageId(R.id.native_main_image)
             .iconImageId(R.id.native_icon_image)
             .titleId(R.id.native_title)

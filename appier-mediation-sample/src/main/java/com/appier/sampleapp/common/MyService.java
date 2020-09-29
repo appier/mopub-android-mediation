@@ -2,7 +2,7 @@
  * Reference: https://xnfood.com.tw/android-service/
  */
 
-package com.appier.sampleapp;
+package com.appier.sampleapp.common;
 
 import android.app.Service;
 import android.content.Intent;

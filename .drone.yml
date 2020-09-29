@@ -9,6 +9,9 @@ workspace:
   base: /drone
   path: pmp_mopub_android_mediation
 
+image_pull_secrets:
+  - .dockerconfigjson
+
 steps:
   # To fetch submodules in drone pipeline, you will need to make sure:
   # 1. add private key into drone's repo setting
@@ -29,25 +32,37 @@ steps:
       - git submodule init
       - git submodule update --recursive --remote
 
-  # commit stage unit tests + code quality check
-  ######################################################################
-  # Run tests
-  ######################################################################
-  # Skip tests
-  # - name: android_tests
-  #   # image: budtmo/docker-android-x86-5.0.1
-  #   # image: jsonfry/android-sdk:19.09
-  #   # image: circleci/android:api-28
-  #   # image: ronmi/docker-android
-  #   # image: chrisss404/android-emulator
-  #   image: nextcloudci/android:android-50
-  #   privileged: true
-  #   environment:
-  #     DEVICE: Samsung Galaxy S6
-  #     ANDROID_SDK_LICENSE:
-  #       from_secret: ANDROID_SDK_LICENSE
-  #   commands:
-  #     - emulator -list-avds
-  #     - emulator-headless -avd android-27 -no-accel -no-snapshot -no-window -no-audio -skin 500x833 &
-  #     - adb devices
-  #     - ./gradlew :appier-sdk:connectedProductionDebugAndroidTest -PdisablePreDex
+  - name: static analyze mediation
+    image: asia.gcr.io/loyal-manifest-816/android:api-28-gradle-5.6.4
+    commands:
+      # install `infer`
+      # (ref: https://fbinfer.com/docs/getting-started)
+      - |
+        VERSION=0.17.0; \
+        curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
+        | tar -C /opt -xJ && \
+        ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
+      # verify infer is installed successfully
+      - infer --version
+      # start static analysis
+      - ./gradlew clean
+      - infer run -- ./gradlew :appier-mediation:build
+
+  - name: build mediation
+    image: asia.gcr.io/loyal-manifest-816/android:api-28-gradle-5.6.4
+    commands:
+      - ./gradlew :appier-mediation:clean :appier-mediation:build
+
+  - name: publish package to bintray and jcenter
+    image: asia.gcr.io/loyal-manifest-816/android:api-28-gradle-5.6.4
+    environment:
+      BINTRAY_USER:
+        from_secret: BINTRAY_USER
+      BINTRAY_API_KEY:
+        from_secret: BINTRAY_API_KEY
+    commands:
+      - ./gradlew :appier-mediation:bintrayUpload
+    when:
+      ref:
+        include:
+        - refs/tags/release-*

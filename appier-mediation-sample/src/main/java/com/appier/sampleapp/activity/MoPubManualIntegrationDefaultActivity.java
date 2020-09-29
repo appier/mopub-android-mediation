@@ -1,4 +1,4 @@
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.appier.ads.Appier;
+import com.appier.sampleapp.R;
 import com.mopub.nativeads.AdapterHelper;
 import com.mopub.nativeads.MoPubNative;
 import com.mopub.nativeads.MoPubStaticNativeAdRenderer;
@@ -14,7 +15,7 @@ import com.mopub.nativeads.NativeAd;
 import com.mopub.nativeads.NativeErrorCode;
 import com.mopub.nativeads.ViewBinder;
 
-public class MoPubManualIntegrationOfficialSampleActivity extends AppCompatActivity {
+public class MoPubManualIntegrationDefaultActivity extends AppCompatActivity {
     private ConstraintLayout mAdContainer;
     private MoPubNative moPubNative;
     private NativeAd.MoPubNativeEventListener moPubNativeEventListener;
@@ -23,7 +24,7 @@ public class MoPubManualIntegrationOfficialSampleActivity extends AppCompatActiv
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mopub_manual_integration_official_sample);
+        setContentView(R.layout.activity_mopub_manual_integration_default);
 
         moPubNativeEventListener = new NativeAd.MoPubNativeEventListener() {
             @Override
@@ -43,7 +44,7 @@ public class MoPubManualIntegrationOfficialSampleActivity extends AppCompatActiv
             public void onNativeLoad(final NativeAd nativeAd) {
                 Appier.log("[Sample App]", "Native ad has loaded.");
 
-                final AdapterHelper adapterHelper = new AdapterHelper(MoPubManualIntegrationOfficialSampleActivity.this, 0, 3); // When standalone, any range will be fine.
+                final AdapterHelper adapterHelper = new AdapterHelper(MoPubManualIntegrationDefaultActivity.this, 0, 3); // When standalone, any range will be fine.
 
                 // Retrieve the pre-built ad view that AdapterHelper prepared for us.
                 View adView = adapterHelper.getAdView(null, null, nativeAd, new ViewBinder.Builder(0).build());
@@ -61,17 +62,17 @@ public class MoPubManualIntegrationOfficialSampleActivity extends AppCompatActiv
                 Appier.log("[Sample App]", "Native ad failed to load with error:", errorCode.toString());
             }
         };
-        ViewBinder viewBinder = new ViewBinder.Builder(R.layout.native_ad)
-                .mainImageId(R.id.native_main_image)
-                .iconImageId(R.id.native_icon_image)
-                .titleId(R.id.native_title)
-                .textId(R.id.native_text)
-                .callToActionId(R.id.native_cta)
-                .privacyInformationIconImageId(R.id.native_privacy_information_icon_image)
-                .build();
+        ViewBinder viewBinder = new ViewBinder.Builder(R.layout.template_native_ad)
+            .mainImageId(R.id.native_main_image)
+            .iconImageId(R.id.native_icon_image)
+            .titleId(R.id.native_title)
+            .textId(R.id.native_text)
+            .callToActionId(R.id.native_cta)
+            .privacyInformationIconImageId(R.id.native_privacy_information_icon_image)
+            .build();
         MoPubStaticNativeAdRenderer moPubStaticNativeAdRenderer = new MoPubStaticNativeAdRenderer(viewBinder);
 
-        moPubNative = new MoPubNative(this, getString(R.string.adunit_mopub_native_official_sample), moPubNativeNetworkListener);
+        moPubNative = new MoPubNative(this, getString(R.string.adunit_appier_native_sample_with_mopub), moPubNativeNetworkListener);
         moPubNative.registerAdRenderer(moPubStaticNativeAdRenderer);
         Appier.log("[Sample App]", "====== make request ======");
         moPubNative.makeRequest();

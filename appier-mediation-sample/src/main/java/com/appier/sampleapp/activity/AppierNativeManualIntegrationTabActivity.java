@@ -1,71 +1,62 @@
 /*
  * Reference: https://developer.android.com/guide/navigation/navigation-swipe-view
  */
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 
 import com.appier.ads.Appier;
+import com.appier.sampleapp.fragment.BaseFragment;
+import com.appier.sampleapp.R;
+import com.appier.sampleapp.common.MyServiceController;
+import com.appier.sampleapp.common.MyPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class AppierNativeManualIntegrationTabActivity extends AppCompatActivity {
+
+    private MyServiceController mMyServiceController;
     private TabLayout mTabLayout;
     private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
+    private MyPagerAdapter mMyPagerAdapter;
     private FragmentManager mFragmentManager;
-    private MyService mMyService = null;
-    private Intent mServiceIntent;
-    private ServiceConnection mServiceConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appier_native_manual_integration_tab);
 
-        /*
-         * Start service for tab3
-         */
-        mServiceConnection = new ServiceConnection() {
+        mMyServiceController = new MyServiceController(AppierNativeManualIntegrationTabActivity.this);
+        mMyServiceController.setEventListener(new MyServiceController.EventListener() {
             @Override
-            public void onServiceConnected(ComponentName name, IBinder serviceBinder) {
-                Appier.log("[Sample App]", "onServiceConnected()");
-                mMyService = ((MyService.LocalBinder)serviceBinder).getService();
-                mMyService.myMethod();
+            public void onServiceStart() {
                 setupTabAndPager();
             }
 
-            public void onServiceDisconnected(ComponentName name) {
-                Appier.log("[Sample App]", "onServiceDisconnected()", name.getClassName());
-            }
-        };
-        mServiceIntent = new Intent(AppierNativeManualIntegrationTabActivity.this, MyService.class);
-        startService(mServiceIntent);
-        bindService(mServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+            @Override
+            public void onServiceStop() {}
+        });
+        mMyServiceController.startMyService();
     }
 
     public void setupTabAndPager() {
         mPager = findViewById(R.id.viewpager);
         mTabLayout = findViewById(R.id.tabs);
         mFragmentManager = getSupportFragmentManager();
-        mPagerAdapter = new PagerAdapter(mFragmentManager, mMyService);
+        mMyPagerAdapter = new MyPagerAdapter(mFragmentManager, mMyServiceController.getService());
 
-        mPager.setAdapter(mPagerAdapter);
+        mPager.setAdapter(mMyPagerAdapter);
 
         final TabLayout.OnTabSelectedListener onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 Appier.log("[Sample App]", "onTabSelected()", "position:", tab.getPosition());
                 int position = tab.getPosition();
-                Fragment fragment = mPagerAdapter.getItem(position);
+                Fragment fragment = mMyPagerAdapter.getItem(position);
                 ((BaseFragment)fragment).loadAd();
             }
 
@@ -73,7 +64,7 @@ public class AppierNativeManualIntegrationTabActivity extends AppCompatActivity 
             public void onTabUnselected(TabLayout.Tab tab) {
                 Appier.log("[Sample App]", "onTabUnselected()", "position:", tab.getPosition());
                 int position = tab.getPosition();
-                Fragment fragment = mPagerAdapter.getItem(position);
+                Fragment fragment = mMyPagerAdapter.getItem(position);
                 ((BaseFragment)fragment).clearAd();
             }
 
@@ -81,7 +72,7 @@ public class AppierNativeManualIntegrationTabActivity extends AppCompatActivity 
             public void onTabReselected(TabLayout.Tab tab) {
                 Appier.log("[Sample App]", "onTabReselected()", "position:", tab.getPosition());
                 int position = tab.getPosition();
-                Fragment fragment = mPagerAdapter.getItem(position);
+                Fragment fragment = mMyPagerAdapter.getItem(position);
                 ((BaseFragment)fragment).clearAd();
                 ((BaseFragment)fragment).loadAd();
             }
@@ -93,13 +84,8 @@ public class AppierNativeManualIntegrationTabActivity extends AppCompatActivity 
 
     @Override
     protected void onDestroy() {
-        mPagerAdapter.destroy();
-        if (mServiceConnection != null) {
-            unbindService(mServiceConnection);
-        }
-        if (mServiceIntent != null) {
-            stopService(mServiceIntent);
-        }
+        mMyPagerAdapter.destroy();
+        mMyServiceController.stopMyService();
         super.onDestroy();
     }
 }

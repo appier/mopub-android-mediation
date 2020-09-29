@@ -12,6 +12,8 @@ import com.appier.ads.Appier;
 import com.appier.ads.AppierNativeAd;
 import com.appier.ads.AppierError;
 import com.appier.ads.common.AppierDataKeys;
+import com.appier.ads.common.BrowserUtil;
+import com.mopub.mobileads.AppierAdUnitIdentifier;
 
 import org.json.JSONException;
 
@@ -31,15 +33,26 @@ public class AppierNative extends CustomEventNative {
             customEventNativeListener.onNativeAdFailed(NativeErrorCode.NATIVE_ADAPTER_CONFIGURATION_ERROR);
             return;
         }
+        String adUnitId = getAdUnitId(localExtras, serverExtras);
         String zoneId = getZoneId(localExtras, serverExtras);
         AppierStaticNativeAd appierStaticNativeAd = new AppierStaticNativeAd(
             context,
+            new AppierAdUnitIdentifier(adUnitId),
             new ImpressionTracker(context),
             new NativeClickHandler(context),
             customEventNativeListener
         );
         // load native ad from appier sdk here
         appierStaticNativeAd.loadAd(zoneId);
+    }
+
+    private String getAdUnitId(final Map<String, Object> localExtras, final Map<String, String> serverExtras) {
+        Object adUnitIdLocal = localExtras.get(AppierDataKeys.AD_UNIT_ID_LOCAL);
+        String adUnitIdServer = serverExtras.get(AppierDataKeys.AD_UNIT_ID_SERVER);
+        if (adUnitIdLocal != null) {
+            return adUnitIdLocal.toString();
+        }
+        return adUnitIdServer;
     }
 
     private String getZoneId(final Map<String, Object> localExtras, final Map<String, String> serverExtras) {
@@ -63,9 +76,11 @@ public class AppierNative extends CustomEventNative {
         @NonNull
         private AppierNativeAd mAppierNativeAd;
         private Handler mHandler;
+        private BrowserUtil mBrowserUtil;
 
         public AppierStaticNativeAd(
             @NonNull final Context context,
+            @NonNull final AppierAdUnitIdentifier adUnitId,
             @NonNull final ImpressionTracker impressionTracker,
             @NonNull final NativeClickHandler nativeClickHandler,
             @NonNull final CustomEventNativeListener customEventNativeListener
@@ -75,8 +90,9 @@ public class AppierNative extends CustomEventNative {
             this.nativeClickHandler = nativeClickHandler;
             this.customEventNativeListener = customEventNativeListener;
 
-            this.mAppierNativeAd = new AppierNativeAd(mContext,AppierStaticNativeAd.this);
+            this.mAppierNativeAd = new AppierNativeAd(mContext, adUnitId, AppierStaticNativeAd.this);
             this.mHandler = new Handler(Looper.getMainLooper());
+            this.mBrowserUtil = new BrowserUtil(mContext);
         }
 
         // Lifecycle Handlers
@@ -98,6 +114,7 @@ public class AppierNative extends CustomEventNative {
         public void destroy() {
             Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.destroy()");
             impressionTracker.destroy();
+            mAppierNativeAd.destroy();
             super.destroy();
         }
 
@@ -105,22 +122,26 @@ public class AppierNative extends CustomEventNative {
         @Override
         public void recordImpression(@NonNull final View view) {
             Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.recordImpression()");
-            try {
-                mAppierNativeAd.makeImpressionTrackingRequest();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            mAppierNativeAd.makeImpressionTrackingRequest();
         }
 
         @Override
         public void handleClick(@Nullable final View view) {
             Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.handleClick()");
-            notifyAdClicked();
-            nativeClickHandler.openClickDestinationUrl(getClickDestinationUrl(), view);
+            /*
+             * FYI:
+             * For native, MoPub provides helper function to open url with MoPub's in-app browser:
+             * `nativeClickHandler.openClickDestinationUrl(getClickDestinationUrl(), view);`
+             */
+            boolean isOpened = mBrowserUtil.tryToOpenUrl(getClickDestinationUrl());
+            if (isOpened) {
+                notifyAdClicked();
+            }
         }
 
         public void loadAd(String zoneId) {
-            mAppierNativeAd.loadAd(zoneId);
+            mAppierNativeAd.setZoneId(zoneId);
+            mAppierNativeAd.loadAdWithExternalCache();
         }
 
         // Appier SDK Event
@@ -186,8 +207,19 @@ public class AppierNative extends CustomEventNative {
         }
 
         @Override
-        public void onImpressionRecordFail(AppierError responseCode, AppierNativeAd appierNativeAd) {
+        public void onImpressionRecordFail(AppierError appierError, AppierNativeAd appierNativeAd) {
             Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onImpressionRecordFail() (Custom Callback)");
         }
+
+        /*
+         * MoPub mediation uses MoPubAdRenderer instead of AppierNativeAd's render functions.
+         * So following events will never be invoked.
+         */
+        @Override
+        public void onAdShown(AppierNativeAd appierNativeAd) {}
+        @Override
+        public void onAdClick(AppierNativeAd appierNativeAd) {}
+        @Override
+        public void onAdClickFail(AppierError appierError, AppierNativeAd appierNativeAd) {}
     }
 }

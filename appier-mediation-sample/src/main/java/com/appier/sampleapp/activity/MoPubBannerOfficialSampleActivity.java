@@ -1,37 +1,25 @@
-package com.appier.sampleapp;
+package com.appier.sampleapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
 import com.appier.ads.Appier;
+import com.appier.sampleapp.R;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
 
-import com.appier.ads.common.AppierDataKeys;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class AppierBannerDefaultActivity extends AppCompatActivity implements MoPubView.BannerAdListener {
-    private static int AD_WIDTH = 300;
-    private static int AD_HEIGHT = 250;
-
+public class MoPubBannerOfficialSampleActivity extends AppCompatActivity implements MoPubView.BannerAdListener {
     private MoPubView moPubView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appier_banner_default);
-
-        Map<String, Object> localExtras = new HashMap<>();
-        localExtras.put(AppierDataKeys.AD_WIDTH_LOCAL, AD_WIDTH);
-        localExtras.put(AppierDataKeys.AD_HEIGHT_LOCAL, AD_HEIGHT);
+        setContentView(R.layout.activity_mopub_banner_official_sample);
 
         moPubView = findViewById(R.id.ad_container);
-        moPubView.setLocalExtras(localExtras);
         moPubView.setBannerAdListener(this);
-        moPubView.setAdUnitId(getString(R.string.adunit_appier_banner_sample_default)); // Enter your Ad Unit ID from www.mopub.com
+        moPubView.setAdUnitId(getString(R.string.adunit_mopub_banner_official_sample)); // Enter your Ad Unit ID from www.mopub.com
         Appier.log("[Sample App]", "====== make request ======");
         moPubView.loadAd();
     }
