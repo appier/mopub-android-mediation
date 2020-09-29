@@ -71,7 +71,7 @@ dependencies {
     }
 
     // Appier SDK
-    implementation 'com.appier.android:ads-sdk:1.1.0'
+    implementation 'com.appier.android:ads-sdk:1.1.0-alpha1'
 
     /**
      * The following dependencies are development only.
