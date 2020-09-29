@@ -1,11 +1,11 @@
 # Appier Mediation for MoPub Android SDK
 
-This is Appier's official android mediation repository for MoPub SDK.
+This is Appier's official Android mediation repository for MoPub SDK.
 
 ## Prerequisites
 
-- Make sure you are using MoPub android SDK `4.20.0`
-- Make sure your app's API level >= 18
+- Make sure you are using MoPub Android SDK version `4.20.0` or above
+- Make sure your app's API level meets MoPub Android SDK requirement
 - Make sure you have already configured line items on MoPub Web UI
 	- `Custom event class` field should be one of Appier's predefined class names
 		- `com.mopub.nativeads.AppierNative` for native ads
@@ -57,8 +57,8 @@ Please add jcenter to your repositories, and specify both MoPub’s dependencies
 
   dependencies {
       // ...
-+     implementation 'com.appier.android:ads-sdk:1.0.0-rc4'
-+     implementation('com.appier.android:mopub-mediation:1.0.0-rc4') {
++     implementation 'com.appier.android:ads-sdk:1.1.0-rc1'
++     implementation('com.appier.android:mopub-mediation:1.1.0-rc1') {
 +         transitive = true
 +         exclude module: 'libAvid-mopub' // To exclude AVID
 +         exclude module: 'moat-mobile-app-kit' // To exclude Moat
@@ -177,4 +177,80 @@ You also need to define the view dimension so the ads will not be cropped.
   android:id="@+id/my_sample_banner_ad"
   android:layout_width="300dp"
   android:layout_height="250dp" />
+```
+
+## Predict Ads
+Predict mode provides a function to do the Ad response prediction before real MoPub line items are triggered. It is recommended to do the prediction at the previous activity/user view before rendering ads.
+
+Refer to [pmp-android-example](https://github.com/appier/pmp-android-sample) for sample integrations.
+
+### Set keyword targeting for your line items
+Before add prediction code into your anrdroid app project, You should add keywords for your line item. For details, you could contact our support.
+
+### Before Ads triggered
+we recommend to do the prediction at the previous activity/user view before rendering ads.
+``` java
+import com.appier.ads.AppierPredictor;
+import com.mopub.mobileads.AppierPredictHandler;
+import com.mopub.mobileads.AppierAdUnitIdentifier;
+
+public class MainActivity extends AppCompatActivity {
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+       // ...
+       AppierPredictor predictor = new AppierPredictor(
+           getContext(),
+           new AppierPredictHandler(getContext())
+       );
+        // Predict by the ad unit id. It is recommended to do the prediction
+        // at the previous activity/user view before rendering ads.
+       predictor.predictAd(new AppierAdUnitIdentifier("<your ad unit id>"));
+}
+```
+
+### Ads Integration
+you should integrate the prediction result when trigger MoPub ad unit.
+#### Native Ads
+``` java
+import com.appier.ads.common.AppierDataKeys;
+import com.mopub.nativeads.AppierNativeAdRenderer;
+import com.mopub.mobileads.AppierPredictHandler;
+
+// ...
+AppierNativeAdRenderer appierNativeAdRenderer = new AppierNativeAdRenderer(viewBinder);
+
+// Set Local Extras
+Map<String, Object> localExtras = new HashMap();
+localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your ad unit id>");
+moPubNative.setLocalExtras(localExtras);
+
+// Required for prediction mode.
+RequestParameters parameters = new RequestParameters.Builder()
+    .keywords(
+        AppierPredictHandler.getKeywordTargeting("<your ad unit id>")
+    ).build();
+
+// Integration with predict mode. Pass RequestParameters to makeRequest() 
+// function
+moPubNative.makeRequest(parameters);
+```
+#### Banner Ads
+```java
+import com.appier.ads.common.AppierDataKeys;
+import com.mopub.mobileads.MoPubView;
+import com.mopub.mobileads.AppierPredictHandler;
+
+// ...
+Map<String, Object> localExtras = new HashMap<>();
+localExtras.put(AppierDataKeys.AD_WIDTH_LOCAL, 300);
+localExtras.put(AppierDataKeys.AD_HEIGHT_LOCAL, 250);
+
+// Integration with predict mode. Set your MoPub ad unit id into localExtras and use `AppierPredictHandler` to get the keywords provided by prediction.
+localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your ad unit id>");
+moPubView.setKeywords(AppierPredictHandler.getKeywordTargeting("<your ad unit id>"));
+
+MoPubView moPubView = findViewById(R.id.my_sample_banner_ad);
+moPubView.setLocalExtras(localExtras);
+moPubView.setAdUnitId("<your ad unit id>");
+moPubView.loadAd();
 ```
