@@ -10,6 +10,7 @@ This is Appier's official Android mediation repository for MoPub SDK.
 	- `Custom event class` field should be one of Appier's predefined class names
 		- `com.mopub.nativeads.AppierNative` for native ads
 		- `com.mopub.mobileads.AppierBanner` for banner ads
+		- `com.mopub.mobileads.AppierInterstitial` for interstitial ads
 	- `Custom event data` field should follow the format `{ "zoneId": "<your_zone_id_from_appier>" }`
 
 ## Gradle Configuration
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
 ## Native Ads Integration
 
-To render appier's native ads via MoPub mediation, you need to register `AppierNativeAdRenderer` to your own `MoPubNative`, `MoPubAdAdapter`, or `MoPubRecyclerAdapter` instance:
+To render Appier's native ads via MoPub mediation, you need to register `AppierNativeAdRenderer` to your own `MoPubNative`, `MoPubAdAdapter`, or `MoPubRecyclerAdapter` instance:
 
 ``` java
 import com.mopub.nativeads.AppierNativeAdRenderer;
@@ -155,7 +156,7 @@ moPubRecyclerAdapter.registerAdRenderer(appierNativeAdRenderer);
 
 ## Banner Ads Integration
 
-To render appier's banner ads via MoPub mediation, you need to specify the width and height of ad unit to load ads with suitable sizes. You can either pass through `localExtras` or `serverExtras`.
+To render Appier's banner ads via MoPub mediation, you need to specify the width and height of ad unit to load ads with suitable sizes. You can either pass through `localExtras` or `serverExtras`.
 
 ``` java
 import com.appier.ads.common.AppierDataKeys;
@@ -177,6 +178,22 @@ You also need to define the view dimension so the ads will not be cropped.
   android:id="@+id/my_sample_banner_ad"
   android:layout_width="300dp"
   android:layout_height="250dp" />
+```
+
+## Interstitial Ads Integration
+
+To render Appier's interstitial ads via MoPub mediation, you need to specify the width and height of ad unit to load ads with suitable sizes. You can either pass `localExtras` or `serverExtras`.
+
+``` java
+import com.appier.ads.common.AppierDataKeys;
+import com.mopub.mobileads.MoPubInterstitial;
+
+// ...
+Map<String, Object> localExtras = new HashMap<>();
+localExtras.put(AppierDataKeys.AD_WIDTH_LOCAL, 320);
+localExtras.put(AppierDataKeys.AD_HEIGHT_LOCAL, 480);
+MoPubInterstitial moPubInterstitial = new MoPubInterstitial(...);
+moPubInterstitial.setLocalExtras(localExtras);
 ```
 
 ## Predict Ads
@@ -210,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
 ### Ads Integration
 you should integrate the prediction result when trigger MoPub ad unit.
+
 #### Native Ads
 ``` java
 import com.appier.ads.common.AppierDataKeys;
@@ -234,6 +252,7 @@ RequestParameters parameters = new RequestParameters.Builder()
 // function
 moPubNative.makeRequest(parameters);
 ```
+
 #### Banner Ads
 ```java
 import com.appier.ads.common.AppierDataKeys;
@@ -249,8 +268,27 @@ localExtras.put(AppierDataKeys.AD_HEIGHT_LOCAL, 250);
 localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your ad unit id>");
 moPubView.setKeywords(AppierPredictHandler.getKeywordTargeting("<your ad unit id>"));
 
-MoPubView moPubView = findViewById(R.id.my_sample_banner_ad);
 moPubView.setLocalExtras(localExtras);
 moPubView.setAdUnitId("<your ad unit id>");
 moPubView.loadAd();
+```
+
+#### Interstitial Ads
+```java
+import com.appier.ads.common.AppierDataKeys;
+import com.mopub.mobileads.MoPubInterstitial;
+import com.mopub.mobileads.AppierPredictHandler;
+
+// ...
+Map<String, Object> localExtras = new HashMap<>();
+localExtras.put(AppierDataKeys.AD_WIDTH_LOCAL, 320);
+localExtras.put(AppierDataKeys.AD_HEIGHT_LOCAL, 480);
+
+// Integration with predict mode. Set your MoPub ad unit id into localExtras and use `AppierPredictHandler` to get the keywords provided by prediction.
+localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your ad unit id>");
+moPubInterstitial.setKeywords(AppierPredictHandler.getKeywordTargeting("<your ad unit id>"));
+
+moPubInterstitial.setLocalExtras(localExtras);
+moPubInterstitial.setAdUnitId("<your ad unit id>");
+moPubInterstitial.load();
 ```
