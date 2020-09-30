@@ -10,7 +10,7 @@ This is Appier's official Android mediation repository for MoPub SDK.
 	- `Custom event class` field should be one of Appier's predefined class names
 		- `com.mopub.nativeads.AppierNative` for native ads
 		- `com.mopub.mobileads.AppierBanner` for banner ads
-    - `com.mopub.mobileads.AppierInterstitial` for interstitial ads
+		- `com.mopub.mobileads.AppierInterstitial` for interstitial ads
 	- `Custom event data` field should follow the format `{ "zoneId": "<your_zone_id_from_appier>" }`
 
 ## Gradle Configuration
