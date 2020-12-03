@@ -12,7 +12,6 @@ import com.appier.ads.Appier;
 import com.appier.ads.AppierNativeAd;
 import com.appier.ads.AppierError;
 import com.appier.ads.common.AppierDataKeys;
-import com.appier.ads.common.BrowserUtil;
 import com.mopub.mobileads.AppierAdUnitIdentifier;
 
 import org.json.JSONException;
@@ -76,7 +75,6 @@ public class AppierNative extends CustomEventNative {
         @NonNull
         private AppierNativeAd mAppierNativeAd;
         private Handler mHandler;
-        private BrowserUtil mBrowserUtil;
 
         public AppierStaticNativeAd(
             @NonNull final Context context,
@@ -92,7 +90,6 @@ public class AppierNative extends CustomEventNative {
 
             this.mAppierNativeAd = new AppierNativeAd(mContext, adUnitId, AppierStaticNativeAd.this);
             this.mHandler = new Handler(Looper.getMainLooper());
-            this.mBrowserUtil = new BrowserUtil(mContext);
         }
 
         // Lifecycle Handlers
@@ -130,13 +127,16 @@ public class AppierNative extends CustomEventNative {
             Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.handleClick()");
             /*
              * FYI:
-             * For native, MoPub provides helper function to open url with MoPub's in-app browser:
-             * `nativeClickHandler.openClickDestinationUrl(getClickDestinationUrl(), view);`
+             * For native, We provides helper class `BrowserUtil` to open url with our own in-app browser:
+             * `BrowserUtil mBrowserUtil = new BrowserUtil(mContext);`
+             * `boolean isOpened = mBrowserUtil.tryToOpenUrl(getClickDestinationUrl());`
              */
-            boolean isOpened = mBrowserUtil.tryToOpenUrl(getClickDestinationUrl());
-            if (isOpened) {
-                notifyAdClicked();
+            if (getClickDestinationUrl() == null || view == null) {
+                return;
             }
+
+            notifyAdClicked();
+            nativeClickHandler.openClickDestinationUrl(getClickDestinationUrl(), view);
         }
 
         public void loadAd(String zoneId) {
