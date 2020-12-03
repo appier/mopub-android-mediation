@@ -11,7 +11,7 @@ This is Appier's official Android mediation repository for MoPub SDK.
 		- `com.mopub.nativeads.AppierNative` for native ads
 		- `com.mopub.mobileads.AppierBanner` for banner ads
 		- `com.mopub.mobileads.AppierInterstitial` for interstitial ads
-	- `Custom event data` field should follow the format `{ "zoneId": "<your_zone_id_from_appier>" }`
+	- `Custom event data` field should follow the format `{ "adUnitId": "<your_ad_unit_id_from_mopub>", "zoneId": "<your_zone_id_from_appier>" }`
 
 ## Gradle Configuration
 
