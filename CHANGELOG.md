@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - All features are released
 
+## `1.1.0`
+### Changed
+- Update `README.md`
+
+## `1.1.0-alpha1`
+### Added
+- Add support to Appier Predict functionality
+### Changed
+- AppierAdUnitIdentifier is required in Appier Ad constructors
+
 ## `1.0.0`
 
 ### Added
