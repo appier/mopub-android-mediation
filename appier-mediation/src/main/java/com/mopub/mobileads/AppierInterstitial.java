@@ -122,6 +122,11 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
     }
 
     @Override
+    public void onViewClick(AppierInterstitialAd appierInterstitialAd) {
+        mCustomEventInterstitialListener.onInterstitialClicked();
+    }
+
+    @Override
     public void onShown(AppierInterstitialAd appierInterstitialAd) {
         mCustomEventInterstitialListener.onInterstitialShown();
     }

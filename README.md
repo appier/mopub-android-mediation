@@ -58,8 +58,8 @@ Please add jcenter to your repositories, and specify both MoPub’s dependencies
 
   dependencies {
       // ...
-+     implementation 'com.appier.android:ads-sdk:1.1.0'
-+     implementation('com.appier.android:mopub-mediation:1.1.0') {
++     implementation 'com.appier.android:ads-sdk:1.1.1'
++     implementation('com.appier.android:mopub-mediation:1.1.1') {
 +         transitive = true
 +         exclude module: 'libAvid-mopub' // To exclude AVID
 +         exclude module: 'moat-mobile-app-kit' // To exclude Moat
