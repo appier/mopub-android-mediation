@@ -8,7 +8,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName "1.1.0"
+        versionName "1.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -71,7 +71,7 @@ dependencies {
     }
 
     // Appier SDK
-    implementation 'com.appier.android:ads-sdk:1.1.0'
+    implementation 'com.appier.android:ads-sdk:1.1.1'
 
     /**
      * The following dependencies are development only.
