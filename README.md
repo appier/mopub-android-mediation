@@ -58,7 +58,7 @@ Please add jcenter to your repositories, and specify both MoPub’s dependencies
 
   dependencies {
       // ...
-+     implementation 'com.appier.android:ads-sdk:1.1.1'
++     implementation 'com.appier.android:ads-sdk:1.1.2'
 +     implementation('com.appier.android:mopub-mediation:1.1.1') {
 +         transitive = true
 +         exclude module: 'libAvid-mopub' // To exclude AVID
@@ -102,16 +102,7 @@ You also need to add `xml/network_security_config.xml` into resources.
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-  <base-config cleartextTrafficPermitted="true">
-    <trust-anchors>
-      <certificates src="system"/>
-    </trust-anchors>
-  </base-config>
-  <debug-overrides>
-    <trust-anchors>
-      <certificates src="user" />
-    </trust-anchors>
-  </debug-overrides>
+  <base-config cleartextTrafficPermitted="true" />
 </network-security-config>
 ```
 
@@ -144,14 +135,17 @@ AppierNativeAdRenderer appierNativeAdRenderer = new AppierNativeAdRenderer(viewB
 // Option 1: Manual Integration
 MoPubNative moPubNative = new MoPubNative(...);
 moPubNative.registerAdRenderer(appierNativeAdRenderer);
+moPubNative.makeRequest();
 
 // Option 2: MoPubAdAdapter
 MoPubAdAdapter moPubAdAdapter = new MoPubAdAdapter(...);
 moPubAdAdapter.registerAdRenderer(appierNativeAdRenderer);
+moPubAdAdpater.loadAds("<your_ad_unit_id_from_mopub>");
 
 // Option 3: MoPubRecyclerAdapter
 MoPubRecyclerAdapter moPubRecyclerAdapter = new MoPubRecyclerAdapter(...);
 moPubRecyclerAdapter.registerAdRenderer(appierNativeAdRenderer);
+moPubRecyclerAdapter.loadAds("<your_ad_unit_id_from_mopub>");
 ```
 
 ## Banner Ads Integration
@@ -168,6 +162,8 @@ localExtras.put(AppierDataKeys.AD_WIDTH_LOCAL, 300);
 localExtras.put(AppierDataKeys.AD_HEIGHT_LOCAL, 250);
 MoPubView moPubView = findViewById(R.id.my_sample_banner_ad);
 moPubView.setLocalExtras(localExtras);
+moPubView.setAdUnitId("<your ad unit id>");
+moPubView.loadAd();
 ```
 
 You also need to define the view dimension so the ads will not be cropped.
@@ -202,10 +198,10 @@ Predict mode provides a function to do the Ad response prediction before real Mo
 Refer to [pmp-android-example](https://github.com/appier/pmp-android-sample) for sample integrations.
 
 ### Set keyword targeting for your line items
-Before add prediction code into your anrdroid app project, You should add keywords for your line item. For details, you could contact our support.
+Before add prediction code into your android app project, You should add keywords for your line item. For details, you could contact our support.
 
 ### Before Ads triggered
-we recommend to do the prediction at the previous activity/user view before rendering ads.
+We recommend to do the prediction at the previous activity/user view before rendering ads.
 ``` java
 import com.appier.ads.AppierPredictor;
 import com.mopub.mobileads.AppierPredictHandler;
@@ -242,7 +238,7 @@ Map<String, Object> localExtras = new HashMap();
 localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your ad unit id>");
 moPubNative.setLocalExtras(localExtras);
 
-// Required for prediction mode.
+// Required for predict mode.
 RequestParameters parameters = new RequestParameters.Builder()
     .keywords(
         AppierPredictHandler.getKeywordTargeting("<your ad unit id>")

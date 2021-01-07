@@ -36,22 +36,22 @@ public class AppierPredictHandler implements AppierPredictor.EventListener {
 
     @Override
     public void onPredictSuccess(final String adUnitId, List<String> prefetchList) {
-        Appier.log("[Appier Mediation]", "[Predict Mode]", "successfully predict ad:", adUnitId);
+        Appier.log("[Appier MoPub Mediation]", "[Predict Mode]", "successfully predict ad:", adUnitId);
         preCacheImages(mContext, prefetchList, new NativeImageHelper.ImageListener() {
             @Override
             public void onImagesCached() {
-                Appier.log("[Appier Mediation]", "[Predict Mode]", "successfully cache images for ad:", adUnitId);
+                Appier.log("[Appier MoPub Mediation]", "[Predict Mode]", "successfully cache images for ad:", adUnitId);
             }
 
             @Override
             public void onImagesFailedToCache(NativeErrorCode errorCode) {
-                Appier.log("[Appier Mediation]", "[Predict Mode]", "failed to cache images for ad:", adUnitId);
+                Appier.log("[Appier MoPub Mediation]", "[Predict Mode]", "failed to cache images for ad:", adUnitId);
             }
         });
     }
 
     @Override
     public void onPredictFailed(String adUnitId, AppierError error) {
-        Appier.log("[Appier Mediation]", "[Predict Mode]", "predict ad", adUnitId, " failed:", error);
+        Appier.log("[Appier MoPub Mediation]", "[Predict Mode]", "predict ad", adUnitId, " failed:", error);
     }
 }
