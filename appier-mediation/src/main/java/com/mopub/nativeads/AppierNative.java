@@ -26,7 +26,7 @@ public class AppierNative extends CustomEventNative {
                                 @NonNull final CustomEventNativeListener customEventNativeListener,
                                 @NonNull final Map<String, Object> localExtras,
                                 @NonNull final Map<String, String> serverExtras) {
-        Appier.log("[Appier Mediation]", "AppierNative.loadNativeAd()");
+        Appier.log("[Appier MoPub Mediation]", "AppierNative.loadNativeAd()");
 
         if (serverExtras.isEmpty()) {
             customEventNativeListener.onNativeAdFailed(NativeErrorCode.NATIVE_ADAPTER_CONFIGURATION_ERROR);
@@ -95,21 +95,21 @@ public class AppierNative extends CustomEventNative {
         // Lifecycle Handlers
         @Override
         public void prepare(@NonNull final View view) {
-            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.prepare()");
+            Appier.log("[Appier MoPub Mediation]", "AppierNative.AppierStaticNativeAd.prepare()");
             impressionTracker.addView(view, this);
             nativeClickHandler.setOnClickListener(view, this);
         }
 
         @Override
         public void clear(@NonNull final View view) {
-            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.clear()");
+            Appier.log("[Appier MoPub Mediation]", "AppierNative.AppierStaticNativeAd.clear()");
             impressionTracker.removeView(view);
             nativeClickHandler.clearOnClickListener(view);
         }
 
         @Override
         public void destroy() {
-            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.destroy()");
+            Appier.log("[Appier MoPub Mediation]", "AppierNative.AppierStaticNativeAd.destroy()");
             impressionTracker.destroy();
             mAppierNativeAd.destroy();
             super.destroy();
@@ -118,13 +118,13 @@ public class AppierNative extends CustomEventNative {
         // Event Handlers
         @Override
         public void recordImpression(@NonNull final View view) {
-            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.recordImpression()");
+            Appier.log("[Appier MoPub Mediation]", "AppierNative.AppierStaticNativeAd.recordImpression()");
             mAppierNativeAd.makeImpressionTrackingRequest();
         }
 
         @Override
         public void handleClick(@Nullable final View view) {
-            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.handleClick()");
+            Appier.log("[Appier MoPub Mediation]", "AppierNative.AppierStaticNativeAd.handleClick()");
             /*
              * FYI:
              * For native, We provides helper class `BrowserUtil` to open url with our own in-app browser:
@@ -147,7 +147,7 @@ public class AppierNative extends CustomEventNative {
         // Appier SDK Event
         @Override
         public void onAdLoaded(final AppierNativeAd appierNativeAd) {
-            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onAdLoaded() (Custom Callback)");
+            Appier.log("[Appier MoPub Mediation]", "AppierNative.AppierStaticNativeAd.onAdLoaded() (Custom Callback)");
             this.mAppierNativeAd = appierNativeAd;
             this.mHandler.post(new Runnable() {
                 @Override
@@ -184,7 +184,7 @@ public class AppierNative extends CustomEventNative {
 
         @Override
         public void onAdLoadFail(AppierError appierError, AppierNativeAd appierNativeAd) {
-            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onAdLoadFail() (Custom Callback)", appierError.toString());
+            Appier.log("[Appier MoPub Mediation]", "AppierNative.AppierStaticNativeAd.onAdLoadFail() (Custom Callback)", appierError.toString());
             if (appierError == AppierError.NETWORK_ERROR) {
                 customEventNativeListener.onNativeAdFailed(NativeErrorCode.NETWORK_INVALID_STATE);
             } else if (appierError == AppierError.BAD_REQUEST) {
@@ -196,19 +196,19 @@ public class AppierNative extends CustomEventNative {
 
         @Override
         public void onAdNoBid(AppierNativeAd appierNativeAd) {
-            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onAdNoBid() (Custom Callback)");
+            Appier.log("[Appier MoPub Mediation]", "AppierNative.AppierStaticNativeAd.onAdNoBid() (Custom Callback)");
             customEventNativeListener.onNativeAdFailed(NativeErrorCode.NETWORK_NO_FILL);
         }
 
         @Override
         public void onImpressionRecorded(AppierNativeAd appierNativeAd) {
-            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onImpressionRecorded() (Custom Callback)");
+            Appier.log("[Appier MoPub Mediation]", "AppierNative.AppierStaticNativeAd.onImpressionRecorded() (Custom Callback)");
             notifyAdImpressed();
         }
 
         @Override
         public void onImpressionRecordFail(AppierError appierError, AppierNativeAd appierNativeAd) {
-            Appier.log("[Appier Mediation]", "AppierNative.AppierStaticNativeAd.onImpressionRecordFail() (Custom Callback)");
+            Appier.log("[Appier MoPub Mediation]", "AppierNative.AppierStaticNativeAd.onImpressionRecordFail() (Custom Callback)");
         }
 
         /*

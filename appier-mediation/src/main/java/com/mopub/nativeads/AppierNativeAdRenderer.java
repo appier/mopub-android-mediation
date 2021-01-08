@@ -24,7 +24,7 @@ public class AppierNativeAdRenderer implements MoPubAdRenderer<AppierNative.Appi
     @NonNull
     @Override
     public View createAdView(@NonNull final Context context, @Nullable final ViewGroup parent) {
-        Appier.log("[Appier Mediation]", "AppierNativeAdRenderer.createAdView()");
+        Appier.log("[Appier MoPub Mediation]", "AppierNativeAdRenderer.createAdView()");
         return LayoutInflater
             .from(context)
             .inflate(viewBinder.layoutId, parent, false);
@@ -33,7 +33,7 @@ public class AppierNativeAdRenderer implements MoPubAdRenderer<AppierNative.Appi
     @Override
     public void renderAdView(@NonNull final View view,
                              @NonNull AppierNative.AppierStaticNativeAd appierStaticNativeAd) {
-        Appier.log("[Appier Mediation]", "AppierNativeAdRenderer.renderAdView()");
+        Appier.log("[Appier MoPub Mediation]", "AppierNativeAdRenderer.renderAdView()");
         TextView tvTitle = view.findViewById(viewBinder.titleId);
         TextView tvText = view.findViewById(viewBinder.textId);
         TextView tvCallToAction = (Button)view.findViewById(viewBinder.callToActionId);
@@ -62,7 +62,7 @@ public class AppierNativeAdRenderer implements MoPubAdRenderer<AppierNative.Appi
     @Override
     public boolean supports(@NonNull final BaseNativeAd nativeAd) {
         boolean isSupport = nativeAd instanceof AppierNative.AppierStaticNativeAd;
-        Appier.log("[Appier Mediation]", "AppierNativeAdRenderer.supports(), isSupport =", isSupport);
+        Appier.log("[Appier MoPub Mediation]", "AppierNativeAdRenderer.supports(), isSupport =", isSupport);
         return isSupport;
     }
 }
