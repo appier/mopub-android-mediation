@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - All features are released
 
+## `1.1.2`
+### Changed
+- Update `com.appier.android:ads-sdk` dependency version
+- Update log prefix
 ## `1.1.1`
 ### Changed
 - Expose `AppierInterstitial` click event callback
