@@ -18,7 +18,7 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
                                     CustomEventInterstitialListener customEventInterstitialListener,
                                     Map<String, Object> localExtras,
                                     Map<String, String> serverExtras) {
-        Appier.log("[Appier Mediation]", "AppierInterstitial.loadInterstitial()");
+        Appier.log("[Appier MoPub Mediation]", "AppierInterstitial.loadInterstitial()");
         this.mCustomEventInterstitialListener = customEventInterstitialListener;
         if (serverExtras.isEmpty()) {
             mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
@@ -83,7 +83,7 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
 
     @Override
     protected void showInterstitial() {
-        Appier.log("[Appier Mediation]", "AppierInterstitial.showInterstitial()");
+        Appier.log("[Appier MoPub Mediation]", "AppierInterstitial.showInterstitial()");
         mAppierInterstitialAd.showAd();
     }
 
@@ -99,19 +99,19 @@ public class AppierInterstitial extends CustomEventInterstitial implements Appie
      */
     @Override
     public void onAdLoaded(AppierInterstitialAd appierInterstitialAd) {
-        Appier.log("[Appier Mediation]", "AppierInterstitial.onAdLoaded() (Custom Callback)");
+        Appier.log("[Appier MoPub Mediation]", "AppierInterstitial.onAdLoaded() (Custom Callback)");
         mCustomEventInterstitialListener.onInterstitialLoaded();
     }
 
     @Override
     public void onAdNoBid(AppierInterstitialAd appierInterstitialAd) {
-        Appier.log("[Appier Mediation]", "AppierInterstitial.onAdNoBid() (Custom Callback)");
+        Appier.log("[Appier MoPub Mediation]", "AppierInterstitial.onAdNoBid() (Custom Callback)");
         mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_NO_FILL);
     }
 
     @Override
     public void onAdLoadFail(AppierError appierError, AppierInterstitialAd appierInterstitialAd) {
-        Appier.log("[Appier Mediation]", "AppierInterstitial.onAdLoadFail() (Custom Callback)", appierError.toString());
+        Appier.log("[Appier MoPub Mediation]", "AppierInterstitial.onAdLoadFail() (Custom Callback)", appierError.toString());
         if (appierError == AppierError.NETWORK_ERROR) {
             mCustomEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
         } else if (appierError == AppierError.BAD_REQUEST) {

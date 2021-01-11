@@ -20,7 +20,7 @@ public class AppierBanner extends CustomEventBanner implements AppierBannerAd.Ev
                               final CustomEventBannerListener customEventBannerListener,
                               final Map<String, Object> localExtras,
                               final Map<String, String> serverExtras) {
-        Appier.log("[Appier Mediation]", "AppierBanner.loadBanner()");
+        Appier.log("[Appier MoPub Mediation]", "AppierBanner.loadBanner()");
         this.mCustomEventBannerListener = customEventBannerListener;
         if (serverExtras.isEmpty()) {
             mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
@@ -98,19 +98,19 @@ public class AppierBanner extends CustomEventBanner implements AppierBannerAd.Ev
      */
     @Override
     public void onAdLoaded(AppierBannerAd appierBannerAd) {
-        Appier.log("[Appier Mediation]", "AppierBanner.onAdLoaded() (Custom Callback)");
+        Appier.log("[Appier MoPub Mediation]", "AppierBanner.onAdLoaded() (Custom Callback)");
         mCustomEventBannerListener.onBannerLoaded(appierBannerAd.getView());
     }
 
     @Override
     public void onAdNoBid(AppierBannerAd appierBannerAd) {
-        Appier.log("[Appier Mediation]", "AppierBanner.onAdNoBid() (Custom Callback)");
+        Appier.log("[Appier MoPub Mediation]", "AppierBanner.onAdNoBid() (Custom Callback)");
         mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.NETWORK_NO_FILL);
     }
 
     @Override
     public void onAdLoadFail(AppierError appierError, AppierBannerAd appierBannerAd) {
-        Appier.log("[Appier Mediation]", "AppierBanner.onAdLoadFail() (Custom Callback)", appierError.toString());
+        Appier.log("[Appier MoPub Mediation]", "AppierBanner.onAdLoadFail() (Custom Callback)", appierError.toString());
         if (appierError == AppierError.NETWORK_ERROR) {
             mCustomEventBannerListener.onBannerFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
         } else if (appierError == AppierError.BAD_REQUEST) {
@@ -125,6 +125,6 @@ public class AppierBanner extends CustomEventBanner implements AppierBannerAd.Ev
 
     @Override
     public void onViewClick(AppierBannerAd appierBannerAd) {
-        Appier.log("[Appier Mediation]", "AppierBanner.onViewClick() (Custom Callback)");
+        Appier.log("[Appier MoPub Mediation]", "AppierBanner.onViewClick() (Custom Callback)");
     }
 }
