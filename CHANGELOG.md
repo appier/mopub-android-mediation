@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - All features are released
 
+## `1.1.3`
+### Changed
+- Update `com.appier.android:ads-sdk` dependency version
 ## `1.1.2`
 ### Changed
 - Update `com.appier.android:ads-sdk` dependency version
