@@ -43,28 +43,28 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // MoPub SDK base
-    implementation('com.mopub:mopub-sdk-base:5.14.0@aar') {
+    implementation('com.mopub:mopub-sdk-base:5.15.0@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
     // MoPub SDK for native static (images)
-    implementation('com.mopub:mopub-sdk-native-static:5.14.0@aar') {
+    implementation('com.mopub:mopub-sdk-native-static:5.15.0@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
     // MoPub SDK for banner
-    implementation('com.mopub:mopub-sdk-banner:5.14.0@aar') {
+    implementation('com.mopub:mopub-sdk-banner:5.15.0@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
     // MoPub SDK for interstitial
-    implementation('com.mopub:mopub-sdk-fullscreen:5.14.0@aar') {
+    implementation('com.mopub:mopub-sdk-fullscreen:5.15.0@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
