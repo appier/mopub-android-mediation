@@ -43,35 +43,35 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // MoPub SDK base
-    implementation('com.mopub:mopub-sdk-base:5.11.1@aar') {
+    implementation('com.mopub:mopub-sdk-base:5.14.0@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
     // MoPub SDK for native static (images)
-    implementation('com.mopub:mopub-sdk-native-static:5.11.1@aar') {
+    implementation('com.mopub:mopub-sdk-native-static:5.14.0@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
     // MoPub SDK for banner
-    implementation('com.mopub:mopub-sdk-banner:5.11.1@aar') {
+    implementation('com.mopub:mopub-sdk-banner:5.14.0@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
     // MoPub SDK for interstitial
-    implementation('com.mopub:mopub-sdk-interstitial:5.11.1@aar') {
+    implementation('com.mopub:mopub-sdk-fullscreen:5.14.0@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
     // Appier SDK
-    implementation 'com.appier.android:ads-sdk:1.1.5'
+//    implementation 'com.appier.android:ads-sdk:1.1.5'
 
     /**
      * The following dependencies are development only.
@@ -83,7 +83,7 @@ dependencies {
     // Import Appier SDK
 
     // - from source
-    // implementation project(':appier-sdk')
+     implementation project(':appier-sdk')
 
     // - from aar
     // implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-production-release.aar'])
