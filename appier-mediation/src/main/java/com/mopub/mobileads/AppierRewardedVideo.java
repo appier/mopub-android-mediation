@@ -69,6 +69,11 @@ public class AppierRewardedVideo extends AppierVideo {
         }
 
         @Override
+        public void onViewClickFail(AppierError appierError, VastVideoAd vastVideoAd) {
+            Appier.log("[Appier MoPub Mediation]", "AppierRewardedVideoListener.onViewClickFail() (Custom Callback)");
+        }
+
+        @Override
         public void onShown(VastVideoAd vastVideoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierRewardedVideoListener.onShown() (Custom Callback)");
             mInteractionListener.onAdShown();
