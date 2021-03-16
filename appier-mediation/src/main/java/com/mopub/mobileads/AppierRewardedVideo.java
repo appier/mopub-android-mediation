@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.appier.ads.Appier;
 import com.appier.ads.AppierBaseAd;
 import com.appier.ads.AppierError;
-import com.appier.ads.VastVideoAd;
+import com.appier.ads.VideoAd;
 import com.mopub.common.MoPubReward;
 
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class AppierRewardedVideo extends AppierVideo {
     @Override
     AppierBaseAd getAppierAd(Context context, AppierAdUnitIdentifier adUnitIdentifier) {
-        return new VastVideoAd(context, adUnitIdentifier, new AppierRewardedVideoListener());
+        return new VideoAd(context, adUnitIdentifier, new AppierRewardedVideoListener());
     }
 
     @Override
@@ -34,22 +34,22 @@ public class AppierRewardedVideo extends AppierVideo {
         return (mediationSettings != null) ? mediationSettings.getLocalExtras() : null;
     }
 
-    private class AppierRewardedVideoListener implements VastVideoAd.EventListener {
+    private class AppierRewardedVideoListener implements VideoAd.EventListener {
 
         @Override
-        public void onAdLoaded(VastVideoAd vastVideoAd) {
+        public void onAdLoaded(VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierRewardedVideoListener.onAdLoaded() (Custom Callback)");
             mLoadListener.onAdLoaded();
         }
 
         @Override
-        public void onAdNoBid(VastVideoAd vastVideoAd) {
+        public void onAdNoBid(VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierRewardedVideoListener.onAdNoBid() (Custom Callback)");
             mLoadListener.onAdLoadFailed(MoPubErrorCode.NO_FILL);
         }
 
         @Override
-        public void onAdLoadFail(AppierError appierError, VastVideoAd vastVideoAd) {
+        public void onAdLoadFail(AppierError appierError, VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierRewardedVideoListener.onAdLoadFail() (Custom Callback)");
             if (appierError == AppierError.NETWORK_ERROR) {
                 mLoadListener.onAdLoadFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
@@ -63,24 +63,24 @@ public class AppierRewardedVideo extends AppierVideo {
         }
 
         @Override
-        public void onViewClick(VastVideoAd vastVideoAd) {
+        public void onViewClick(VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierRewardedVideoListener.onViewClick() (Custom Callback)");
             mInteractionListener.onAdClicked();
         }
 
         @Override
-        public void onViewClickFail(AppierError appierError, VastVideoAd vastVideoAd) {
+        public void onViewClickFail(AppierError appierError, VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierRewardedVideoListener.onViewClickFail() (Custom Callback)");
         }
 
         @Override
-        public void onShown(VastVideoAd vastVideoAd) {
+        public void onShown(VideoAd VideoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierRewardedVideoListener.onShown() (Custom Callback)");
             mInteractionListener.onAdShown();
         }
 
         @Override
-        public void onAdVideoComplete(VastVideoAd vastVideoAd) {
+        public void onAdVideoComplete(VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierRewardedVideoListener.onAdVideoComplete() (Custom Callback)");
             MoPubReward moPubReward = MoPubReward.success(
                     MoPubReward.NO_REWARD_LABEL,
@@ -91,13 +91,13 @@ public class AppierRewardedVideo extends AppierVideo {
         }
 
         @Override
-        public void onShowFail(AppierError appierError, VastVideoAd vastVideoAd) {
+        public void onShowFail(AppierError appierError, VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierRewardedVideoListener.onShowFail() (Custom Callback)");
             mInteractionListener.onAdFailed(MoPubErrorCode.NETWORK_NO_FILL);
         }
 
         @Override
-        public void onDismiss(VastVideoAd vastVideoAd) {
+        public void onDismiss(VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierRewardedVideoListener.onDismiss() (Custom Callback)");
             mInteractionListener.onAdDismissed();
         }

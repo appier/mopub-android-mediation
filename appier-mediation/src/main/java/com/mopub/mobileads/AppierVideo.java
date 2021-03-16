@@ -5,12 +5,12 @@ import android.content.Context;
 import com.appier.ads.Appier;
 import com.appier.ads.AppierBaseAd;
 import com.appier.ads.AppierError;
-import com.appier.ads.VastVideoAd;
+import com.appier.ads.VideoAd;
 
 public class AppierVideo extends AppierBase {
     @Override
     AppierBaseAd getAppierAd(Context context, AppierAdUnitIdentifier adUnitIdentifier) {
-        return new VastVideoAd(context, adUnitIdentifier, new AppierVideoListener());
+        return new VideoAd(context, adUnitIdentifier, new AppierVideoListener());
     }
 
     @Override
@@ -23,25 +23,25 @@ public class AppierVideo extends AppierBase {
 
     @Override
     protected void show() {
-        ((VastVideoAd) appierBaseAd).showAd();
+        ((VideoAd) appierBaseAd).showAd();
     }
 
-    private class AppierVideoListener implements VastVideoAd.EventListener {
+    private class AppierVideoListener implements VideoAd.EventListener {
 
         @Override
-        public void onAdLoaded(VastVideoAd vastVideoAd) {
+        public void onAdLoaded(VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierVideoListener.onAdLoaded() (Custom Callback)");
             mLoadListener.onAdLoaded();
         }
 
         @Override
-        public void onAdNoBid(VastVideoAd vastVideoAd) {
+        public void onAdNoBid(VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierVideoListener.onAdNoBid() (Custom Callback)");
             mLoadListener.onAdLoadFailed(MoPubErrorCode.NO_FILL);
         }
 
         @Override
-        public void onAdLoadFail(AppierError appierError, VastVideoAd vastVideoAd) {
+        public void onAdLoadFail(AppierError appierError, VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierVideoListener.onAdLoadFail() (Custom Callback)");
             if (appierError == AppierError.NETWORK_ERROR) {
                 mLoadListener.onAdLoadFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
@@ -55,35 +55,35 @@ public class AppierVideo extends AppierBase {
         }
 
         @Override
-        public void onViewClick(VastVideoAd vastVideoAd) {
+        public void onViewClick(VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierVideoListener.onViewClick() (Custom Callback)");
             mInteractionListener.onAdClicked();
         }
 
         @Override
-        public void onViewClickFail(AppierError appierError, VastVideoAd vastVideoAd) {
+        public void onViewClickFail(AppierError appierError, VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierVideoListener.onViewClick() (Custom Callback)");
         }
 
         @Override
-        public void onShown(VastVideoAd vastVideoAd) {
+        public void onShown(VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierVideoListener.onShown() (Custom Callback)");
             mInteractionListener.onAdShown();
         }
 
         @Override
-        public void onAdVideoComplete(VastVideoAd vastVideoAd) {
+        public void onAdVideoComplete(VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierVideoListener.onAdVideoComplete() (Custom Callback)");
         }
 
         @Override
-        public void onShowFail(AppierError appierError, VastVideoAd vastVideoAd) {
+        public void onShowFail(AppierError appierError, VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierVideoListener.onShowFail() (Custom Callback)");
             mInteractionListener.onAdFailed(MoPubErrorCode.NETWORK_NO_FILL);
         }
 
         @Override
-        public void onDismiss(VastVideoAd vastVideoAd) {
+        public void onDismiss(VideoAd videoAd) {
             Appier.log("[Appier MoPub Mediation]", "AppierVideoListener.onDismiss() (Custom Callback)");
             mInteractionListener.onAdDismissed();
         }
