@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 29
@@ -7,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.1.3"
+        versionCode 2
+        versionName "2.0.0-alpha"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -71,7 +72,7 @@ dependencies {
     }
 
     // Appier SDK
-//    implementation 'com.appier.android:ads-sdk:1.1.5'
+    implementation 'com.appier.android:ads-sdk:2.0.0-alpha'
 
     /**
      * The following dependencies are development only.
@@ -83,7 +84,7 @@ dependencies {
     // Import Appier SDK
 
     // - from source
-     implementation project(':appier-sdk')
+//     implementation project(':appier-sdk')
 
     // - from aar
     // implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-production-release.aar'])
