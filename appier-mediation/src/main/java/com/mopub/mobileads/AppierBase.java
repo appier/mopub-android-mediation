@@ -20,6 +20,10 @@ abstract class AppierBase extends BaseAd {
     protected String zoneId = null;
     protected int adWidth = -1;
     protected int adHeight = -1;
+    Map<String, String> extras = null;
+
+    @Nullable
+    Map<String, Object> rewardedExtras = null;
 
     abstract AppierBaseAd getAppierAd(Context context, AppierAdUnitIdentifier adUnitIdentifier);
     abstract void setAppierAdForLoad();
@@ -50,20 +54,20 @@ abstract class AppierBase extends BaseAd {
         return false;
     }
     
-    protected Map<String, String> getRewardedExtras(@NonNull AdData adData) {
+    protected Map<String, Object> getRewardedExtras(@NonNull AdData adData) {
         return null;
     }
 
     @Override
     protected void load(@NonNull Context context, @NonNull AdData adData) throws Exception {
         Appier.log("[Appier MoPub Mediation]", "AppierAd.load()");
-        Map<String, String> extras = adData.getExtras();
-        Map<String, String> rewardedExtras = getRewardedExtras(adData);
+        extras = adData.getExtras();
+        rewardedExtras = getRewardedExtras(adData);
 
-        setAdUnitId(extras, rewardedExtras);
-        setZoneId(extras, rewardedExtras);
-        setAdWidth(extras, rewardedExtras);
-        setAdHeight(extras, rewardedExtras);
+        setAdUnitId();
+        setZoneId();
+        setAdWidth();
+        setAdHeight();
 
         if (!adParametersAreValid()) {
             mLoadListener.onAdLoadFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
@@ -79,13 +83,13 @@ abstract class AppierBase extends BaseAd {
         return adUnitIdIsValid() && zoneIdIsValid() && adWidthIsValid() && adHeightIsValid();
     }
 
-    private void setAdUnitId(Map<String, String> extras, Map<String, String> rewardedExtras) {
+    private void setAdUnitId() {
         if (extras != null && extras.containsKey(AppierDataKeys.AD_UNIT_ID_SERVER)) {
             adUnitId = extras.get(AppierDataKeys.AD_UNIT_ID_SERVER);
         } else if (extras != null && extras.containsKey(AppierDataKeys.AD_UNIT_ID_LOCAL)) {
             adUnitId = extras.get(AppierDataKeys.AD_UNIT_ID_LOCAL);
         } else if (rewardedExtras != null && rewardedExtras.containsKey(AppierDataKeys.AD_UNIT_ID_LOCAL)) {
-            adUnitId = rewardedExtras.get(AppierDataKeys.AD_UNIT_ID_LOCAL);
+            adUnitId = (String) rewardedExtras.get(AppierDataKeys.AD_UNIT_ID_LOCAL);
         }
     }
     
@@ -97,13 +101,13 @@ abstract class AppierBase extends BaseAd {
         return true;
     }
 
-    private void setZoneId(Map<String, String> extras, Map<String, String> rewardedExtras) {
+    private void setZoneId() {
         if (extras != null && extras.containsKey(AppierDataKeys.ZONE_ID_SERVER)) {
             zoneId = extras.get(AppierDataKeys.ZONE_ID_SERVER);
         } else if (extras != null && extras.containsKey(AppierDataKeys.ZONE_ID_LOCAL)) {
             zoneId = extras.get(AppierDataKeys.ZONE_ID_LOCAL);
         } else if (rewardedExtras != null && rewardedExtras.containsKey(AppierDataKeys.ZONE_ID_LOCAL)) {
-            zoneId = rewardedExtras.get(AppierDataKeys.ZONE_ID_LOCAL);
+            zoneId = (String) rewardedExtras.get(AppierDataKeys.ZONE_ID_LOCAL);
         }
     }
 
@@ -121,13 +125,13 @@ abstract class AppierBase extends BaseAd {
      * However, for now, they only supports 320x50 and 728x90.
      * You cannot override these two keys by `moPubView.setLocalExtras(localExtras)`.
      */
-    private void setAdWidth(Map<String, String> extras, Map<String, String> rewardedExtras) {
+    private void setAdWidth() {
         if (extras != null && extras.containsKey(AppierDataKeys.AD_WIDTH_SERVER)) {
             adWidth = Integer.parseInt(extras.get(AppierDataKeys.AD_WIDTH_SERVER));
         } else if (extras != null && extras.containsKey(AppierDataKeys.AD_WIDTH_LOCAL)) {
             adWidth = Integer.parseInt(extras.get(AppierDataKeys.AD_WIDTH_LOCAL));
         } else if (rewardedExtras != null && rewardedExtras.containsKey(AppierDataKeys.AD_WIDTH_LOCAL)) {
-            adWidth = Integer.parseInt(rewardedExtras.get(AppierDataKeys.AD_WIDTH_LOCAL));
+            adWidth = (int) rewardedExtras.get(AppierDataKeys.AD_WIDTH_LOCAL);
         }
     }
 
@@ -139,13 +143,13 @@ abstract class AppierBase extends BaseAd {
         return true;
     }
 
-    private void setAdHeight(Map<String, String> extras, Map<String, String> rewardedExtras) {
+    private void setAdHeight() {
         if (extras != null && extras.containsKey(AppierDataKeys.AD_HEIGHT_SERVER)) {
             adHeight = Integer.parseInt(extras.get(AppierDataKeys.AD_HEIGHT_SERVER));
         } else if (extras != null && extras.containsKey(AppierDataKeys.AD_HEIGHT_LOCAL)) {
             adHeight = Integer.parseInt(extras.get(AppierDataKeys.AD_HEIGHT_LOCAL));
         } else if (rewardedExtras != null && rewardedExtras.containsKey(AppierDataKeys.AD_HEIGHT_LOCAL)) {
-            adHeight = Integer.parseInt(rewardedExtras.get(AppierDataKeys.AD_HEIGHT_LOCAL));
+            adHeight = (int) rewardedExtras.get(AppierDataKeys.AD_HEIGHT_LOCAL);
         }
     }
 
