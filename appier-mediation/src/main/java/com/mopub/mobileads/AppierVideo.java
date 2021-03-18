@@ -1,20 +1,27 @@
 package com.mopub.mobileads;
 
 import android.content.Context;
+import android.content.res.Configuration;
 
 import com.appier.ads.Appier;
 import com.appier.ads.AppierBaseAd;
 import com.appier.ads.AppierError;
 import com.appier.ads.VideoAd;
+import com.appier.ads.common.AppierDataKeys;
 
 public class AppierVideo extends AppierBase {
+    protected int adOrientation = Configuration.ORIENTATION_UNDEFINED;
+
     @Override
     AppierBaseAd getAppierAd(Context context, AppierAdUnitIdentifier adUnitIdentifier) {
         return new VideoAd(context, adUnitIdentifier, new AppierVideoListener());
     }
 
     @Override
-    void setAppierAdForLoad() {}
+    void setAppierAdForLoad() {
+        setAdOrientation();
+        ((VideoAd) appierBaseAd).setOrientation(adOrientation);
+    }
 
     @Override
     protected boolean adParametersAreValid() {
@@ -24,6 +31,16 @@ public class AppierVideo extends AppierBase {
     @Override
     protected void show() {
         ((VideoAd) appierBaseAd).showAd();
+    }
+
+    protected void setAdOrientation() {
+        if (extras != null && extras.containsKey(AppierDataKeys.AD_ORIENTATION_SERVER)) {
+            adOrientation = Integer.parseInt(extras.get(AppierDataKeys.AD_ORIENTATION_SERVER));
+        } else if (extras != null && extras.containsKey(AppierDataKeys.AD_ORIENTATION_LOCAL)) {
+            adOrientation = Integer.parseInt(extras.get(AppierDataKeys.AD_ORIENTATION_LOCAL));
+        } else if (rewardedExtras != null && rewardedExtras.containsKey(AppierDataKeys.AD_ORIENTATION_LOCAL)) {
+            adOrientation = (int) rewardedExtras.get(AppierDataKeys.AD_ORIENTATION_LOCAL);
+        }
     }
 
     private class AppierVideoListener implements VideoAd.EventListener {

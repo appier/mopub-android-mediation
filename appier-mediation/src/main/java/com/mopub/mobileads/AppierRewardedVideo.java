@@ -19,7 +19,7 @@ public class AppierRewardedVideo extends AppierVideo {
     }
 
     @Override
-    protected Map<String, String> getRewardedExtras(@NonNull AdData adData) {
+    protected Map<String, Object> getRewardedExtras(@NonNull AdData adData) {
         AppierMediationSettings mediationSettings = null;
         String adUnitId = adData.getAdUnit();
 
