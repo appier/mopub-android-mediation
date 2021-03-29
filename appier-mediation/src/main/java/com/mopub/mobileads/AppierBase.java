@@ -16,6 +16,7 @@ import java.util.Map;
 abstract class AppierBase extends BaseAd {
 
     protected AppierBaseAd appierBaseAd;
+    protected AdData adData = null;
     protected String adUnitId = null;
     protected String zoneId = null;
     protected int adWidth = -1;
@@ -61,6 +62,7 @@ abstract class AppierBase extends BaseAd {
     @Override
     protected void load(@NonNull Context context, @NonNull AdData adData) throws Exception {
         Appier.log("[Appier MoPub Mediation]", "AppierAd.load()");
+        this.adData = adData;
         extras = adData.getExtras();
         rewardedExtras = getRewardedExtras(adData);
 
@@ -90,6 +92,8 @@ abstract class AppierBase extends BaseAd {
             adUnitId = extras.get(AppierDataKeys.AD_UNIT_ID_LOCAL);
         } else if (rewardedExtras != null && rewardedExtras.containsKey(AppierDataKeys.AD_UNIT_ID_LOCAL)) {
             adUnitId = (String) rewardedExtras.get(AppierDataKeys.AD_UNIT_ID_LOCAL);
+        } else if(adData != null) {
+            adUnitId = adData.getAdUnit();
         }
     }
     
@@ -132,6 +136,8 @@ abstract class AppierBase extends BaseAd {
             adWidth = Integer.parseInt(extras.get(AppierDataKeys.AD_WIDTH_LOCAL));
         } else if (rewardedExtras != null && rewardedExtras.containsKey(AppierDataKeys.AD_WIDTH_LOCAL)) {
             adWidth = (int) rewardedExtras.get(AppierDataKeys.AD_WIDTH_LOCAL);
+        } else if (adData != null && adData.getAdWidth() != null) {
+            adWidth = adData.getAdWidth();
         }
     }
 
@@ -150,6 +156,8 @@ abstract class AppierBase extends BaseAd {
             adHeight = Integer.parseInt(extras.get(AppierDataKeys.AD_HEIGHT_LOCAL));
         } else if (rewardedExtras != null && rewardedExtras.containsKey(AppierDataKeys.AD_HEIGHT_LOCAL)) {
             adHeight = (int) rewardedExtras.get(AppierDataKeys.AD_HEIGHT_LOCAL);
+        } else if (adData != null && adData.getAdHeight() != null) {
+            adHeight = adData.getAdHeight();
         }
     }
 
