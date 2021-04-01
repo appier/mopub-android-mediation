@@ -5,8 +5,8 @@ version = android.defaultConfig.versionName
 ext {
     groupId = 'com.appier'
     artifactId = 'ads-mopub-mediation'
-    url = 'https://bitbucket.org/plaxieappier/pmp-android-sdk/'
-    scmUrl = 'git@bitbucket.org:plaxieappier/pmp-android-sdk.git'
+    url = 'https://bitbucket.org/plaxieappier/pmp-mopub-android-mediation/'
+    scmUrl = 'git@bitbucket.org:plaxieappier/pmp-mopub-android-mediation.git'
     licenseName = 'Proprietary License'
     licenseUrl = 'https://www.appier.com'
     developerEmail = 'mobile@appier.com'
