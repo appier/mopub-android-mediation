@@ -77,7 +77,7 @@ dependencies {
     }
 
     // Appier SDK
-    implementation 'com.appier.android:ads-sdk:2.0.+'
+    implementation 'com.appier:ads-android:2.0.0-rc.2'
 
     /**
      * The following dependencies are development only.
@@ -95,4 +95,5 @@ dependencies {
     // implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-production-release.aar'])
 }
 
+apply from: 'tools.gradle'
 apply from: 'publish.gradle'
