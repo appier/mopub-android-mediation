@@ -95,4 +95,5 @@ dependencies {
     // implementation fileTree(dir: '../appier-sdk/build/outputs/aar', include: ['appier-sdk-production-release.aar'])
 }
 
+apply from: 'tools.gradle'
 apply from: 'publish.gradle'

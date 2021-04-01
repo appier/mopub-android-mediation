@@ -66,3 +66,27 @@ steps:
       ref:
         include:
         - refs/tags/release-*
+
+  - name: publish package to MavenCentral
+    image: asia.gcr.io/loyal-manifest-816/android:api-28-gradle-5.6.4
+    environment:
+      OSSRH_USERNAME:
+        from_secret: OSSRH_USERNAME
+      OSSRH_PASSWORD:
+        from_secret: OSSRH_PASSWORD
+      SIGNING_KEY_FILE:
+        from_secret: SIGNING_KEY_FILE
+      SIGNING_KEY_FILE_BASE64:
+        from_secret: SIGNING_KEY_FILE_BASE64
+      SIGNING_KEY_ID:
+        from_secret: SIGNING_KEY_ID
+      SIGNING_KEY_PASSWORD:
+        from_secret: SIGNING_KEY_PASSWORD
+    commands:
+      # Restore GPG key ring file from environment variable
+      - bash -c "echo '$SIGNING_KEY_FILE_BASE64' | base64 -d > appier-mediation/'$SIGNING_KEY_FILE'"
+      # Publish
+      - ./gradlew :appier-mediation:test :appier-mediation:publish
+    when:
+      branch:
+        - anitachen@migrate-to-maven

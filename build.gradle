@@ -7,9 +7,10 @@ buildscript {
         google()
         jcenter()
         maven { url "https://s3.amazonaws.com/moat-sdk-builds" }
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:3.6.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.3'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -24,6 +25,7 @@ allprojects {
         google()
         jcenter()
         mavenLocal()
+        mavenCentral()
     }
 }
 
