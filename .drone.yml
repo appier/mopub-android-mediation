@@ -53,20 +53,6 @@ steps:
     commands:
       - ./gradlew :appier-mediation:clean :appier-mediation:build
 
-  - name: publish package to bintray and jcenter
-    image: asia.gcr.io/loyal-manifest-816/android:api-28-gradle-5.6.4
-    environment:
-      BINTRAY_USER:
-        from_secret: BINTRAY_USER
-      BINTRAY_API_KEY:
-        from_secret: BINTRAY_API_KEY
-    commands:
-      - ./gradlew :appier-mediation:bintrayUpload
-    when:
-      ref:
-        include:
-        - refs/tags/release-*
-
   - name: publish package to MavenCentral
     image: asia.gcr.io/loyal-manifest-816/android:api-28-gradle-5.6.4
     environment:
@@ -88,5 +74,6 @@ steps:
       # Publish
       - ./gradlew :appier-mediation:test :appier-mediation:publish
     when:
-      branch:
-        - anitachen@migrate-to-maven
+      ref:
+        include:
+          - refs/tags/release-*
