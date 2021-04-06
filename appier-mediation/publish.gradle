@@ -1,47 +1,70 @@
-/**
- * Follow the example from bintray:
- * https://github.com/bintray/bintray-examples/tree/master/gradle-bintray-plugin-examples/android-gradle-3.0.0-maven-example
- */
-
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
 
-version android.defaultConfig.versionName
-group 'com.appier.android'
+version = android.defaultConfig.versionName
 
 ext {
-    bintrayPkgRepo = 'maven' // existing repository in bintray to add the artifacts to
-    publishedGroupId = 'com.appier.android'
-    artifact = 'mopub-mediation' // bintray package name
-    bintrayUserOrg = 'appier' // an optional organization name when the repo belongs to one of the user's orgs
-    description = ''
-    vcsUrl = 'https://bitbucket.org/plaxieappier/pmp-mopub-android-mediation.git'
+    groupId = 'com.appier'
+    artifactId = 'ads-mopub-mediation'
+    url = 'https://www.appier.com/'
+    scmUrl = 'https://bitbucket.org/plaxieappier/pmp-mopub-android-mediation/'
+    licenseName = 'Apache-2.0'
+    licenseUrl = 'https://www.appier.com'
+    developerEmail = 'mobile@appier.com'
+}
+description = 'Appier Ads SDK: MoPub Mediation'
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    // It's also a good practice for a closed-source SDK to expose some API interfaces
+    // with source code, here we assume these has suffix of '.api' in there package name.
+    include("**/api/*.java")
+    include("**/api/*.kt")
 }
 
-task sourceJar(type: Jar) {
-    archiveClassifier = "sources"
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    include("**/api/*.java")
+    include("**/api/*.kt")
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    failOnError false
 }
 
-publishing {
-    publications {
-        Production(MavenPublication) {
-            artifact sourceJar
-            artifact("$buildDir/outputs/aar/${project.getName()}-production-release.aar")
-            groupId publishedGroupId
-            artifactId artifact
-            version this.version
+task javadocJar(type: Jar) {
+    from javadoc
+}
 
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.productionRelease
+                artifact sourcesJar {
+                    classifier "sources" // this appends '-sources' to the filename of jar
+                }
+                artifact javadocJar {
+                    classifier "javadoc" // this appends '-javadoc' to the filename of jar
+                }
+                groupId = project.groupId
+                artifactId = project.artifactId
+                version = this.version
 
-                // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
-                configurations.implementation.allDependencies.each {
-                    // Ensure dependencies such as fileTree are not included in the pom.
-                    if (it.name != 'unspecified') {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
+                pom {
+                    name = "${project.groupId}:${project.artifactId}"
+                    description = project.description
+                    url = project.url
+                    scm {
+                        url = project.scmUrl
+                    }
+                    licenses {
+                        license {
+                            name = project.licenseName
+                            url = project.licenseUrl
+                        }
+                    }
+                    developers {
+                        developer {
+                            email = project.developerEmail
+                        }
                     }
                 }
             }
@@ -49,28 +72,5 @@ publishing {
     }
 }
 
-bintray {
-    user = project.hasProperty('bintrayUser') ?: System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintrayApiKey') ?: System.getenv('BINTRAY_API_KEY')
-    publications = ['Production']
-    configurations = ['archives']
-    override = true
-
-    pkg {
-        repo = bintrayPkgRepo
-        name = artifact
-        desc = description
-        publish = true
-        publicDownloadNumbers = true
-        licenses = ['Apache-2.0']
-        userOrg = bintrayUserOrg
-        vcsUrl = vcsUrl
-
-        version {
-            name = this.version
-            desc = description
-            released = new Date()
-            vcsTag = this.version
-        }
-    }
-}
+apply from: "publish-maven-central.gradle"
+apply from: "publish-bintray.gradle"

@@ -1,0 +1,27 @@
+apply plugin: 'com.jfrog.bintray'
+
+bintray {
+    user = project.hasProperty('bintrayUser') ?: System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ?: System.getenv('BINTRAY_API_KEY')
+    publications = ['Production']
+    configurations = ['archives']
+    override = true
+
+    pkg {
+        repo = 'maven'
+        name = 'mopub-mediation'
+        desc = ''
+        publish = true
+        publicDownloadNumbers = true
+        licenses = ['Apache-2.0']
+        userOrg = 'appier'
+        vcsUrl = 'https://bitbucket.org/plaxieappier/pmp-mopub-android-mediation.git'
+
+        version {
+            name = android.defaultConfig.versionName
+            desc = ''
+            released = new Date()
+            vcsTag = android.defaultConfig.versionName
+        }
+    }
+}
