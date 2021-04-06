@@ -4,18 +4,20 @@ This is Appier's official Android mediation repository for MoPub SDK.
 
 ## Prerequisites
 
-- Make sure you are using MoPub Android SDK version `4.20.0` or above
+- Make sure you are using MoPub Android SDK version `5.14.0` to `5.15.0`
 - Make sure your app's API level meets MoPub Android SDK requirement
 - Make sure you have already configured line items on MoPub Web UI
 	- `Custom event class` field should be one of Appier's predefined class names
 		- `com.mopub.nativeads.AppierNative` for native ads
 		- `com.mopub.mobileads.AppierBanner` for banner ads
 		- `com.mopub.mobileads.AppierInterstitial` for interstitial ads
+		- `com.mopub.mobileads.AppierVideo` for video ads
+		- `com.mopub.mobileads.AppierRewardedVideo` for rewarded video ads
 	- `Custom event data` field should follow the format `{ "adUnitId": "<your_ad_unit_id_from_mopub>", "zoneId": "<your_zone_id_from_appier>" }`
 
 ## Gradle Configuration
 
-Please add jcenter to your repositories, and specify both MoPub’s dependencies and Appier's dependencies.
+Please add `jcenter` and `mavenCentral` to your repositories, and specify both MoPub’s dependencies and Appier's dependencies.
 
 *MoPub Dependencies:*
 ``` diff
@@ -27,21 +29,28 @@ Please add jcenter to your repositories, and specify both MoPub’s dependencies
 
   dependencies {
       // MoPub SDK base
-+     implementation('com.mopub:mopub-sdk-base:4.20.0@aar') {
++     implementation('com.mopub:mopub-sdk-base:5.15.0@aar') {
 +         transitive = true
 +         exclude module: 'libAvid-mopub' // To exclude AVID
 +         exclude module: 'moat-mobile-app-kit' // To exclude Moat
 +     }
 
       // MoPub SDK for native static (images)
-+     implementation('com.mopub:mopub-sdk-native-static:4.20.0@aar') {
++     implementation('com.mopub:mopub-sdk-native-static:5.15.0@aar') {
 +         transitive = true
 +         exclude module: 'libAvid-mopub' // To exclude AVID
 +         exclude module: 'moat-mobile-app-kit' // To exclude Moat
 +     }
 
       // MoPub SDK for banner
-+     implementation('com.mopub:mopub-sdk-banner:4.20.0@aar') {
++     implementation('com.mopub:mopub-sdk-banner:5.15.0@aar') {
++         transitive = true
++         exclude module: 'libAvid-mopub' // To exclude AVID
++         exclude module: 'moat-mobile-app-kit' // To exclude Moat
++     }
+
+      // MoPub SDK for fullscreen ad
++     implementation('com.mopub:mopub-sdk-fullscreen:5.15.0@aar') {
 +         transitive = true
 +         exclude module: 'libAvid-mopub' // To exclude AVID
 +         exclude module: 'moat-mobile-app-kit' // To exclude Moat
@@ -53,13 +62,13 @@ Please add jcenter to your repositories, and specify both MoPub’s dependencies
 ``` diff
   repositories {
       // ...
-+     jcenter()
++     mavenCentral()
   }
 
   dependencies {
       // ...
-+     implementation 'com.appier.android:ads-sdk:1.1.5'
-+     implementation('com.appier.android:mopub-mediation:1.1.3') {
++     implementation 'com.appier.android:ads-sdk:2.0.0'
++     implementation('com.appier.android:mopub-mediation:2.0.0') {
 +         transitive = true
 +         exclude module: 'libAvid-mopub' // To exclude AVID
 +         exclude module: 'moat-mobile-app-kit' // To exclude Moat
@@ -122,35 +131,30 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-## Native Ads Integration
+## Ad Format Integration
 
-To render Appier's native ads via MoPub mediation, you need to register `AppierNativeAdRenderer` to your own `MoPubNative`, `MoPubAdAdapter`, or `MoPubRecyclerAdapter` instance:
+### Native Ads Integration
+
+To render Appier's native ads via MoPub mediation, you need to register `AppierNativeAdRenderer` to your own `MoPubNative` instance and set up the ad unit id of ad unit to load ad. You can either pass through `localExtras` or `serverExtras`:
 
 ``` java
+import com.appier.ads.common.AppierDataKeys;
 import com.mopub.nativeads.AppierNativeAdRenderer;
 
 // ...
+Map<String, Object> localExtras = new HashMap<>();
+localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your_mopub_ad_unit_id>");
 AppierNativeAdRenderer appierNativeAdRenderer = new AppierNativeAdRenderer(viewBinder);
 
-// Option 1: Manual Integration
-MoPubNative moPubNative = new MoPubNative(...);
-moPubNative.registerAdRenderer(appierNativeAdRenderer);
-moPubNative.makeRequest();
-
-// Option 2: MoPubAdAdapter
-MoPubAdAdapter moPubAdAdapter = new MoPubAdAdapter(...);
-moPubAdAdapter.registerAdRenderer(appierNativeAdRenderer);
-moPubAdAdpater.loadAds("<your_ad_unit_id_from_mopub>");
-
-// Option 3: MoPubRecyclerAdapter
-MoPubRecyclerAdapter moPubRecyclerAdapter = new MoPubRecyclerAdapter(...);
-moPubRecyclerAdapter.registerAdRenderer(appierNativeAdRenderer);
-moPubRecyclerAdapter.loadAds("<your_ad_unit_id_from_mopub>");
+MoPubNative nativeAd = new MoPubNative(...);
+nativeAd.registerAdRenderer(appierNativeAdRenderer);
+nativeAd.setLocalExtras(localExtras);
+nativeAd.makeRequest();
 ```
 
-## Banner Ads Integration
+### Banner Ads Integration
 
-To render Appier's banner ads via MoPub mediation, you need to specify the width and height of ad unit to load ads with suitable sizes. You can either pass through `localExtras` or `serverExtras`.
+To render Appier's banner ads via MoPub mediation, you need to set up the ad unit id of ad unit and specify the width and height of ad unit to load ads with suitable sizes. You can either pass through `localExtras` or `serverExtras`.
 
 ``` java
 import com.appier.ads.common.AppierDataKeys;
@@ -158,12 +162,13 @@ import com.mopub.mobileads.MoPubView;
 
 // ...
 Map<String, Object> localExtras = new HashMap<>();
+localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your_mopub_ad_unit_id>");
 localExtras.put(AppierDataKeys.AD_WIDTH_LOCAL, 300);
 localExtras.put(AppierDataKeys.AD_HEIGHT_LOCAL, 250);
-MoPubView moPubView = findViewById(R.id.my_sample_banner_ad);
-moPubView.setLocalExtras(localExtras);
-moPubView.setAdUnitId("<your ad unit id>");
-moPubView.loadAd();
+MoPubView bannerAd = findViewById(R.id.my_sample_banner_ad);
+bannerAd.setLocalExtras(localExtras);
+bannerAd.setAdUnitId("<your_mopub_ad_unit_id>");
+bannerAd.loadAd();
 ```
 
 You also need to define the view dimension so the ads will not be cropped.
@@ -176,9 +181,9 @@ You also need to define the view dimension so the ads will not be cropped.
   android:layout_height="250dp" />
 ```
 
-## Interstitial Ads Integration
+### Interstitial Ads Integration
 
-To render Appier's interstitial ads via MoPub mediation, you need to specify the width and height of ad unit to load ads with suitable sizes. You can either pass `localExtras` or `serverExtras`.
+To render Appier's interstitial ads via MoPub mediation, you need to set up the ad unit id of ad unit and specify the width and height of the ad unit to load ads with suitable sizes. You can either pass through `localExtras` or `serverExtras`.
 
 ``` java
 import com.appier.ads.common.AppierDataKeys;
@@ -186,10 +191,65 @@ import com.mopub.mobileads.MoPubInterstitial;
 
 // ...
 Map<String, Object> localExtras = new HashMap<>();
+localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your_mopub_ad_unit_id>");
 localExtras.put(AppierDataKeys.AD_WIDTH_LOCAL, 320);
 localExtras.put(AppierDataKeys.AD_HEIGHT_LOCAL, 480);
-MoPubInterstitial moPubInterstitial = new MoPubInterstitial(...);
-moPubInterstitial.setLocalExtras(localExtras);
+MoPubInterstitial interstitialAd = new MoPubInterstitial(...);
+interstitialAd.setLocalExtras(localExtras);
+
+// load Ad
+interstitialAd.load();
+
+// show Ad
+interstitialAd.show();
+```
+
+### Interstitial Video Ads Integration
+
+To render Appier's interstitial video ads via MoPub mediation, you need to set up the ad unit id of the ad unit. By default, the ad would show in the same orientation when the ad is loaded. You can specify the orientation of the ad unit based on your requirement.
+
+``` java
+import com.appier.ads.common.AppierDataKeys;
+import com.mopub.mobileads.MoPubInterstitial;
+
+// ...
+Map<String, Object> localExtras = new HashMap<>();
+localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your_mopub_ad_unit_id>");
+localExtras.put(AppierDataKeys.AD_ORIENTATION_LOCAL, Configuration.ORIENTATION_LANDSCAPE);
+MoPubInterstitial videoAd = new MoPubInterstitial(...);
+videoAd.setLocalExtras(localExtras);
+
+// load Ad
+videoAd.load();
+
+// show Ad
+videoAd.show();
+```
+
+### Rewarded Video Ads Integration
+
+To render Appier's rewarded video ads via MoPub mediation, you need to set up the ad unit id of the ad unit. By default, the ad would show in the same orientation when the ad is loaded. You can specify the orientation of the ad unit based on your requirement.
+
+``` java
+import com.appier.ads.common.AppierDataKeys;
+import com.mopub.common.MediationSettings;
+import com.mopub.mobileads.AppierMediationSettings;
+import com.mopub.mobileads.MoPubRewardedVideos;
+
+// ...
+Map<String, Object> localExtras = new HashMap<>();
+localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your_mopub_ad_unit_id>");
+localExtras.put(AppierDataKeys.AD_ORIENTATION_LOCAL, Configuration.ORIENTATION_LANDSCAPE);
+
+MediationSettings mediationSettings = new AppierMediationSettings().withLocalExtras(localExtras);
+
+// load Ad
+MoPubRewardedVideos.loadRewardedVideo("<your_mopub_ad_unit_id>", mediationSettings);
+
+// show Ad
+if (MoPubRewardedVideos.hasRewardedVideo("<your_mopub_ad_unit_id>")) {
+  	MoPubRewardedVideos.showRewardedVideo("<your_mopub_ad_unit_id>");
+}
 ```
 
 ## Predict Ads
@@ -217,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
        );
         // Predict by the ad unit id. It is recommended to do the prediction
         // at the previous activity/user view before rendering ads.
-       predictor.predictAd(new AppierAdUnitIdentifier("<your ad unit id>"));
+       predictor.predictAd(new AppierAdUnitIdentifier("<your_mopub_ad_unit_id>"));
 }
 ```
 
@@ -235,13 +295,13 @@ AppierNativeAdRenderer appierNativeAdRenderer = new AppierNativeAdRenderer(viewB
 
 // Set Local Extras
 Map<String, Object> localExtras = new HashMap();
-localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your ad unit id>");
+localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your_mopub_ad_unit_id>");
 moPubNative.setLocalExtras(localExtras);
 
 // Required for predict mode.
 RequestParameters parameters = new RequestParameters.Builder()
     .keywords(
-        AppierPredictHandler.getKeywordTargeting("<your ad unit id>")
+        AppierPredictHandler.getKeywordTargeting("<your_mopub_ad_unit_id>")
     ).build();
 
 // Integration with predict mode. Pass RequestParameters to makeRequest() 
@@ -261,11 +321,11 @@ localExtras.put(AppierDataKeys.AD_WIDTH_LOCAL, 300);
 localExtras.put(AppierDataKeys.AD_HEIGHT_LOCAL, 250);
 
 // Integration with predict mode. Set your MoPub ad unit id into localExtras and use `AppierPredictHandler` to get the keywords provided by prediction.
-localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your ad unit id>");
-moPubView.setKeywords(AppierPredictHandler.getKeywordTargeting("<your ad unit id>"));
+localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your_mopub_ad_unit_id>");
+moPubView.setKeywords(AppierPredictHandler.getKeywordTargeting("<your_mopub_ad_unit_id>"));
 
 moPubView.setLocalExtras(localExtras);
-moPubView.setAdUnitId("<your ad unit id>");
+moPubView.setAdUnitId("<your_mopub_ad_unit_id>");
 moPubView.loadAd();
 ```
 
@@ -281,10 +341,10 @@ localExtras.put(AppierDataKeys.AD_WIDTH_LOCAL, 320);
 localExtras.put(AppierDataKeys.AD_HEIGHT_LOCAL, 480);
 
 // Integration with predict mode. Set your MoPub ad unit id into localExtras and use `AppierPredictHandler` to get the keywords provided by prediction.
-localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your ad unit id>");
-moPubInterstitial.setKeywords(AppierPredictHandler.getKeywordTargeting("<your ad unit id>"));
+localExtras.put(AppierDataKeys.AD_UNIT_ID_LOCAL, "<your_mopub_ad_unit_id>");
+moPubInterstitial.setKeywords(AppierPredictHandler.getKeywordTargeting("<your_mopub_ad_unit_id>"));
 
 moPubInterstitial.setLocalExtras(localExtras);
-moPubInterstitial.setAdUnitId("<your ad unit id>");
+moPubInterstitial.setAdUnitId("<your_mopub_ad_unit_id>");
 moPubInterstitial.load();
 ```
