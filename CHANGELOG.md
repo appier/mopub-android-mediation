@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - All features are released
 
+## `2.0.0`
+### Added
+- Support interstitial video format
+- Support rewarded video format
+### Changed
+- Update `com.appier.android:ads-sdk` dependency version
+
 ## `1.1.3`
 ### Changed
 - Update `com.appier.android:ads-sdk` dependency version
